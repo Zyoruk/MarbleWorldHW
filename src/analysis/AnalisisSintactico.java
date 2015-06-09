@@ -1,7 +1,7 @@
 /**
  * 
  */
-package analisis;
+package analysis;
 
 /**
  * @author zyoruk

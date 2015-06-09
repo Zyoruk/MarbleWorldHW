@@ -1,7 +1,7 @@
 /**
  * 
  */
-package generadorDeCodigo;
+package generate;
 
 /**
  * @author zyoruk
