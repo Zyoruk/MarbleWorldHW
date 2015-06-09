@@ -49,12 +49,6 @@ CHARACTER= [a-zA-z]
 "ELSE" {return new Symbol(sym.ELSE);}
 "WHILE" {return new Symbol(sym.WHILE);}
 "DO" {return new Symbol(sym.DO);}
-"evalue" {return new Symbol(sym.EVALUE);}
-"EVALUE" {return new Symbol(sym.EVALUE);}
-"CASE" {return new Symbol(sym.CASE);}
-"case" {return new Symbol(sym.CASE);}
-"default" {return new Symbol(sym.DEFAULT);}
-"DEFAULT" {return new Symbol(sym.DEFAULT);}
 
 "true" {return new Symbol(sym.TRUE);}
 "false" {return new Symbol(sym.FALSE);}
@@ -68,4 +62,4 @@ CHARACTER= [a-zA-z]
 {ID} {return new Symbol(sym.ID);}
 {NEWLINE} {return new Symbol(sym.NEWLINE);}
 {SPACE} {/*Spaces are ignored*/}
-. {System.err.println("Invalid input: " + yytext() + "line: "+ yyline;}
+. {System.err.println("Invalid input: " + yytext() + "line: "+ yyline);}

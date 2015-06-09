@@ -1,7 +1,7 @@
 package analysis;
 import java_cup.runtime.*;
 
-terminal MORETHAN, LESSTHAN, LESSEQUALS, MOREEQUAL, EQUALS, DIFFERENT, PLUS, MINUS, TIMES, DIVISION, ASSIGN, LBRACK, RBRACK, LCURL, RCURL,DECLARE,MOVE,IF,THEN,ELSE,WHILE,DO,TRUE,FALSE;
+terminal MORETHAN, LESSTHAN, LESSEQUALS, MOREEQUAL, EQUALS, DIFFERENT, PLUS, MINUS, TIMES, DIVISION, ASSIGN, LBRACK, RBRACK, LCURL, RCURL,DECLARE,MOVE,IF,THEN,ELSE,WHILE,DO,TRUE,FALSE,CHARACTER;
 terminal token NUM, DOOR, ID, TYPE, NEWLINE;
 
 non terminal programa, listavariables, declaracionvariable, listadeclaraciones, declaracion, mover, expresionAsignacion,
