@@ -2,6 +2,9 @@ package analysis;
 import java_cup.runtime.Symbol;
 %%
 %class AnalizadorLexico
+%implements java_cup.runtime.Scanner
+%function next_token
+%type java_cup.runtime.Symbol
 %public
 %full
 %unicode
