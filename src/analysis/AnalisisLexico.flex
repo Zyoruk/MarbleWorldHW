@@ -2,7 +2,6 @@ package analysis;
 import java_cup.runtime.Symbol;
 %%
 %class AnalizadorLexico
-%implements java_cup.runtime.Scanner
 %function next_token
 %type java_cup.runtime.Symbol
 %public
@@ -16,53 +15,162 @@ import java_cup.runtime.Symbol;
 NEWLINE = \r|\n|\r\n|\n\r
 SPACE = [ \t\f]
 NUM = [0-9][0-9]*.?[0-9]*
-ID = (CHARACTER|"_") ([CHARACTER|0-9]){0,31}
-TYPE = const? (char|int|float|string)
-DOOR= [1-9]
-CHARACTER= [a-zA-z]
+ID =  (_[a-zA-Z]) ([a-zA-Z0-9_]){0,31}
+TYPE = (const)? (char|int|float|string)
 %%
 
-">" {return new Symbol(sym.MORETHAN);}
-"<" {return new Symbol(sym.LESSTHAN);}
-"<=" {return new Symbol(sym.LESSEQUALS);}
-">=" {return new Symbol(sym.MOREEQUAL);}
-"==" {return new Symbol(sym.EQUALS);}
-"!=" {return new Symbol(sym.DIFFERENT);}
-"+" {return new Symbol(sym.PLUS);}
-"-" {return new Symbol(sym.MINUS);}
-"*" {return new Symbol(sym.TIMES);}
-"/" {return new Symbol(sym.DIVISION);}
-"=" {return new Symbol(sym.ASSIGN);}
-"(" {return new Symbol(sym.LBRACK);}
-")" {return new Symbol(sym.RBRACK);}
-"{" {return new Symbol(sym.LCURL);}
-"}" {return new Symbol(sym.RCURL);}
+">" {
+		final String str = "MORETHAN";
+		output.append( str );
+	    }
+"<" {
+		final String str = "LESSTHAN";
+		output.append( str );
+	    }
+"<=" {
+		final String str = "LESSEQUALS";
+		output.append( str );
+	    }
+">=" {
+		final String str = "MOREEQUALS";
+		output.append( str );
+	    }
+"==" {
+		final String str = "EQUALS";
+		output.append( str );
+	    }
+"!=" {
+		final String str = "DIFFERENT";
+		output.append( str );
+	    }
+"+" {
+		final String str = "PLUS";
+		output.append( str );
+	    }
+"-" {
+		final String str = "MINUS";
+		output.append( str );
+	    }
+"*" {
+		final String str = "TIMES";
+		output.append( str );
+	    }
+"/" {
+		final String str = "DIVIDES";
+		output.append( str );
+	    }
+"=" {
+		final String str = "ASSIGN";
+		output.append( str );
+	    }
+"(" {
+		final String str = "LBRACK";
+		output.append( str );
+	    }
+")" {
+		final String str = "RBRACK";
+		output.append( str );
+	    }
+"{" {
+		final String str = "LCURL";
+		output.append( str );
+	    }
+"}" {
+		final String str = "RCURL";
+		output.append( str );
+	    }
 
-"declare" {return new Symbol(sym.DECLARE);}
-"move" {return new Symbol(sym.MOVE);}
-"if" {return new Symbol(sym.IF);}
-"then" {return new Symbol(sym.THEN);}
-"else" {return new Symbol(sym.ELSE);}
-"while" {return new Symbol(sym.WHILE);}
-"do" {return new Symbol(sym.DO);}
-"DECLARE" {return new Symbol(sym.DECLARE);}
-"MOVE" {return new Symbol(sym.MOVE);}
-"IF" {return new Symbol(sym.IF);}
-"THEN" {return new Symbol(sym.THEN);}
-"ELSE" {return new Symbol(sym.ELSE);}
-"WHILE" {return new Symbol(sym.WHILE);}
-"DO" {return new Symbol(sym.DO);}
+"declare" {
+		final String str = "DECLARE";
+		output.append( str );
+	    }
+"move"  {
+		final String str = "MOVE";
+		output.append( str );
+	    }
+"if"  {
+		final String str = "IF";
+		output.append( str );
+	    }
+"then"  {
+		final String str = "THEN";
+		output.append( str );
+	    }
+"else"  {
+		final String str = "ELSE";
+		output.append( str );
+	    }
+"while"  {
+		final String str = "WHILE";
+		output.append( str );
+	    }
+"do"  {
+		final String str = "DO";
+		output.append( str );
+	    }
+"DECLARE"  {
+		final String str = "DECLARE";
+		output.append( str );
+	    }
+"MOVE"  {
+		final String str = "MOVE";
+		output.append( str );
+	    }
+"IF"  {
+		final String str = "IF";
+		output.append( str );
+	    }
+"THEN"  {
+		final String str = "THEN";
+		output.append( str );
+	    }
+"ELSE"  {
+		final String str = "ELSE";
+		output.append( str );
+	    }
+"WHILE"  {
+		final String str = "WHILE";
+		output.append( str );
+	    }
+"DO"  {
+		final String str = "DO";
+		output.append( str );
+	    }
 
-"true" {return new Symbol(sym.TRUE);}
-"false" {return new Symbol(sym.FALSE);}
-"TRUE" {return new Symbol(sym.TRUE);}
-"FALSE" {return new Symbol(sym.FALSE);}
-
-{NUM} {return new Symbol(sym.NUM);}
-{CHARACTER} {return new Symbol(sym.CHARACTER);}
-{TYPE} {return new Symbol(sym.TYPE);}
-{DOOR} {return new Symbol(sym.DOOR)}
-{ID} {return new Symbol(sym.ID);}
-{NEWLINE} {return new Symbol(sym.NEWLINE);}
-{SPACE} {/*Spaces are ignored*/}
-. {System.err.println("Invalid input: " + yytext() + "line: "+ yyline);}
+"true"  {
+		final String str = "TRUE";
+		output.append( str );
+	    }
+"false"  {
+		final String str = "FALSE";
+		output.append( str );
+	    }
+"TRUE"  {
+		final String str = "TRUE";
+		output.append( str );
+	    }
+"FALSE"  {
+		final String str = "FALSE";
+		output.append( str );
+	    }
+{NUM}  {
+		final String str = "NUM";
+		output.append( str );
+	    }
+{ID}  {
+		final String str = "ID";
+		output.append( str );
+	    }
+{TYPE} {final String str = "TYPE";output.append( str );}
+{NEWLINE}  {
+		final String str = "\n";
+		output.append( str );
+	   }
+{SPACE}  {
+		final String str = " ";
+		output.append( str );
+	    }
+. {
+		final String str = "Invalid input: " + yytext() + "line: "+ yyline;
+		errorsHandler.lexicalError(str);
+	    }

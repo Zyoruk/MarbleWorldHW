@@ -1,4 +1,5 @@
-int hola = 0 
-while ( hola != 5 ){
-hola = hola +1 
+int _cantidad = 0 
+while ( _cantidad != 5 ) {
+ mover _puerta
+ _cantidad = _cantidad +1 
 }
