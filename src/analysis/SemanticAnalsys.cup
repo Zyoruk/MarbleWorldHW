@@ -78,9 +78,7 @@ expresionMult ::=
 termino ::= 
 		LBRACK expresionAsignacion RBRACK 
 		| ID 
-		| NUM
-		| error
-			{:parser.report_error("termino","WRONG");:};
+		| NUM;
 expresionCondicion ::= 
 					Condicion 
 					| TRUE 

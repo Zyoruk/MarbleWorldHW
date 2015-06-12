@@ -1,1 +1,1 @@
-declar&e int _cantidad
+declare int _cantidad

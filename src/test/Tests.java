@@ -20,7 +20,6 @@ public class Tests {
 			new AnalizadorLexico(new BufferedReader(r));
 //			r.close();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}

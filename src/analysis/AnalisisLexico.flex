@@ -17,6 +17,7 @@ SPACE = [ \t\f]
 NUM = [0-9][0-9]*.?[0-9]*
 ID =  (_[a-zA-Z]) ([a-zA-Z0-9_]){0,31}
 TYPE = (const)? (char|int|float|string)
+DOOR = (D[1-9])
 %%
 
 ">" {
@@ -157,11 +158,17 @@ TYPE = (const)? (char|int|float|string)
 		final String str = "NUM";
 		output.append( str );
 	    }
+{DOOR}	{
+		final String str = "DOOR":
+		output.append(str);
+		}
 {ID}  {
 		final String str = "ID";
 		output.append( str );
 	    }
-{TYPE} {final String str = "TYPE";output.append( str );}
+{TYPE} {
+		final String str = "TYPE";
+		output.append( str );}
 {NEWLINE}  {
 		final String str = "\n";
 		output.append( str );
