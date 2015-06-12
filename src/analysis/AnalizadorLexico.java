@@ -5,6 +5,7 @@ import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
 
+import java_cup.runtime.Symbol;
 import errorHandler.ModuloDeErrores;
 
 /**
@@ -314,8 +315,8 @@ public class AnalizadorLexico implements java_cup.runtime.Scanner {
   	  this.errors = new StringBuilder();
   	  this.output = new StringBuilder();
   	  this.errorsHandler = new ModuloDeErrores();
-  	  this.next_token();
-  	  this.LexicalOutput();
+//  	  this.next_token();
+//  	  this.LexicalOutput();
     }
 
 
@@ -537,6 +538,7 @@ public class AnalizadorLexico implements java_cup.runtime.Scanner {
   private void zzDoEOF() throws java.io.IOException {
     if (!zzEOFDone) {
       zzEOFDone = true;
+      this.LexicalOutput();
       yyclose();
     }
   }
@@ -675,36 +677,43 @@ public class AnalizadorLexico implements java_cup.runtime.Scanner {
         case 4: 
           { final String str = "NUM";
 		output.append( str );
+		return new Symbol(sym.NUM, yychar,yyline,new String(yytext()));
           }
         case 31: break;
         case 5: 
           { final String str = "MORETHAN";
 		output.append( str );
+		return new Symbol(sym.MORETHAN, yychar,yyline);
           }
         case 32: break;
         case 7: 
           { final String str = "ASSIGN";
 		output.append( str );
+		return new Symbol(sym.ASSIGN, yychar,yyline);
           }
         case 33: break;
         case 6: 
           { final String str = "LESSTHAN";
 		output.append( str );
+		return new Symbol(sym.LESSTHAN, yychar,yyline);
           }
         case 34: break;
         case 25: 
           { final String str = "TRUE";
 		output.append( str );
+		return new Symbol(sym.TRUE, yychar,yyline);
           }
         case 35: break;
         case 10: 
           { final String str = "TIMES";
 		output.append( str );
+		return new Symbol(sym.TIMES, yychar,yyline);
           }
         case 36: break;
         case 11: 
-          { final String str = "DIVIDES";
+          { final String str = "DIVISION";
 		output.append( str );
+		return new Symbol(sym.DIVISION, yychar,yyline);
           }
         case 37: break;
         case 3: 
@@ -715,105 +724,127 @@ public class AnalizadorLexico implements java_cup.runtime.Scanner {
         case 2: 
           { final String str = " NEWLINE\n";
 		output.append( str );
+		return new Symbol(sym.NEWLINE, yychar,yyline);
           }
         case 39: break;
         case 16: 
           { final String str = "ID";
 		output.append( str );
+		return new Symbol(sym.ID, yychar,yyline,new String(yytext()));
           }
         case 40: break;
         case 30: 
           { final String str = "DECLARE";
 		output.append( str );
+		return new Symbol(sym.DECLARE, yychar,yyline);
           }
         case 41: break;
         case 17: 
           { final String str = "IF";
 		output.append( str );
+		return new Symbol(sym.IF, yychar,yyline);
           }
         case 42: break;
         case 22: 
           { final String str = "DO";
 		output.append( str );
+		return new Symbol(sym.DO, yychar,yyline);
           }
         case 43: break;
         case 8: 
           { final String str = "PLUS";
 		output.append( str );
+		return new Symbol(sym.PLUS, yychar,yyline);
           }
         case 44: break;
         case 15: 
           { final String str = "RCURL";
 		output.append( str );
+		return new Symbol(sym.RCURL, yychar,yyline);
           }
         case 45: break;
         case 28: 
           { final String str = "FALSE";
 		output.append( str );
+		return new Symbol(sym.FALSE, yychar,yyline);
           }
         case 46: break;
         case 24: 
           { final String str = "THEN";
 		output.append( str );
+		return new Symbol(sym.THEN, yychar,yyline);
           }
         case 47: break;
         case 23: 
-          { final String str = "TYPE";output.append( str );
+          { final String str = "TYPE";
+          output.append( str );
+          return new Symbol(sym.TYPE, yychar,yyline);
           }
         case 48: break;
         case 9: 
           { final String str = "MINUS";
 		output.append( str );
+		return new Symbol(sym.MINUS, yychar,yyline);
           }
         case 49: break;
         case 29: 
           { final String str = "WHILE";
 		output.append( str );
+		return new Symbol(sym.WHILE, yychar,yyline);
           }
         case 50: break;
         case 20: 
           { final String str = "EQUALS";
 		output.append( str );
+		return new Symbol(sym.EQUALS, yychar,yyline);
           }
         case 51: break;
         case 27: 
           { final String str = "MOVE";
 		output.append( str );
+		return new Symbol(sym.MOVE, yychar,yyline);
           }
         case 52: break;
         case 18: 
           { final String str = "MOREEQUALS";
 		output.append( str );
+		return new Symbol(sym.MOREEQUAL, yychar,yyline);
           }
         case 53: break;
         case 14: 
           { final String str = "LCURL";
 		output.append( str );
+		return new Symbol(sym.LCURL, yychar,yyline);
           }
         case 54: break;
         case 13: 
           { final String str = "RBRACK";
 		output.append( str );
+		return new Symbol(sym.RBRACK, yychar,yyline);
           }
         case 55: break;
         case 21: 
           { final String str = "DIFFERENT";
 		output.append( str );
+		return new Symbol(sym.DIFFERENT, yychar,yyline);
           }
         case 56: break;
         case 26: 
           { final String str = "ELSE";
 		output.append( str );
+		return new Symbol(sym.ELSE, yychar,yyline);
           }
         case 57: break;
         case 19: 
           { final String str = "LESSEQUALS";
 		output.append( str );
+		return new Symbol(sym.LESSEQUALS);
           }
         case 58: break;
         case 12: 
           { final String str = "LBRACK";
 		output.append( str );
+		return new Symbol(sym.LBRACK, yychar,yyline);
           }
         case 59: break;
         case 1: 
@@ -834,8 +865,7 @@ public class AnalizadorLexico implements java_cup.runtime.Scanner {
     }
   }
 
-  private void LexicalOutput() throws IOException {
-
+  public void LexicalOutput() throws IOException {
 	final String outFile = "./output/lexicalAnalisis.txt";
 	final BufferedWriter out = new BufferedWriter( new FileWriter( outFile ) );
 	out.write( output.toString() );

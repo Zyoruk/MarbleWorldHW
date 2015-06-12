@@ -1,5 +1,30 @@
 package analysis;
 import java_cup.runtime.*;
+import AnalizadorLexico;
+parser code {:
+
+public static AnalizadorLexico lexScan;
+public static int errors = 0;
+public void report_error(String message, Object info) {
+	if (info instanceof String){
+		errors++; 
+      	System.err.println("  "+ errors + "==> " + info + " "+ message + 
+					"\n       Parsing resumed from 2nd token before" + lexScan.current_lexeme()+"\n");
+    }
+    else {
+    	StringBuffer m = new StringBuffer("Error ");
+    	if (info instanceof java_cup.runtime.Symbol) 
+     	   m.append( "("+info.toString()+")" );     
+    	m.append(" : "+message);   
+    	System.err.println(m);
+    }
+  }
+   
+  public void report_fatal_error(String message, Object info) {
+    report_error(message, info);
+    throw new RuntimeException("Fatal Syntax Error");
+  }
+:};
 
 terminal MORETHAN, LESSTHAN, LESSEQUALS, MOREEQUAL, EQUALS, DIFFERENT, PLUS, MINUS, TIMES, DIVISION, ASSIGN, LBRACK, RBRACK, LCURL, RCURL,DECLARE,MOVE,IF,THEN,ELSE,WHILE,DO,TRUE,FALSE,CHARACTER;
 terminal token NUM, DOOR, ID, TYPE, NEWLINE;
@@ -14,19 +39,64 @@ start with programa;
 
 programa ::= listavariables listadeclaraciones;
 
-listavariables ::= listavariables declaracionvariable | declaracionvariable;
-declaracionvariable ::= DECLARE TYPE ID NEWLINE ;
-listadeclaraciones ::= listadeclaraciones declaracion | declaracion;
-declaracion ::= mover | declaracionSeleccion | declaracionIteracion | expresionAsignacion;
-mover ::= MOVE DOOR expresionSuma NEWLINE;
-expresionAsignacion::= ID ASSIGN expresionSuma;
-Condicion::= expresionSuma operadorRelacional expresionSuma;
-operadorRelacional::= MORETHAN | LESSTHAN | LESSEQUALS | MOREEQUAL | EQUALS | DIFFERENT;
-expresionSuma ::= expresionSuma PLUS termino | expresionSuma MINUS termino | expresionMult;
-expresionMult ::= expresionMult TIMES expresionSuma |expresionMult DIVISION expresionSuma| termino;
-termino::= LBRACK expresionAsignacion RBRACK | ID | NUM;
-expresionCondicion ::= Condicion | TRUE | FALSE;
-listaCondiciones ::= declaracion | LCURL listadeclaraciones RCURL;
-declaracionSeleccion ::= IF LBRACK expresionCondicion RBRACK THEN listaCondiciones declaracionElse;
-declaracionElse ::= ELSE listaCondiciones | NEWLINE;
-declaracionIteracion ::= WHILE LBRACK expresionCondicion RBRACK DO listaCondiciones | DO listaCondiciones WHILE LBRACK expresionCondicion RBRACK;
+listavariables ::= 
+				listavariables declaracionvariable
+				| error
+					{:parser.report_error("listavariables","WRONG");:} 
+				declaracionvariable
+				| declaracionvariable;
+declaracionvariable ::=
+				DECLARE TYPE ID NEWLINE;
+listadeclaraciones ::= 
+				listadeclaraciones declaracion
+				| error 
+					{:parser.report_error("listadeclaraciones","WRONG");:} 
+					declaracion
+				| declaracion;
+declaracion ::= 
+			mover 
+			| declaracionSeleccion 
+			| declaracionIteracion 
+			| expresionAsignacion;
+mover ::= 
+		MOVE DOOR expresionSuma NEWLINE;
+expresionAsignacion::= 
+					ID ASSIGN expresionSuma;
+					
+Condicion ::= 
+		expresionSuma operadorRelacional expresionSuma;
+operadorRelacional::= MORETHAN | LESSTHAN | LESSEQUALS | MOREEQUAL | EQUALS	| DIFFERENT	| error {:parser.report_error("operadorRelacional","Wrong operator");:} ;
+expresionSuma ::= 
+				expresionSuma PLUS termino
+				| expresionSuma MINUS termino
+				| expresionMult;
+				
+expresionMult ::= 
+				expresionMult TIMES expresionSuma
+				| expresionMult DIVISION expresionSuma
+				| termino;
+termino ::= 
+		LBRACK expresionAsignacion RBRACK 
+		| ID 
+		| NUM
+		| error
+			{:parser.report_error("termino","WRONG");:};
+expresionCondicion ::= 
+					Condicion 
+					| TRUE 
+					| FALSE
+					| error
+						{:parser.report_error("expresionCondicion","WRONG");:};
+listaCondiciones ::= 
+				declaracion 
+				| LCURL listadeclaraciones RCURL;
+declaracionSeleccion ::= 
+					IF LBRACK expresionCondicion RBRACK THEN listaCondiciones declaracionElse;
+declaracionElse ::= 
+	ELSE listaCondiciones
+	| NEWLINE
+	| error
+	{:parser.report_error("declaracionElse","Wrong");:};
+declaracionIteracion ::= 
+					WHILE LBRACK expresionCondicion RBRACK DO listaCondiciones 
+					| DO listaCondiciones WHILE LBRACK expresionCondicion RBRACK;

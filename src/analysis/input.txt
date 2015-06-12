@@ -1,5 +1,1 @@
-int _cantidad = 0 
-while ( _cantidad != 5 ) {
- mover _puerta
- _cantidad = _cantidad +1 
-}
+declar&e int _cantidad

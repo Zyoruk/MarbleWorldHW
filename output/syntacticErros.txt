@@ -1,0 +1,4 @@
+Error (#31) : Syntax error
+  1==> WRONG listadeclaraciones
+Error (#23) : Syntax error
+Error (#0) : Couldn't repair and continue parse

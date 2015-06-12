@@ -32,4 +32,10 @@ public void lexError(String toWrite) throws IOException{
 	out.write(toWrite);
 	out.close();
 }
+
+public void syntError(String toWrite) throws IOException{
+	final BufferedWriter out = new BufferedWriter( new FileWriter( this.syntErrorOutput ) );
+	out.write(toWrite);
+	out.close();
+}
 }
