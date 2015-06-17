@@ -32,4 +32,8 @@ public void outputTable() throws IOException{
 	out.write(sb.toString());
 	out.close();
 }
+
+public String[][] getSymbolTable(){
+	return this.symboltable;
+}
 }
