@@ -1,3 +1,2 @@
 declare int _cantidad
-declare int _temp
-if ( _cantidad > 4 ) then move D1 5
+move D1 5

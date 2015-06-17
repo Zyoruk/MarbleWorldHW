@@ -3,34 +3,51 @@ import java_cup.runtime.*;
 import AnalizadorLexico;
 parser code {:
 
-public static AnalizadorLexico lexScan;
-public static int errors = 0;
-public void report_error(String message, Object info) {
-	if (info instanceof String){
-		errors++; 
-      	System.err.println("  "+ errors + "==> " + info + " "+ message + 
-					"\n       Parsing resumed from 2nd token before" + lexScan.current_lexeme()+"\n");
+
+  private static int errors = 0;
+  private StringBuilder errorsStr;
+  private ModuloDeErrores errorHandler;
+  public void report_error(String message, Object info) {
+  	try {
+  		errorHandler = new ModuloDeErrores();
+  	} catch (IOException e) {
+  		e.printStackTrace();
+  	}
+  if (info instanceof String){
+  	errors++; 
+        errorsStr.append("  "+ errors + "==> " + info + " "+ message+"\n");
+        try {
+  		errorHandler.syntError(errorsStr.toString());
+  	} catch (IOException e) {
+  		e.printStackTrace();
+  	}
+        
+      }
+      else {
+      	StringBuffer m = new StringBuffer("Error ");
+      	if (info instanceof java_cup.runtime.Symbol) 
+       	   m.append( "("+info.toString()+")" );     
+      	m.append(" : "+message+"\n");   
+      	errorsStr.append(m);
+      	try {
+      		errorHandler.syntError(errorsStr.toString());
+      	} catch (IOException e) {
+      		e.printStackTrace();
+      	}
+      }
     }
-    else {
-    	StringBuffer m = new StringBuffer("Error ");
-    	if (info instanceof java_cup.runtime.Symbol) 
-     	   m.append( "("+info.toString()+")" );     
-    	m.append(" : "+message);   
-    	System.err.println(m);
+     
+    public void report_fatal_error(String message, Object info) {
+  	if(this.cur_token.value != null){
+  		report_error(message, info);	
+  	}
     }
-  }
-   
-  public void report_fatal_error(String message, Object info) {
-    report_error(message, info);
-    throw new RuntimeException("Fatal Syntax Error");
-  }
-:};
+:}
 
 terminal MORETHAN, LESSTHAN, LESSEQUALS, MOREEQUAL, EQUALS, DIFFERENT, PLUS, MINUS, TIMES, DIVISION, ASSIGN, LBRACK, RBRACK, LCURL, RCURL,DECLARE,MOVE,IF,THEN,ELSE,WHILE,DO,TRUE,FALSE;
 terminal token NUM, DOOR, ID, TYPE, NEWLINE;
 
-non terminal programa, listavariables, declaracionvariable, listadeclaraciones, declaracion, mover, expresionAsignacion,
-operadorRelacional, expresionSuma, expresionMult, termino, expresionCondicion,listaCondiciones,declaracionSeleccion, declaracionIteracion,Condicion,declaracionElse;
+non terminal programa, listavariables, declaracionvariable, listadeclaraciones, declaracion, mover, expresionAsignacion, operadorRelacional, expresionSuma, expresionMult, termino, expresionCondicion,listaCondiciones,declaracionSeleccion, declaracionIteracion,Condicion,declaracionElse;
 
 precedence left  PLUS, MINUS;
 precedence left  TIMES, DIVISION;
@@ -38,65 +55,51 @@ precedence left  TIMES, DIVISION;
 start with programa;
 
 programa ::= listavariables listadeclaraciones;
-
 listavariables ::= 
 				listavariables declaracionvariable
-				| error
-					{:parser.report_error("listavariables","WRONG");:} 
-				declaracionvariable
-				| declaracionvariable;
+				| declaracionvariable;				
 declaracionvariable ::=
-				DECLARE TYPE ID NEWLINE;
+				DECLARE TYPE ID NEWLINE;				
 listadeclaraciones ::= 
 				listadeclaraciones declaracion
-				| error 
-					{:parser.report_error("listadeclaraciones","WRONG");:} 
-					declaracion
 				| declaracion;
 declaracion ::= 
 			mover 
 			| declaracionSeleccion 
 			| declaracionIteracion 
-			| expresionAsignacion;
+			| expresionAsignacion
+			| error {:report_error("syntax error",null);:};
 mover ::= 
-		MOVE DOOR expresionSuma NEWLINE;
+		MOVE DOOR expresionSuma NEWLINE;		
 expresionAsignacion::= 
-					ID ASSIGN expresionSuma;
-					
+					ID ASSIGN expresionSuma;					
 Condicion ::= 
-		expresionSuma operadorRelacional expresionSuma;
-operadorRelacional::= MORETHAN | LESSTHAN | LESSEQUALS | MOREEQUAL | EQUALS	| DIFFERENT	| error {:parser.report_error("operadorRelacional","Wrong operator");:} ;
+		expresionSuma operadorRelacional expresionSuma;		
+operadorRelacional::= MORETHAN | LESSTHAN | LESSEQUALS | MOREEQUAL | EQUALS	| DIFFERENT;
 expresionSuma ::= 
 				expresionSuma PLUS termino
 				| expresionSuma MINUS termino
-				| expresionMult;
-				
+				| expresionMult;				
 expresionMult ::= 
 				expresionMult TIMES expresionSuma
 				| expresionMult DIVISION expresionSuma
-				| termino ;
+				| termino;
 termino ::= 
 		LBRACK expresionAsignacion RBRACK 
 		| ID 
-		| NUM
-		| error
-		{:parser.report_error("termino","WRONG");:};
+		| NUM;
 expresionCondicion ::= 
 					Condicion 
 					| TRUE 
-					| FALSE
-					| error
-						{:parser.report_error("expresionCondicion","WRONG");:};
+					| FALSE;					
 listaCondiciones ::= 
 				declaracion 
-				| LCURL listadeclaraciones RCURL;
+				| LCURL listadeclaraciones RCURL;				
 declaracionSeleccion ::= 
-					IF LBRACK expresionCondicion RBRACK THEN listaCondiciones declaracionElse;
+					IF LBRACK expresionCondicion RBRACK THEN listaCondiciones declaracionElse;					
 declaracionElse ::= 
 	ELSE listaCondiciones
-	| NEWLINE
-	| error
-	{:parser.report_error("declaracionElse","Wrong");:};
+	| NEWLINE;	
 declaracionIteracion ::= 
 					WHILE LBRACK expresionCondicion RBRACK DO listaCondiciones 
 					| DO listaCondiciones WHILE LBRACK expresionCondicion RBRACK;

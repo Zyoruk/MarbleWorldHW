@@ -682,8 +682,8 @@ SimpleList <String> values;
 
       switch (zzAction < 0 ? zzAction : ZZ_ACTION[zzAction]) {
         case 4: 
-          { final String str = "NUM";
-		output.append( str );
+          {
+		output.append( yytext() );
 		return new Symbol(sym.NEWLINE, yychar,yyline,new String(yytext()));
           }
         case 32: break;
@@ -735,8 +735,8 @@ SimpleList <String> values;
           }
         case 40: break;
         case 16: 
-          { final String str = "ID";
-		output.append( str );
+          { 
+		output.append( yytext() );
 		if (this.lexemes.length()!=0){
 			if (!this.values.exists(yytext())){
 				this.values.append(yytext());
@@ -780,8 +780,8 @@ SimpleList <String> values;
           }
         case 46: break;
         case 18: 
-          { final String str = "DOOR";
-		output.append(str);
+          {
+		output.append(yytext());
 		return new Symbol(sym.DOOR, yychar,yyline);
           }
         case 47: break;

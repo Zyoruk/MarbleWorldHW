@@ -1,1 +1,2 @@
-Error (#31) : Syntax error
+Error (#30) : Syntax error
+Error  : syntax error
