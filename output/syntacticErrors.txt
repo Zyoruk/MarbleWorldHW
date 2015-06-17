@@ -1,2 +1,0 @@
-Error (#0) : Syntax error
-Error (#0) : Couldn't repair and continue parse

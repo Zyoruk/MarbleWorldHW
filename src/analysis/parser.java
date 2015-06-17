@@ -293,7 +293,9 @@ if (info instanceof String){
   }
    
   public void report_fatal_error(String message, Object info) {
-    report_error(message, info);
+	if(this.cur_token.value != null){
+		report_error(message, info);	
+	}
   }
 
 

@@ -25,6 +25,7 @@ public class Tests {
 	}
 	@Test
 	public void testCUP() throws Exception{
-		new parser(new AnalizadorLexico(new FileInputStream("./src/analysis/input.txt"))).parse();
+		parser p = new parser(new AnalizadorLexico(new FileInputStream("./src/analysis/input.txt")));
+		p.parse();
 	}
 }

@@ -1,3 +1,5 @@
+import java.io.File;
+
 /**
  * 
  */
@@ -7,5 +9,5 @@
  *
  */
 public class main {
-
+	File f = new File("./output/OutputAnalisisLexico.txt");
 }
