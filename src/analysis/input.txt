@@ -1,2 +1,3 @@
 declare int _cantidad
-move D1 _cantidad
+_cantidad = 0
+if ( _cantidad > 4 ) THEN move D1 5

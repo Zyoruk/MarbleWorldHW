@@ -679,7 +679,7 @@ public class AnalizadorLexico implements java_cup.runtime.Scanner {
           }
         case 32: break;
         case 5: 
-          { final String str = "MORETHAN";
+          { final String str = " MORETHAN";
 		output.append( str );
 		return new Symbol(sym.MORETHAN, yychar,yyline);
           }
@@ -822,7 +822,7 @@ public class AnalizadorLexico implements java_cup.runtime.Scanner {
           }
         case 56: break;
         case 13: 
-          { final String str = "RBRACK";
+          { final String str = " RBRACK";
 		output.append( str );
 		return new Symbol(sym.RBRACK, yychar,yyline);
           }
@@ -853,7 +853,7 @@ public class AnalizadorLexico implements java_cup.runtime.Scanner {
         case 61: break;
         case 1: 
           { final String str = "Invalid input: " + yytext() + "line: "+ yyline;
-		errorsHandler.lexError(str);
+		errors.append(str);
           }
         case 62: break;
         default: 

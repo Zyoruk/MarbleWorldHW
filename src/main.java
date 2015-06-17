@@ -1,4 +1,7 @@
 import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
 
 /**
  * 
@@ -9,5 +12,13 @@ import java.io.File;
  *
  */
 public class main {
-	File f = new File("./output/OutputAnalisisLexico.txt");
+	int main() throws IOException{
+		setup();
+		return 0;
+	}
+	private void setup() throws IOException{
+		File f = new File("./output/OutputAnalisisLexico.txt");
+		OutputStream fo = new FileOutputStream(f);
+		fo.close();
+	}
 }
