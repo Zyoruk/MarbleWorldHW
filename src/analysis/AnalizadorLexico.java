@@ -6,6 +6,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import symbolTable.SymbolTable;
 import Datastructs.SimpleList.SimpleList;
 import errorHandler.ModuloDeErrores;
 import java_cup.runtime.Symbol;
@@ -892,15 +893,11 @@ SimpleList <String> values;
 	out.write( output.toString() );
 	out.close();
 	this.errorsHandler.lexError(errors.toString());
+	this.buildSymbolTable();
   }
-  private String[][] buildSymbolTable(){
-	  String[][] toreturn = new String[this.lexemes.length()][3];
-	  for (int i = 0; i< this.lexemes.length();i++){
-		  toreturn[i][0] = this.lexemes.getElementAt(i);
-		  toreturn[i][1] = this.values.getElementAt(i);
-		  toreturn[i][2] = this.types.getElementAt(i);
-	  }
-	  return toreturn;
+  private void buildSymbolTable() throws IOException{
+	  SymbolTable st = new SymbolTable(this.lexemes,this.values,this.types);
+	  st.outputTable();
   }
 
 }

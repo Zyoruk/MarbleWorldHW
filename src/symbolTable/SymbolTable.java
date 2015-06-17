@@ -1,5 +1,12 @@
 package symbolTable;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.OutputStream;
+
 import Datastructs.SimpleList.SimpleList;
 
 public class SymbolTable {
@@ -10,10 +17,19 @@ public SymbolTable(SimpleList<String> plexemes , SimpleList<String> pvalues, Sim
 		  symboltable[i][0] = plexemes.getElementAt(i);
 		  symboltable[i][1] = pvalues.getElementAt(i);
 		  symboltable[i][2] = ptypes.getElementAt(i);
+		  System.out.println(symboltable[i][0]+" "+symboltable[i][1]+" "+symboltable[i][2]);
 	  }
-	  outputTable();
 }
-private void outputTable(){
-	
+public void outputTable() throws IOException{
+	File newTable = new File("./output/Symboltable.txt");
+	OutputStream os = new FileOutputStream(newTable);
+	os.close();
+	StringBuilder sb = new StringBuilder();
+	  for (int i = 0; i< symboltable.length;i++){
+		  sb.append(symboltable[i][0]+" "+symboltable[i][1]+" "+symboltable[i][2]+"\n");
+	  }
+	final BufferedWriter out = new BufferedWriter( new FileWriter( newTable ) );
+	out.write(sb.toString());
+	out.close();
 }
 }

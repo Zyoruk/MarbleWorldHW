@@ -1,3 +1,3 @@
-declare inasdt _cantidad
-_cantidad = 0
+declare int _cantidad
+declare int _temp
 if ( _cantidad > 4 ) then move D1 5
