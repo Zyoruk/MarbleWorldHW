@@ -4,7 +4,9 @@ package analysis;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
 
+import Datastructs.SimpleList.SimpleList;
 import errorHandler.ModuloDeErrores;
 import java_cup.runtime.Symbol;
 
@@ -15,7 +17,9 @@ import java_cup.runtime.Symbol;
  * <tt>/home/zyoruk/Projects/workspace/Compi/MarbleWorldHW/src/analysis/AnalisisLexico.flex</tt>
  */
 public class AnalizadorLexico implements java_cup.runtime.Scanner {
-
+SimpleList <String> lexemes;
+SimpleList <String> types;
+SimpleList <String> values;
   /** This character denotes the end of file */
   public static final int YYEOF = -1;
 
@@ -315,6 +319,9 @@ public class AnalizadorLexico implements java_cup.runtime.Scanner {
   	  this.errors = new StringBuilder();
   	  this.output = new StringBuilder();
   	  this.errorsHandler = new ModuloDeErrores();
+  	  this.lexemes = new SimpleList<String>();
+  	  this.types = new SimpleList<String>();
+  	  this.values = new SimpleList<String>();
 //  	  this.next_token();
 //  	  this.LexicalOutput();
     }
@@ -550,6 +557,7 @@ public class AnalizadorLexico implements java_cup.runtime.Scanner {
    * @exception   java.io.IOException  if any I/O-Error occurs
    */
   public java_cup.runtime.Symbol next_token() throws java.io.IOException {
+	  SimpleList<String> toAdd = new SimpleList<String>();
     int zzInput;
     int zzAction;
 
@@ -728,6 +736,15 @@ public class AnalizadorLexico implements java_cup.runtime.Scanner {
         case 16: 
           { final String str = "ID";
 		output.append( str );
+		if (this.lexemes.length()!=0){
+			if (!this.values.exists(yytext())){
+				this.values.append(yytext());
+				this.lexemes.append("ID");
+			}
+		}else{
+			this.values.append(yytext());
+			this.lexemes.append("ID");
+		}
 		return new Symbol(sym.ID, yychar,yyline,new String(yytext()));
           }
         case 41: break;
@@ -818,6 +835,7 @@ public class AnalizadorLexico implements java_cup.runtime.Scanner {
         case 24: 
           { final String str = "TYPE";
 		output.append( str );
+		this.types.append(yytext());
 		return new Symbol(sym.TYPE, yychar,yyline);
           }
         case 56: break;
@@ -874,6 +892,15 @@ public class AnalizadorLexico implements java_cup.runtime.Scanner {
 	out.write( output.toString() );
 	out.close();
 	this.errorsHandler.lexError(errors.toString());
+  }
+  private String[][] buildSymbolTable(){
+	  String[][] toreturn = new String[this.lexemes.length()][3];
+	  for (int i = 0; i< this.lexemes.length();i++){
+		  toreturn[i][0] = this.lexemes.getElementAt(i);
+		  toreturn[i][1] = this.values.getElementAt(i);
+		  toreturn[i][2] = this.types.getElementAt(i);
+	  }
+	  return toreturn;
   }
 
 }
