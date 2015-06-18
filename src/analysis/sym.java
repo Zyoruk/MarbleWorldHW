@@ -22,22 +22,22 @@ public class sym {
   public static final int TRUE = 24;
   public static final int IF = 19;
   public static final int LESSEQUALS = 4;
-  public static final int ID = 28;
-  public static final int NUM = 26;
+  public static final int ID = 27;
+  public static final int NUM = 30;
   public static final int DO = 23;
-  public static final int TYPE = 29;
+  public static final int TYPE = 28;
   public static final int EQUALS = 6;
   public static final int LESSTHAN = 3;
   public static final int EOF = 0;
   public static final int MORETHAN = 2;
-  public static final int NEWLINE = 30;
+  public static final int NEWLINE = 29;
   public static final int FALSE = 25;
   public static final int MINUS = 9;
   public static final int error = 1;
   public static final int ASSIGN = 12;
   public static final int RCURL = 16;
   public static final int DECLARE = 17;
-  public static final int DOOR = 27;
+  public static final int DOOR = 26;
   public static final int MOVE = 18;
   public static final String[] terminalNames = new String[] {
   "EOF",
@@ -66,11 +66,11 @@ public class sym {
   "DO",
   "TRUE",
   "FALSE",
-  "NUM",
   "DOOR",
   "ID",
   "TYPE",
-  "NEWLINE"
+  "NEWLINE",
+  "NUM"
   };
 }
 

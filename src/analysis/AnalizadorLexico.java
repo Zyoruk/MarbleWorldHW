@@ -560,7 +560,6 @@ SimpleList <String> lines;
    * @exception   java.io.IOException  if any I/O-Error occurs
    */
   public java_cup.runtime.Symbol next_token() throws java.io.IOException {
-	  SimpleList<String> toAdd = new SimpleList<String>();
     int zzInput;
     int zzAction;
 
@@ -686,7 +685,7 @@ SimpleList <String> lines;
         case 4: 
           {
 		output.append( yytext() );
-		return new Symbol(sym.NEWLINE, yychar,yyline,new String(yytext()));
+		return new Symbol(sym.NUM, yychar,yyline,new String(yytext()));
           }
         case 32: break;
         case 5: 

@@ -18,7 +18,6 @@ public class SymbolTable {
 			symboltable[i][1] = pvalues.getElementAt(i);
 			symboltable[i][2] = ptypes.getElementAt(i);
 			symboltable[i][3] = plines.getElementAt(i);
-			System.out.println(symboltable[i][0]+" "+symboltable[i][1]+" "+symboltable[i][2]);
 		}
 	}
 	public void outputTable() throws IOException{
@@ -27,7 +26,7 @@ public class SymbolTable {
 		os.close();
 		StringBuilder sb = new StringBuilder();
 		for (int i = 0; i< symboltable.length;i++){
-			sb.append(symboltable[i][0]+" "+symboltable[i][1]+" "+symboltable[i][2] + symboltable[i][3]+"\n");
+			sb.append(symboltable[i][0]+" "+symboltable[i][1]+" "+symboltable[i][2] +" "+symboltable[i][3]+"\n");
 		}
 		final BufferedWriter out = new BufferedWriter( new FileWriter( newTable ) );
 		out.write(sb.toString());

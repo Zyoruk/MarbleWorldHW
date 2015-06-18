@@ -1,1 +1,1 @@
-ID _cantidad int
+ID _cantidad int 0
