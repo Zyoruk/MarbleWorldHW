@@ -8,6 +8,8 @@ package analysis;
 import java.io.DataOutputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+
+import constants.Constants;
 import errorHandler.ModuloDeErrores;
 import java_cup.runtime.XMLElement;
 
@@ -286,10 +288,10 @@ public class parser extends java_cup.runtime.lr_parser {
   	}
     }
 	private void syntOutput(){
-		//    	Constants K = new Constants();
+		Constants K = new Constants();
 		try {
 			DataOutputStream os = new DataOutputStream(new 
-					FileOutputStream("./output/syntAnalisis.txt"));
+					FileOutputStream(K._SYNT_OUTPUT));
 			os.writeBytes(this.str.toString());
 			os.close();
 		} catch (IOException e) {
@@ -432,8 +434,8 @@ class CUP$parser$actions {
           case 11: // NT$0 ::= 
             {
               Object RESULT =null;
-report_error("syntax error",null);
-parser.str.append("NOT OK\n");
+              report_error("syntax error",null);
+              parser.str.append("NOT OK\n");
               CUP$parser$result = parser.getSymbolFactory().newSymbol("NT$0",17, ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
             }
           return CUP$parser$result;

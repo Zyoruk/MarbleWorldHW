@@ -6,6 +6,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import constants.Constants;
 import symbolTable.SymbolTable;
 import Datastructs.SimpleList.SimpleList;
 import errorHandler.ModuloDeErrores;
@@ -325,8 +326,6 @@ public class AnalizadorLexico implements java_cup.runtime.Scanner {
 		this.types = new SimpleList<String>();
 		this.values = new SimpleList<String>();
 		this.lines = new SimpleList<String>();
-		//  	  this.next_token();
-		//  	  this.LexicalOutput();
 	}
 	/**
 	 * Creates a new scanner.
@@ -635,7 +634,7 @@ public class AnalizadorLexico implements java_cup.runtime.Scanner {
 			zzCurrentPosL = zzCurrentPos = zzStartRead = zzMarkedPosL;
 
 			zzState = ZZ_LEXSTATE[zzLexicalState];
-
+			Constants K = new Constants();
 
 			zzForAction: {
 				while (true) {
@@ -690,55 +689,55 @@ public class AnalizadorLexico implements java_cup.runtime.Scanner {
 			case 32: break;
 			case 5: 
 			{ 
-				final String str = " MORETHAN";
+				final String str = K._MORETHAN_;
 				output.append( str );
 				return new Symbol(sym.MORETHAN, yychar,yyline);
 			}
 			case 33: break;
 			case 7: 
 			{ 
-				final String str = "ASSIGN";
+				final String str = K._ASSIGN_;
 				output.append( str );
 				return new Symbol(sym.ASSIGN, yychar,yyline);
 			}
 			case 34: break;
 			case 6: 
 			{ 
-				final String str = "LESSTHAN";
+				final String str = K._LESSTHAN_;
 				output.append( str );
 				return new Symbol(sym.LESSTHAN, yychar,yyline);
 			}
 			case 35: break;
 			case 26: 
 			{ 
-				final String str = "TRUE";
+				final String str = K._TRUE_;
 				output.append( str );
 				return new Symbol(sym.TRUE, yychar,yyline);
 			}
 			case 36: break;
 			case 10: 
 			{ 
-				final String str = "TIMES";
+				final String str = K._FALSE_;
 				output.append( str );
 				return new Symbol(sym.TIMES, yychar,yyline);
 			}
 			case 37: break;
 			case 11: 
 			{ 
-				final String str = "DIVISION";
+				final String str = K._DIVISION_;
 				output.append( str );
 				return new Symbol(sym.DIVISION, yychar,yyline);
 			}
 			case 38: break;
 			case 3: 
 			{ 
-				final String str = " ";
+				final String str = K._SPACE_;
 				output.append( str );
 			}
 			case 39: break;
 			case 2: 
 			{ 
-				final String str = "\n";
+				final String str = K._NEWLINE_CHAR_;
 				output.append( str );
 				return new Symbol(sym.NEWLINE, yychar,yyline);
 			}
@@ -749,12 +748,12 @@ public class AnalizadorLexico implements java_cup.runtime.Scanner {
 				if (this.lexemes.length()!=0){
 					if (!this.values.exists(yytext())){
 						this.values.append(yytext());
-						this.lexemes.append("ID");
+						this.lexemes.append(K._ID_);
 						this.lines.append(Integer.toString(yyline));
 					}
 				}else{
 					this.values.append(yytext());
-					this.lexemes.append("ID");
+					this.lexemes.append(K._ID_);
 					this.lines.append(Integer.toString(yyline));
 				}
 				return new Symbol(sym.ID, yychar,yyline,new String(yytext()));
@@ -762,35 +761,35 @@ public class AnalizadorLexico implements java_cup.runtime.Scanner {
 			case 41: break;
 			case 31: 
 			{ 
-				final String str = "DECLARE";
+				final String str = K._DECLARE_;
 				output.append( str );
 				return new Symbol(sym.DECLARE, yychar,yyline);
 			}
 			case 42: break;
 			case 17: 
 			{ 
-				final String str = "IF";
+				final String str = K._IF_;
 				output.append( str );
 				return new Symbol(sym.IF, yychar,yyline);
 			}
 			case 43: break;
 			case 19: 
 			{ 
-				final String str = "DO";
+				final String str = K._DO_;
 				output.append( str );
 				return new Symbol(sym.DO, yychar,yyline);
 			}
 			case 44: break;
 			case 8: 
 			{ 
-				final String str = "PLUS";
+				final String str = K._PLUS_;
 				output.append( str );
 				return new Symbol(sym.PLUS, yychar,yyline);
 			}
 			case 45: break;
 			case 15: 
 			{ 
-				final String str = "RCURL";
+				final String str = K._RCURL_;
 				output.append( str );
 				return new Symbol(sym.RCURL, yychar,yyline);
 			}
@@ -803,63 +802,63 @@ public class AnalizadorLexico implements java_cup.runtime.Scanner {
 			case 47: break;
 			case 29: 
 			{ 
-				final String str = "FALSE";
+				final String str = K._FALSE_;
 				output.append( str );
 				return new Symbol(sym.FALSE, yychar,yyline);
 			}
 			case 48: break;
 			case 25: 
 			{ 
-				final String str = "THEN";
+				final String str = K._THEN_;
 				output.append( str );
 				return new Symbol(sym.THEN, yychar,yyline);
 			}
 			case 49: break;
 			case 9: 
 			{ 
-				final String str = "MINUS";
+				final String str = K._MINUS_;
 				output.append( str );
 				return new Symbol(sym.MINUS, yychar,yyline);
 			}
 			case 50: break;
 			case 30: 
 			{ 
-				final String str = "WHILE";
+				final String str = K._WHILE_;
 				output.append( str );
 				return new Symbol(sym.WHILE, yychar,yyline);
 			}
 			case 51: break;
 			case 22: 
 			{ 
-				final String str = "EQUALS";
+				final String str = K._EQUALS_;
 				output.append( str );
 				return new Symbol(sym.EQUALS, yychar,yyline);
 			}
 			case 52: break;
 			case 28: 
 			{ 
-				final String str = "MOVE";
+				final String str = K._MOVE_;
 				output.append( str );
 				return new Symbol(sym.MOVE, yychar,yyline);
 			}
 			case 53: break;
 			case 20: 
 			{ 
-				final String str = "MOREEQUAL";
+				final String str = K._MOREEQUAL_;
 				output.append( str );
 				return new Symbol(sym.MOREEQUAL, yychar,yyline);
 			}
 			case 54: break;
 			case 14: 
 			{ 
-				final String str = "LCURL";
+				final String str = K._LCURL_;
 				output.append( str );
 				return new Symbol(sym.LCURL, yychar,yyline);
 			}
 			case 55: break;
 			case 24: 
 			{ 
-				final String str = "TYPE";
+				final String str = K._TYPE_;
 				output.append( str );
 				this.types.append(yytext());
 				return new Symbol(sym.TYPE, yychar,yyline);
@@ -867,35 +866,35 @@ public class AnalizadorLexico implements java_cup.runtime.Scanner {
 			case 56: break;
 			case 13: 
 			{ 
-				final String str = " RBRACK";
+				final String str = K._RBRACK_;
 				output.append( str );
 				return new Symbol(sym.RBRACK, yychar,yyline);
 			}
 			case 57: break;
 			case 23: 
 			{ 
-				final String str = "DIFFERENT";
+				final String str = K._DIFFERENT_;
 				output.append( str );
 				return new Symbol(sym.DIFFERENT, yychar,yyline);
 			}
 			case 58: break;
 			case 27: 
 			{ 
-				final String str = "ELSE";
+				final String str = K._ELSE_;
 				output.append( str );
 				return new Symbol(sym.ELSE, yychar,yyline);
 			}
 			case 59: break;
 			case 21: 
 			{ 
-				final String str = "LESSEQUALS";
+				final String str = K._LESSEQUALS_;
 				output.append( str );
 				return new Symbol(sym.LESSEQUALS, yychar,yyline);
 			}
 			case 60: break;
 			case 12: 
 			{ 
-				final String str = "LBRACK";
+				final String str = K._LBRACK_;
 				output.append( str );
 				return new Symbol(sym.LBRACK, yychar,yyline);
 			}
@@ -919,8 +918,8 @@ public class AnalizadorLexico implements java_cup.runtime.Scanner {
 		}
 	}
 	private void LexicalOutput() throws IOException {
-		final String outFile = "./output/lexicalAnalisis.txt";
-		final BufferedWriter out = new BufferedWriter( new FileWriter( outFile ) );
+		Constants K = new Constants();
+		final BufferedWriter out = new BufferedWriter( new FileWriter( K._LEX_OUTPUT ) );
 		out.write( output.toString() );
 		out.close();
 		this.errorsHandler.lexError(errors.toString());
