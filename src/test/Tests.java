@@ -23,10 +23,10 @@ public class Tests {
 			e.printStackTrace();
 		}
 	}
-	@Test
+	//@Test
 	public void testCUP() throws Exception{
 		@SuppressWarnings("deprecation")
 		parser p = new parser(new AnalizadorLexico(new FileInputStream("./src/analysis/input.txt")));
 		p.parse();
 	}
-}
+
