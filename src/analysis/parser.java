@@ -26,7 +26,7 @@ public class parser extends java_cup.runtime.lr_parser {
 
   /** Constructor which sets the default scanner. */
   @Deprecated
-  public parser(java_cup.runtime.Scanner s) {super(s);}
+  public parser(java_cup.runtime.Scanner s) {super(s);this.str = new StringBuilder();}
 
   /** Constructor which sets the default scanner. */
   public parser(java_cup.runtime.Scanner s, java_cup.runtime.SymbolFactory sf) {super(s,sf);}
@@ -37,7 +37,7 @@ public class parser extends java_cup.runtime.lr_parser {
     "\000\051\000\002\002\004\000\002\002\004\000\002\003" +
     "\004\000\002\003\003\000\002\004\006\000\002\005\004" +
     "\000\002\005\003\000\002\006\003\000\002\006\003\000" +
-    "\002\006\003\000\002\006\003\000\002\024\002\000\002" +
+    "\002\006\003\000\002\006\003\000\002\023\002\000\002" +
     "\006\005\000\002\007\006\000\002\010\005\000\002\021" +
     "\005\000\002\011\003\000\002\011\003\000\002\011\003" +
     "\000\002\011\003\000\002\011\003\000\002\011\003\000" +
@@ -174,7 +174,7 @@ public class parser extends java_cup.runtime.lr_parser {
     "\001\000\014\006\074\007\014\010\025\017\017\020\027" +
     "\001\001\000\002\001\001\000\002\001\001\000\002\001" +
     "\001\000\002\001\001\000\002\001\001\000\002\001\001" +
-    "\000\004\024\075\001\001\000\002\001\001\000\016\006" +
+    "\000\004\023\075\001\001\000\002\001\001\000\016\006" +
     "\031\007\014\010\025\016\032\017\017\020\027\001\001" +
     "\000\002\001\001\000\016\005\072\006\021\007\014\010" +
     "\025\017\017\020\027\001\001\000\002\001\001\000\002" +
@@ -331,6 +331,7 @@ class CUP$parser$actions {
 		int start_valright = ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-1)).right;
 		Object start_val = (Object)((java_cup.runtime.Symbol) CUP$parser$stack.elementAt(CUP$parser$top-1)).value;
 		RESULT = start_val;
+		this.parser.syntOutput();
               CUP$parser$result = parser.getSymbolFactory().newSymbol("$START",0, ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-1)), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
             }
           /* ACCEPT */
@@ -432,7 +433,8 @@ class CUP$parser$actions {
             {
               Object RESULT =null;
 report_error("syntax error",null);
-              CUP$parser$result = parser.getSymbolFactory().newSymbol("NT$0",18, ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
+parser.str.append("NOT OK\n");
+              CUP$parser$result = parser.getSymbolFactory().newSymbol("NT$0",17, ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
             }
           return CUP$parser$result;
 
