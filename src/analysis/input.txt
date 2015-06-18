@@ -1,2 +1,2 @@
 declare int _cantidad
-move D1 5
+move D1 _cantidad

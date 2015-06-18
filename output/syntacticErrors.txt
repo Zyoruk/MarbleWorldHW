@@ -1,2 +1,0 @@
-Error (#30) : Syntax error
-Error  : syntax error

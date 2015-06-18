@@ -21,6 +21,7 @@ public class AnalizadorLexico implements java_cup.runtime.Scanner {
 SimpleList <String> lexemes;
 SimpleList <String> types;
 SimpleList <String> values;
+SimpleList <String> lines;
   /** This character denotes the end of file */
   public static final int YYEOF = -1;
 
@@ -323,6 +324,7 @@ SimpleList <String> values;
   	  this.lexemes = new SimpleList<String>();
   	  this.types = new SimpleList<String>();
   	  this.values = new SimpleList<String>();
+  	  this.lines = new SimpleList<String>();
 //  	  this.next_token();
 //  	  this.LexicalOutput();
     }
@@ -741,10 +743,12 @@ SimpleList <String> values;
 			if (!this.values.exists(yytext())){
 				this.values.append(yytext());
 				this.lexemes.append("ID");
+				this.lines.append(Integer.toString(yyline));
 			}
 		}else{
 			this.values.append(yytext());
 			this.lexemes.append("ID");
+			this.lines.append(Integer.toString(yyline));
 		}
 		return new Symbol(sym.ID, yychar,yyline,new String(yytext()));
           }
@@ -896,7 +900,7 @@ SimpleList <String> values;
 	this.buildSymbolTable();
   }
   private void buildSymbolTable() throws IOException{
-	  SymbolTable st = new SymbolTable(this.lexemes,this.values,this.types);
+	  SymbolTable st = new SymbolTable(this.lexemes,this.values,this.types,this.lines);
 	  st.outputTable();
   }
 

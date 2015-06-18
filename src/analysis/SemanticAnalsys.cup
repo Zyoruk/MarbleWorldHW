@@ -1,6 +1,5 @@
 package analysis;
 import java_cup.runtime.*;
-import AnalizadorLexico;
 parser code {:
 
 
@@ -8,33 +7,34 @@ parser code {:
   private StringBuilder errorsStr;
   private ModuloDeErrores errorHandler;
   public void report_error(String message, Object info) {
-  	try {
-  		errorHandler = new ModuloDeErrores();
-  	} catch (IOException e) {
-  		e.printStackTrace();
-  	}
-  if (info instanceof String){
-  	errors++; 
-        errorsStr.append("  "+ errors + "==> " + info + " "+ message+"\n");
-        try {
-  		errorHandler.syntError(errorsStr.toString());
-  	} catch (IOException e) {
-  		e.printStackTrace();
-  	}
-        
-      }
-      else {
-      	StringBuffer m = new StringBuffer("Error ");
-      	if (info instanceof java_cup.runtime.Symbol) 
-       	   m.append( "("+info.toString()+")" );     
-      	m.append(" : "+message+"\n");   
-      	errorsStr.append(m);
-      	try {
-      		errorHandler.syntError(errorsStr.toString());
-      	} catch (IOException e) {
-      		e.printStackTrace();
-      	}
-      }
+if(info.toString()!= "#0"){
+		  try {
+			  errorHandler = new ModuloDeErrores();
+		  } catch (IOException e) {
+			  e.printStackTrace();
+		  }
+		  if (info instanceof String){
+			  errorsStr.append("  "+ errors + "==> " + info + " "+ message+"\n");
+			  try {
+				  errorHandler.syntError(errorsStr.toString());
+			  } catch (IOException e) {
+				  e.printStackTrace();
+			  }
+
+		  }
+		  else {
+			  StringBuffer m = new StringBuffer("Error ");
+			  if (info instanceof java_cup.runtime.Symbol) 
+				  m.append( "("+info.toString()+")" );     
+			  m.append(" : "+message+"\n");   
+			  errorsStr.append(m);
+			  try {
+				  errorHandler.syntError(errorsStr.toString());
+			  } catch (IOException e) {
+				  e.printStackTrace();
+			  }
+		  }
+	  }
     }
      
     public void report_fatal_error(String message, Object info) {
@@ -42,12 +42,24 @@ parser code {:
   		report_error(message, info);	
   	}
     }
+        private void syntOutput(){
+//    	Constants K = new Constants();
+    	try {
+			DataOutputStream os = new DataOutputStream(new 
+                    FileOutputStream("./output/syntAnalisis.txt"));
+			os.writeBytes("OK\n");
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    }
+    
 :}
 
 terminal MORETHAN, LESSTHAN, LESSEQUALS, MOREEQUAL, EQUALS, DIFFERENT, PLUS, MINUS, TIMES, DIVISION, ASSIGN, LBRACK, RBRACK, LCURL, RCURL,DECLARE,MOVE,IF,THEN,ELSE,WHILE,DO,TRUE,FALSE;
 terminal token NUM, DOOR, ID, TYPE, NEWLINE;
 
-non terminal programa, listavariables, declaracionvariable, listadeclaraciones, declaracion, mover, expresionAsignacion, operadorRelacional, expresionSuma, expresionMult, termino, expresionCondicion,listaCondiciones,declaracionSeleccion, declaracionIteracion,Condicion,declaracionElse;
+non terminal programa, listavariables, declaracionvariable, listadeclaraciones, declaracion, mover, expresionAsignacion, operadorRelacional, expresionSuma, expresionMult, termino, expresionCondicion,listaCondiciones,declaracionSeleccion, declaracionIteracion,condicion,declaracionElse;
 
 precedence left  PLUS, MINUS;
 precedence left  TIMES, DIVISION;
@@ -59,7 +71,7 @@ listavariables ::=
 				listavariables declaracionvariable
 				| declaracionvariable;				
 declaracionvariable ::=
-				DECLARE TYPE ID NEWLINE;				
+				DECLARE TYPE ID NEWLINE{:this.parser.syntOutput();:};				
 listadeclaraciones ::= 
 				listadeclaraciones declaracion
 				| declaracion;
@@ -68,12 +80,12 @@ declaracion ::=
 			| declaracionSeleccion 
 			| declaracionIteracion 
 			| expresionAsignacion
-			| error {:report_error("syntax error",null);:};
+			| error {:report_error("syntax error",null);:} NEWLINE;
 mover ::= 
-		MOVE DOOR expresionSuma NEWLINE;		
+		MOVE DOOR expresionSuma NEWLINE{:this.parser.syntOutput();:};		
 expresionAsignacion::= 
 					ID ASSIGN expresionSuma;					
-Condicion ::= 
+condicion ::= 
 		expresionSuma operadorRelacional expresionSuma;		
 operadorRelacional::= MORETHAN | LESSTHAN | LESSEQUALS | MOREEQUAL | EQUALS	| DIFFERENT;
 expresionSuma ::= 
@@ -89,7 +101,7 @@ termino ::=
 		| ID 
 		| NUM;
 expresionCondicion ::= 
-					Condicion 
+					condicion 
 					| TRUE 
 					| FALSE;					
 listaCondiciones ::= 
@@ -99,7 +111,7 @@ declaracionSeleccion ::=
 					IF LBRACK expresionCondicion RBRACK THEN listaCondiciones declaracionElse;					
 declaracionElse ::= 
 	ELSE listaCondiciones
-	| NEWLINE;	
+	| NEWLINE{:this.parser.syntOutput();:};	
 declaracionIteracion ::= 
 					WHILE LBRACK expresionCondicion RBRACK DO listaCondiciones 
 					| DO listaCondiciones WHILE LBRACK expresionCondicion RBRACK;

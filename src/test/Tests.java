@@ -18,13 +18,14 @@ public class Tests {
 		try {
 			Reader r = new FileReader("./src/analysis/input.txt");
 			new AnalizadorLexico(new BufferedReader(r));
-//			r.close();
+			//			r.close();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
 	@Test
 	public void testCUP() throws Exception{
+		@SuppressWarnings("deprecation")
 		parser p = new parser(new AnalizadorLexico(new FileInputStream("./src/analysis/input.txt")));
 		p.parse();
 	}
