@@ -74,7 +74,7 @@ public class AnalisisSemantico {
 					token.equals("RBRACK") || token.equals("RCURL") || token.equals("LCURL") || token.equals("THEN") || token.equals("ELSE") ||
 					token.equals("IF") || token.equals("WHILE") || token.equals("DO") || token.equals("TYPE") || token.equals("D1") || token.equals("D3") ||
 					token.equals("D2") || token.equals("D4") || token.equals("D5") ||  isNumeric(token) || token.equals("MOVE") || token.equals( "ASSIGN")
-					||  token.equals( "TRUE" ) || token.equals( "FALSE" )  ||  token.equals("MOREEQUALS"))    
+					||  token.equals( "TRUE" ) || token.equals( "FALSE" )  ||  token.equals("MOREEQUAL"))    
 					  
 					continue;
 			int position;
@@ -183,12 +183,148 @@ public class AnalisisSemantico {
         return null;
 	}
 	  
-	private void conditionTester ( ){
+	private void conditionTester (  String[] condition   ){
 		
+		if ( condition[1].equals("FALSE") ){
+			
+			return;
+		}
+		if ( condition[1].equals("TRUE") ){
+			
+			return;
+		}			
+		float leftResult = 0;
+		float rightResult = 0;
+		boolean switchSide= false;
+		String currentOp  = "N/A";
+		String relationalOp;
 		
+		for ( int i = 1;  i < condition.length ; i++ )  {
+			
+			if (  ! (condition[ i ].equals( "MORETHAN" )  ||  condition[ i ].equals( "DIFFERENT" )  ||  condition[ i ].equals( "EQUALS" )  ||
+					condition[ i ].equals( "LESSTHAN" )  || condition[ i ].equals( "LESSEQUALS" )  || condition[ i ].equals( "PLUS" )  ||
+					condition[ i ].equals( "MINUS" )  || condition[ i ].equals( "TIMES" )  || condition[ i ].equals( "DIVISION" )  ||
+					isNumeric( condition[ i ] ) || condition[ i ].equals( "MOREEQUAL" )  ||  condition[i].equals("RBRACK")    )  ){
+				 
+				break;
+			}
+			if ( condition[ i ].equals( "MORETHAN" )  ){
+				
+				switchSide =true;
+				relationalOp = "MORETHAN";
+				currentOp  = "N/A";
+				continue;	
+			}
+			if ( condition[ i ].equals( "DIFFERENT" )  ){
+				
+				switchSide =true;
+				relationalOp = "DIFFERENT";
+				currentOp  = "N/A";
+				continue;	
+			}
+			if ( condition[ i ].equals( "LESSTHAN" )  ){
+				
+				switchSide =true;
+				relationalOp = "LESSTHAN";
+				currentOp  = "N/A";
+				continue;	
+			}			
+			if ( condition[ i ].equals( "EQUALS" )  ){
+				
+				switchSide =true;
+				relationalOp = "EQUALS";
+				currentOp  = "N/A";
+				continue;	
+			}			
+			if ( condition[ i ].equals( "MOREEQUAL" )  ){
+				
+				switchSide =true;
+				relationalOp = "MOREEQUAL";
+				currentOp  = "N/A";
+				continue;	
+			}		
+			if ( condition[ i ].equals( "LESSEQUALS" )  ){
+				
+				switchSide =true;
+				relationalOp = "LESSEQUALS";
+				currentOp  = "N/A";
+				continue;				
+			}
+			if (   condition[ i ].equals( "PLUS" )    ){
+				
+				currentOp = "PLUS";
+				continue;
+			}
+			if (   condition[ i ].equals( "MINUS" )    ){
+				
+				currentOp = "PLUS";
+				continue;
+			}
+			if (   condition[ i ].equals( "DIVISION" )    ){
+				
+				currentOp = "DIVISION";
+				continue;
+			}
+			if (   condition[ i ].equals( "TIMES" )    ){
+				
+				currentOp = "TIMES";
+				continue;
+			}			
+			if (currentOp.equals("N/A")){
+			
+				if (!switchSide)
+					
+					leftResult += Float.parseFloat( condition [i] );
+				else{
+					rightResult += Float.parseFloat( condition [i] );
+				}
+			}
+			else{
+				
+				float numero = Float.parseFloat( condition [i] );
+				
+				if ( !switchSide ){
+					
+					if (currentOp.equals("PLUS")){
+						
+						leftResult += numero;
+					}
+					if (currentOp.equals("TIMES")){
+						
+						leftResult *= numero;
+					}					
+					if (currentOp.equals("MINUS")){
+						
+						leftResult -= numero;
+					}					
+					if (currentOp.equals("DIVISION")){
+						
+						leftResult /= numero;
+					}
+				}
+				else{
+					
+					if (currentOp.equals("PLUS")){
+						 
+						rightResult += numero;
+					}
+					if (currentOp.equals("TIMES")){
+						
+						rightResult *= numero;
+					}					
+					if (currentOp.equals("MINUS")){
+						
+						rightResult -= numero;
+					}					
+					if (currentOp.equals("DIVISION")){
+						
+						rightResult  /= numero;
+					}					
+				}
+			}
+		}	
 		
-		
-	}
+	}		
 	
 	
 	/**
@@ -229,7 +365,7 @@ public class AnalisisSemantico {
 				if ( repeated > 1 ){
 					
 					errorFound = true;
-					listaErrores.add(  "Semantic Error found in this line" +  symbolTable [ i ][ 3 ] );
+					listaErrores.add(  "Semantic Error found in this line " +  symbolTable [ i ][ 3 ] );
 					repeated = 1;
 				}
 			}

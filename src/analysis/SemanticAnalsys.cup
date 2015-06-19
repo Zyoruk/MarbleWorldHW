@@ -1,68 +1,74 @@
 package analysis;
-import java_cup.runtime.*;
+import java.io.DataOutputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import errorHandler.ModuloDeErrores;
 parser code {:
-
-
   private static int errors = 0;
   private StringBuilder errorsStr;
   private ModuloDeErrores errorHandler;
+  public StringBuilder str;
   public void report_error(String message, Object info) {
-if(info.toString()!= "#0"){
-		  try {
-			  errorHandler = new ModuloDeErrores();
-		  } catch (IOException e) {
-			  e.printStackTrace();
-		  }
-		  if (info instanceof String){
-			  errorsStr.append("  "+ errors + "==> " + info + " "+ message+"\n");
-			  try {
-				  errorHandler.syntError(errorsStr.toString());
-			  } catch (IOException e) {
-				  e.printStackTrace();
-			  }
+		errorsStr = new StringBuilder();
+		if(info != null){
+			if(info.toString()!= "#0"){
+				try {
+					errorHandler = new ModuloDeErrores();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+				if (info instanceof String){
+					errorsStr.append("  "+ errors + "==> " + info + " "+ message+"\n");
+					try {
+						errorHandler.syntError(errorsStr.toString());
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
+				}
+				else {
+					StringBuffer m = new StringBuffer("Error ");
+					if (info instanceof java_cup.runtime.Symbol) 
+						m.append( "("+info.toString()+")" );     
+					m.append(" : "+message+"\n");   
+					errorsStr.append(m);
+					try {
+						errorHandler.syntError(errorsStr.toString());
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
+				}
+			}  
+		}
+	}
 
-		  }
-		  else {
-			  StringBuffer m = new StringBuffer("Error ");
-			  if (info instanceof java_cup.runtime.Symbol) 
-				  m.append( "("+info.toString()+")" );     
-			  m.append(" : "+message+"\n");   
-			  errorsStr.append(m);
-			  try {
-				  errorHandler.syntError(errorsStr.toString());
-			  } catch (IOException e) {
-				  e.printStackTrace();
-			  }
-		  }
-	  }
-    }
-     
     public void report_fatal_error(String message, Object info) {
   	if(this.cur_token.value != null){
   		report_error(message, info);	
   	}
     }
-        private void syntOutput(){
-//    	Constants K = new Constants();
-    	try {
+	private void syntOutput(){
+		//    	Constants K = new Constants();
+		try {
 			DataOutputStream os = new DataOutputStream(new 
-                    FileOutputStream("./output/syntAnalisis.txt"));
-			os.writeBytes("OK\n");
+					FileOutputStream("./output/syntAnalisis.txt"));
+			os.writeBytes(this.str.toString());
+			os.close();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-    }
-    
+	}
+     
 :}
 
-terminal MORETHAN, LESSTHAN, LESSEQUALS, MOREEQUAL, EQUALS, DIFFERENT, PLUS, MINUS, TIMES, DIVISION, ASSIGN, LBRACK, RBRACK, LCURL, RCURL,DECLARE,MOVE,IF,THEN,ELSE,WHILE,DO,TRUE,FALSE;
-terminal token NUM, DOOR, ID, TYPE, NEWLINE;
+terminal MORETHAN, LESSTHAN, LESSEQUALS, MOREEQUAL, EQUALS, DIFFERENT, PLUS, MINUS, TIMES, DIVISION, ASSIGN, LBRACK, RBRACK, LCURL, RCURL,DECLARE,MOVE,IF,THEN, ELSE, WHILE, DO, TRUE, FALSE, DOOR, ID, TYPE, NEWLINE;
+terminal operator 
+terminal token NUM;
 
 non terminal programa, listavariables, declaracionvariable, listadeclaraciones, declaracion, mover, expresionAsignacion, operadorRelacional, expresionSuma, expresionMult, termino, expresionCondicion,listaCondiciones,declaracionSeleccion, declaracionIteracion,condicion,declaracionElse;
 
 precedence left  PLUS, MINUS;
 precedence left  TIMES, DIVISION;
+precedence nonassoc MORETHAN,LESSTHAN,LESSEQUALS,MOREEQUAL,EQUALS,DIFFERENT;
 
 start with programa;
 
@@ -71,7 +77,7 @@ listavariables ::=
 				listavariables declaracionvariable
 				| declaracionvariable;				
 declaracionvariable ::=
-				DECLARE TYPE ID NEWLINE{:this.parser.syntOutput();:};				
+				DECLARE TYPE ID NEWLINE{:parser.str.append("OK\n");:};				
 listadeclaraciones ::= 
 				listadeclaraciones declaracion
 				| declaracion;
@@ -82,7 +88,7 @@ declaracion ::=
 			| expresionAsignacion
 			| error {:report_error("syntax error",null);:} NEWLINE;
 mover ::= 
-		MOVE DOOR expresionSuma NEWLINE{:this.parser.syntOutput();:};		
+		MOVE DOOR expresionSuma NEWLINE{:parser.str.append("OK\n");:};		
 expresionAsignacion::= 
 					ID ASSIGN expresionSuma;					
 condicion ::= 
@@ -98,8 +104,7 @@ expresionMult ::=
 				| termino;
 termino ::= 
 		LBRACK expresionAsignacion RBRACK 
-		| ID 
-		| NUM;
+		| NUM | ID;
 expresionCondicion ::= 
 					condicion 
 					| TRUE 
@@ -111,7 +116,7 @@ declaracionSeleccion ::=
 					IF LBRACK expresionCondicion RBRACK THEN listaCondiciones declaracionElse;					
 declaracionElse ::= 
 	ELSE listaCondiciones
-	| NEWLINE{:this.parser.syntOutput();:};	
+	| NEWLINE{:parser.str.append("OK\n");:};	
 declaracionIteracion ::= 
 					WHILE LBRACK expresionCondicion RBRACK DO listaCondiciones 
 					| DO listaCondiciones WHILE LBRACK expresionCondicion RBRACK;
