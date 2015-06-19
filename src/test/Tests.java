@@ -8,6 +8,7 @@ import java.io.Reader;
 
 import org.junit.Test;
 
+import errorHandler.ModuloDeErrores;
 import analysis.AnalizadorLexico;
 import analysis.parser;
 
@@ -17,16 +18,19 @@ public class Tests {
 	public void test() {
 		try {
 			Reader r = new FileReader("./src/analysis/input.txt");
-			new AnalizadorLexico(new BufferedReader(r));
+			ModuloDeErrores masterErrors =new ModuloDeErrores();
+			new AnalizadorLexico(new BufferedReader(r),masterErrors);
 			//			r.close();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
+	@SuppressWarnings("deprecation")
 	@Test
 	public void testCUP() throws Exception{
-		@SuppressWarnings("deprecation")
-		parser p = new parser(new AnalizadorLexico(new FileInputStream("./src/analysis/input.txt")));
+		ModuloDeErrores masterErrors =new ModuloDeErrores();
+		parser p = new parser(new AnalizadorLexico(new FileInputStream("./src/analysis/input.txt"), masterErrors),masterErrors);
 		p.parse();
+		masterErrors.buildHTML();
 	}
 }

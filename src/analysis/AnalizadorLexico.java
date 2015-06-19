@@ -317,11 +317,11 @@ public class AnalizadorLexico implements java_cup.runtime.Scanner {
 	 * @param   in  the java.io.Reader to read input from.
 	 * @throws IOException 
 	 */
-	public AnalizadorLexico(java.io.Reader in) throws IOException {
+	public AnalizadorLexico(java.io.Reader in,ModuloDeErrores pErrores) throws IOException {
 		this.zzReader = in;
 		this.errors = new StringBuilder();
 		this.output = new StringBuilder();
-		this.errorsHandler = new ModuloDeErrores();
+		this.errorsHandler = pErrores;
 		this.lexemes = new SimpleList<String>();
 		this.types = new SimpleList<String>();
 		this.values = new SimpleList<String>();
@@ -334,8 +334,8 @@ public class AnalizadorLexico implements java_cup.runtime.Scanner {
 	 * @param   in  the java.io.Inputstream to read input from.
 	 * @throws IOException 
 	 */
-	public AnalizadorLexico(java.io.InputStream in) throws IOException {
-		this(new java.io.InputStreamReader(in));
+	public AnalizadorLexico(java.io.InputStream in,ModuloDeErrores pErrores) throws IOException {
+		this(new java.io.InputStreamReader(in),pErrores);
 	}
 
 	/** 
@@ -902,7 +902,9 @@ public class AnalizadorLexico implements java_cup.runtime.Scanner {
 			case 1: 
 			{ 
 				final String str = "Invalid input: " + yytext() + "line: "+ yyline;
+				errors = new StringBuilder();
 				errors.append(str);
+				this.lexErrors();
 			}
 			case 62: break;
 			default: 
@@ -922,12 +924,14 @@ public class AnalizadorLexico implements java_cup.runtime.Scanner {
 		final BufferedWriter out = new BufferedWriter( new FileWriter( K._LEX_OUTPUT ) );
 		out.write( output.toString() );
 		out.close();
-		this.errorsHandler.lexError(errors.toString());
-		this.buildSymbolTable();
 	}
 	private void buildSymbolTable() throws IOException{
 		SymbolTable st = new SymbolTable(this.lexemes,this.values,this.types,this.lines);
 		st.outputTable();
 	}
-
+	private void lexErrors() throws IOException{
+		System.out.println(errors.toString());
+		this.errorsHandler.lexError(errors.toString());
+		this.buildSymbolTable();
+	}
 }
