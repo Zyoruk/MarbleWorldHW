@@ -1,4 +1,4 @@
-declare char _mychar
+decla$re char _mychar = 0
 declare char _mychar2
 declare int _myint
 declare float _myfloat

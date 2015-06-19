@@ -8,8 +8,10 @@ package constants;
  *
  */
 public class Constants {
+public final String _ERROR_HTML = "./output/ErrorsModule.html";
 public final String _LEX_ERROR_OUTFILE = "./output/lexicalErrors.txt";
 public final String _CUP_ERROR_OUTFILE = "./output/syntacticErrors.txt";
+public final String _SEM_ERROR_OUTFILE = "./output/semanticErrors.txt";
 
 public final String _SYNT_OUTPUT = "./output/OutputSyntacticAnalysis.txt";
 public final String _LEX_OUTPUT = "./output/OutputLexicalAnalysis.txt";
