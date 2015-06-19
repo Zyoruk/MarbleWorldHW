@@ -15,7 +15,7 @@ public class AnalisisSemantico {
 	private final ArrayList<Boolean> usedVariables; 
 	private final ArrayList<Integer> linesToDelete;
 
-
+	
 	public AnalisisSemantico (SymbolTable  symbolTable ){
 		
 		this.symbolTable = symbolTable.getSymbolTable();
@@ -84,7 +84,7 @@ public class AnalisisSemantico {
 			}
 		}
 	}	
-
+	
 	/**
 	 *  Finds which declarations of variables have to be removed because they are useless.
 	 *  Uses lineTo Delete to find the specific lines must be deleted.
@@ -183,21 +183,30 @@ public class AnalisisSemantico {
         return null;
 	}
 	  
-	private void conditionTester (  String[] condition   ){
+	
+	/**
+	 * 	 Deals with an if or while condition, evaluates if the condition is always true or always false. If succeeds  
+	 *	 the function alwaysTrue or alwaysFalse is called.  It's only true if the condition contains the true statement or if it's a 
+	 *	 numerical expression that can be computed. Same logic for the always false condition.
+	 * @param condition
+	 */
+	private void conditionTester (  String[] condition  , int lineOfCode ) {
 		
-		if ( condition[1].equals("FALSE") ){
+		if ( condition[ 0 ].equals("FALSE") ){
 			
+			alwaysFalse(   lineOfCode );
 			return;
 		}
-		if ( condition[1].equals("TRUE") ){
-			
+		if ( condition[ 0 ].equals("TRUE") ){        // deal with the case when the condition begins with bracket.  
+ 																		// Not finished yet.		
+			alwaysTrue(lineOfCode );
 			return;
 		}			
 		float leftResult = 0;
 		float rightResult = 0;
 		boolean switchSide= false;
 		String currentOp  = "N/A";
-		String relationalOp;
+		String relationalOp = "";
 		
 		for ( int i = 1;  i < condition.length ; i++ )  {
 			
@@ -206,7 +215,7 @@ public class AnalisisSemantico {
 					condition[ i ].equals( "MINUS" )  || condition[ i ].equals( "TIMES" )  || condition[ i ].equals( "DIVISION" )  ||
 					isNumeric( condition[ i ] ) || condition[ i ].equals( "MOREEQUAL" )  ||  condition[i].equals("RBRACK")    )  ){
 				 
-				break;
+				return;
 			}
 			if ( condition[ i ].equals( "MORETHAN" )  ){
 				
@@ -257,7 +266,7 @@ public class AnalisisSemantico {
 			}
 			if (   condition[ i ].equals( "MINUS" )    ){
 				
-				currentOp = "PLUS";
+				currentOp = "MINUS";
 				continue;
 			}
 			if (   condition[ i ].equals( "DIVISION" )    ){
@@ -275,10 +284,10 @@ public class AnalisisSemantico {
 				if (!switchSide)
 					
 					leftResult += Float.parseFloat( condition [i] );
-				else{
+				else
 					rightResult += Float.parseFloat( condition [i] );
-				}
-			}
+				
+			}			
 			else{
 				
 				float numero = Float.parseFloat( condition [i] );
@@ -323,10 +332,67 @@ public class AnalisisSemantico {
 				}
 			}
 		}	
-		
+		if ( relationalOp.equals(  "MOREEQUALS") ){
+			
+			if (   leftResult >= rightResult   )
+				alwaysTrue(  lineOfCode );
+			
+			else
+				alwaysFalse(  lineOfCode );
+		}
+		if ( relationalOp.equals(  "EQUALS") ) {
+			
+			if (   leftResult == rightResult   )
+				alwaysTrue(  lineOfCode );
+	
+			else
+				alwaysFalse(  lineOfCode );	
+		}		
+		if ( relationalOp.equals(  "DIFFERENT")  ){
+			
+			if (  leftResult != rightResult  )
+				alwaysTrue(  lineOfCode );
+				
+			else
+				alwaysFalse(  lineOfCode );		
+		}	
+		if ( relationalOp.equals(  "LESSTHAN") ){
+			
+			if (  leftResult < rightResult  )
+				alwaysTrue(  lineOfCode );
+			
+			else
+				alwaysFalse(  lineOfCode );
+		}		
+		if ( relationalOp.equals(  "LESSEQUALS") ){
+			
+			if (   leftResult <= rightResult ) 
+				alwaysTrue(  lineOfCode );
+			
+			else
+				alwaysFalse(  lineOfCode );			
+		}		
+		if ( relationalOp.equals(  "MORETHAN") ){
+			
+			if (   leftResult > rightResult   )
+				alwaysTrue(   lineOfCode );
+				
+			else
+				alwaysFalse( lineOfCode);
+		}		
 	}		
 	
 	
+	private void alwaysTrue (  int lineOfCode ) {
+		
+		
+	}	
+		
+	private void alwaysFalse (  int lineOfCode ) {
+		
+		
+	}	
+		
 	/**
 	 * Checks if a String is an Integer in the underneath.
 	 * @param str
