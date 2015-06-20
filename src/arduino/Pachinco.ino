@@ -1,42 +1,219 @@
 #include <Servo.h>
 
 //Servo PIN
-Servo window;  // create servo object to control a servo 
-Servo gate;  // create servo object to control a servo 
-
-//Servo1 Positions
-const int A = 0;//Shared
-const int B = 6.33431085;
-const int C = 12.668621701;
-const int D = 19.002932551;
-const int E = 25.337243402;
-const int F = 31.671554252;//Shared
-
-//Servo0 Positions
-const int Y = 15.835777126;
-
-//Previous positions
-int last01 = 0;
-int last02 = 0;
+Servo servo01;  // create servo object to control a servo 
+Servo servo02;  // create servo object to control a servo 
 
 //Input
-String gateLetter = "";   // a string to hold incoming data
+String servoNum = "";   // a string to hold incoming data
 String time = "";         // a string to hold incoming data
 long timetoMove = -1;
 boolean stringComplete = false;  // whether the string is complete
 
 //State
 int state = 0;
+String curr1 = "X";
+String curr2 = "ACE";
+int movSix = 90;
+int mov90 = 148;
 String c;
 
 void setup() {
-  Serial.begin(115200);
-  window.attach(5);  // attaches the servo on pin 9 to the servo object 
-  gate.attach(3);  // attaches the servo on pin 9 to the servo object
-  gateLetter.reserve(10); 
+  Serial.begin(9600);
+  servo01.attach(5);  // attaches the servo on pin 9 to the servo object 
+  servo01.attach(3);  // attaches the servo on pin 9 to the servo object
+  servoNum.reserve(10); 
   //pinMode(LED, OUTPUT);    //tell Arduino LED is an output
   //pinMode(BUTTON, INPUT);  //BUTTON is an input
   //pinMode(speakerPin, OUTPUT);    //and BUZ is an output
+}
+
+void loop(){
+  if (stringComplete) {
+    Serial.println(servoNum);
+    Serial.println(time);
+    if(servoNum == "A"){
+      servoNum = "ACE";
+    }
+    
+    if(servoNum == "C"){
+      servoNum = "ACE";
+    }
+    
+    if(servoNum == "E"){
+      servoNum = "ACE";
+    }
+    
+    if(servoNum == "B"){
+      servoNum = "BDF";      
+    }
+    
+    if(servoNum == "D"){
+      servoNum = "BDF";      
+    }
+    
+    if(servoNum == "F"){
+      servoNum = "BDF";      
+    }
+    
+    Serial.println(servoNum);
+    
+    if( timetoMove == 0){  
+      
+      if( servoNum == "X" || "Y" || "Z"){ //CHANGE
+        
+        if(curr1 == "Y" ){
+          if(servoNum == "X"){
+            curr1 = "X";
+            servo01.write(-1 * mov90);
+            delay(700);
+          }
+          
+          if(servoNum == "Z"){
+            curr1 = "Z";
+            servo01.write(mov90); 
+            delay(700);
+          }  
+        }
+        
+        if(curr1 == "X"){
+          if(servoNum == "Y"){
+            curr1 = "Y";
+            servo01.write(mov90);
+            delay(700);
+          }
+          
+          if(servoNum == "Z"){
+            curr1 = "Z";
+            servo01.write(mov90);
+            delay(700);
+            servo01.write(mov90);
+            delay(700);
+          }  
+        }
+        
+        if(curr1 == "Z"){
+          if(servoNum == "Y"){
+            curr1 = "Y";
+            servo01.write(-1 * mov90);
+            delay(700);          
+          }
+          
+          if(servoNum == "X"){
+            curr1 = "X";
+            servo01.write(-1 * mov90);
+            delay(700);
+            servo01.write(-1 * mov90); 
+            delay(700);
+          } 
+        }
+            
+      }else{     
+        if(curr2 == "ACE" ){
+          if(servoNum == "BDF"){
+            Serial.println("HERE PLEASE");
+            curr2 = "BDF";
+            Serial.println(movSix);
+            servo02.write(movSix); 
+            delay(700);
+          }
+        }
+        if(curr2 == "BDF" ){
+          if(servoNum == "ACE"){
+            curr2 = "ACE";
+            servo02.write(-1 * movSix); 
+            delay(700);
+          }
+        }
+      }  
+    }else{
+      if( servoNum == "X" || "Y" || "Z" ){
+        
+        if(curr1 == "Y"){
+          if(servoNum == "X"){
+            curr1 = "X";
+            servo01.write(-1 * mov90);
+            delay(700+timetoMove);
+            servo01.write(mov90);
+            delay(700);
+          }
+
+          if(servoNum == "Z"){
+            curr1 = "Z";
+            servo01.write(mov90);
+            delay(700+timetoMove);
+            servo01.write(-1 * mov90); 
+            delay(700);
+          }          
+        }
+  
+        if(curr1 == "X" ){
+          if(servoNum == "Y"){
+            curr1 = "Y";
+            servo01.write(mov90);
+            delay(700+timetoMove);
+            servo01.write(-1 * mov90);
+            delay(700);          
+          }
+          
+          if(servoNum == "Z"){
+            curr1 = "Z";
+            servo01.write(mov90);
+            delay(700);
+            servo01.write(mov90);
+            delay(700+timetoMove);
+            servo01.write(-1 * mov90);
+            delay(700);
+            servo01.write(-1 * mov90); 
+            delay(700);
+          }
+        }
+       
+        if(curr1 == "Z"){
+          if(servoNum == "Y"){
+            curr1 = "Y";
+            servo01.write(-1 * mov90);
+            delay(700+timetoMove);
+            servo01.write(mov90);
+            delay(700);
+          }
+
+          if(servoNum == "X"){
+            curr1 = "X";
+            servo01.write(-1 * mov90);
+            delay(700);
+            servo01.write(-1 * mov90);
+            delay(700+timetoMove);
+            servo01.write(mov90);
+            delay(700);
+            servo01.write(mov90);
+            delay(700);          
+          }          
+        }
+           
+      }else{
+        if(curr2 == "ACE"){
+          if(servoNum == "BDF"){
+            curr2 = "BDF";
+            servo02.write(movSix);
+            delay(700+timetoMove);
+            servo02.write(-1 * movSix ); 
+            delay(700);
+          }
+        }
+        if(curr2 == "BDF"){
+          if(servoNum == "ACE"){
+            curr2 = "ACE";
+            servo02.write(-1 * movSix);
+            delay(700+timetoMove);
+            servo02.write(movSix); 
+            delay(700);
+          }          
+        }
+      }
+    }
+  stringComplete = false;    
+  }
 }
 
 void serialEvent() {
@@ -48,8 +225,7 @@ void serialEvent() {
         state = 1;
     }else{
       if(state == 0){
-        getValue();
-        gateLetter += inChar;
+        servoNum += inChar;
       }else{
         time += inChar;
       }
@@ -58,140 +234,5 @@ void serialEvent() {
         stringComplete = true;
       }
     }     
-  }
-}
-
-void getValue(){
-  if(gateLetter == "A"){
-    last01 = A;
-  }
-  if(gateLetter == "B"){
-    last01 = B;
-  }
-  if(gateLetter == "C"){
-    last01 = C;
-  }
-  if(gateLetter == "D"){
-    last01 = D;
-  }
-  if(gateLetter == "E"){
-    last01 = E;
-  }
-  if(gateLetter == "F"){
-    last01 = F;
-  }
-  if(gateLetter == "X"){
-    last02 = A;
-  }
-  if(gateLetter == "Y"){
-    last02 = Y;
-  }
-  if(gateLetter == "Z"){
-    last02 = F;
-  }
-}
-
-void loop(){
-  if (stringComplete) { 
-    if( timetoMove == 0){  
-      if( gateLetter == "X" || "Y" || "Z"){
-    if(gateLetter == "X" ){
-      window.write(A);
-      delay(15);
-    }
-    if(gateLetter == "Y" ){
-      window.write(Y); 
-      delay(15);
-    }
-    if(gateLetter == "Z" ){
-      window.write(F); 
-      delay(15);
-    }    
-      }else{
-    if(gateLetter == "A" ){
-      gate.write(A); 
-      delay(15);
-    }
-    if(gateLetter == "B" ){
-      gate.write(B); 
-      delay(15);
-    }
-    if(gateLetter == "C" ){
-      gate.write(C); 
-      delay(15);
-    }
-    if(gateLetter == "D" ){
-      gate.write(D); 
-      delay(15);
-    }
-    if(gateLetter == "E" ){
-      gate.write(E); 
-      delay(15);
-    }
-    if(gateLetter == "F" ){
-      gate.write(F); 
-      delay(15);
-    }
-      }  
-    }else{
-      if( gateLetter == "X" || "Y" || "Z" ){
-        if(gateLetter == "X" ){
-          window.write(A);
-          delay(15+timetoMove);
-          window.write(last01);
-          delay(15);
-        }
-        if(gateLetter == "Y" ){
-          window.write(Y);
-          delay(15+timetoMove);
-          window.write(last01);
-          delay(15);
-        }
-        if(gateLetter == "Z" ){
-          window.write(F); 
-          delay(15+timetoMove);
-          window.write(last01);
-          delay(15);
-        }
-      }else{
-        if(gateLetter == "A" ){
-          gate.write(A); 
-          delay(15+timetoMove);
-          window.write(last02);
-          delay(15);
-        }
-        if(gateLetter == "B" ){
-          gate.write(B); 
-          delay(15+timetoMove);
-          window.write(last02);
-          delay(15);
-        }
-        if(gateLetter == "C" ){
-          gate.write(C); 
-          delay(15+timetoMove);
-          window.write(last02);
-          delay(15);
-        }
-        if(gateLetter == "D" ){
-          gate.write(D); 
-          delay(15+timetoMove);
-          window.write(last02);
-          delay(15);
-        }
-        if(gateLetter == "E" ){
-          gate.write(E); 
-          delay(15+timetoMove);
-          window.write(last02);
-          delay(15);
-        }
-        if(gateLetter == "F" ){
-          gate.write(F); 
-          delay(15+timetoMove);
-          window.write(last02);
-          delay(15);
-        }
-      }
-    }    
-  stringComplete = false;    
   }
 }
