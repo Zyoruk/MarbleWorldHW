@@ -49,6 +49,13 @@ public class AnalisisSemantico {
 		return multipleDeclaration;
 	}
 	
+	private writeOutput() {
+		
+		
+		
+	}
+	
+	
 //  *******************************************************  //
 	//        Unused Variables Part           //
 //  *******************************************************  //		
@@ -440,10 +447,8 @@ public class AnalisisSemantico {
 	 * @param lineOfCode
 	 * @throws IOException 
 	 */
-	private ArrayList<String> alwaysTrue ( final  int lineOfCode , final boolean ifwhile ) throws IOException {
+	private ArrayList<String> alwaysTrue ( final  int lineOfCode  ) throws IOException {
  
-		if ( ! ifwhile )		//If it's a while; nothing to do here.
-			return  null;
 		
 		String finisher = "RCURL";
 		String line = "";
@@ -466,7 +471,8 @@ public class AnalisisSemantico {
 				if (reachedThen ){
 				
 					if (token.equals(finisher) ){
-				
+ 				
+						deleteTrueStatement(lineOfCode);
 						return   furtherThen;
 					}
 					if ( token.equals("LCURL" )){
@@ -477,13 +483,15 @@ public class AnalisisSemantico {
 				}
 			}
 		}	
+	//	linesToDelete.add( i );	
 		return furtherThen;
-	}	
+	}
+	
 	/**
 	 * @throws IOException 
 	 * 
 	 */
-	private void DeleteTrueStatement ( final int lineOfCode ) throws IOException {
+	private void deleteTrueStatement ( final int lineOfCode ) throws IOException {
 		
 		String finisher = "RCURL";
 		String line = "";
