@@ -49,9 +49,46 @@ public class AnalisisSemantico {
 		return multipleDeclaration;
 	}
 	
-	private writeOutput() {
+	
+	private void writeOutput() {
 		
-		
+
+        // The name of the file to open.
+        String fileName = "./MarbleWorldHW/output/semanticOutputPhase1.txt";
+
+        try {
+            // Assume default encoding.
+            FileWriter fileWriter =
+                new FileWriter(fileName);
+
+            // Always wrap FileWriter in BufferedWriter.
+            BufferedWriter bufferedWriter =
+                new BufferedWriter(fileWriter);
+            
+            String line;
+            for  ( int i = 0; i < EOF ; i++ ){ 
+      //      bufferedWriter.write(" here is some text.");
+      //      bufferedWriter.newLine();
+            	
+            	if (   linesToDelete.contains( i ) ){
+            		
+            		continue;
+            	}
+            	line = lineReader(  i );
+            	bufferedWriter.write(  line);
+            	bufferedWriter.newLine();
+      	
+            }
+            // Always close files.
+            bufferedWriter.close();
+        }
+        catch(IOException ex) {
+            System.out.println(
+                "Error writing to file '"
+                + fileName + "'");
+            // Or we could just do this:
+            // ex.printStackTrace();
+        }
 		
 	}
 	
@@ -119,9 +156,11 @@ public class AnalisisSemantico {
 		for ( int i = 0; i < usedVariables.size(); i++ ){
 			
 			if ( usedVariables.get(  i  ) == false  ){
-																										
-				lineToDelete  (  i ) ;   // i  s a position in the symbol table, so lineToDelete search
-												//  in the code the apparition ( in a declaration) of the said variable.
+												
+				if (! linesToDelete.contains(i) )
+					linesToDelete.add(i);	
+				  // i  s a position in the symbol table, so lineToDelete search
+				 //  in the code the apparition ( in a declaration) of the said variable.
 			}
 		}
 	}
@@ -149,7 +188,9 @@ public class AnalisisSemantico {
 			
 			if (  id.equals(  splitedLine[ 2 ] ) ){
 				
-				linesToDelete.add( i  );    // List of lines to delete, compound by the unused and conditional optimization.
+				if (! linesToDelete.contains(i) )
+					linesToDelete.add(i);						  // List of lines to delete, compound by the unused and conditional optimization.
+				
 				return;
 			}		
 		}
@@ -182,7 +223,7 @@ public class AnalisisSemantico {
 	 * lies.
 	 * @throws IOException  
 	 */
-	private void fileAnalyzer() throws IOException{
+	public void fileAnalyzer() throws IOException{
 		
 		ArrayList<String> conditionStream;
 		
@@ -223,18 +264,24 @@ public class AnalisisSemantico {
 				return condition;
 			}
 			boolean whileFound = false;
+			int brincarseParentesis = 0;
 			for ( int j = 0; j< splitedLine.length; j++ ) {
 				
 				if ( splitedLine[ j ].equals( "WHILE" )  || whileFound ){
 
-					if  (whileFound)
-						condition.add( splitedLine[ j ]  );
-										
+					if  (whileFound){
+						
+						if ( brincarseParentesis >1 )
+							condition.add( splitedLine[ j ]  );
+						else
+							brincarseParentesis++;
+					}					
 					else
 						whileFound = true;
+						brincarseParentesis++;
 				}
 			}
-			if ( whileFound)
+			if ( whileFound)   // Si encontro el while significa que ya tiene la condicion tambien y esta listo.
 				break;
 		}	
 		lineaCondicion = i;
@@ -483,7 +530,6 @@ public class AnalisisSemantico {
 				}
 			}
 		}	
-	//	linesToDelete.add( i );	
 		return furtherThen;
 	}
 	
@@ -504,7 +550,9 @@ public class AnalisisSemantico {
 			line = lineReader(  i  );
 			splitedLine = line.split( " " );			
 			
-			linesToDelete.add( i );	
+			if (! linesToDelete.contains(i) )
+				linesToDelete.add(i);
+			
 			for ( int j = 0;  j < splitedLine.length; j++ ){
 				
 				if ( ! splitedLine[ j ].equals( "ELSE" )  && justHappenned ){
@@ -550,7 +598,10 @@ public class AnalisisSemantico {
 			line = lineReader( i );
 			splitedLine = line.split( " " );
 			
-			linesToDelete.add(i);
+			
+			if (! linesToDelete.contains(i) )
+				linesToDelete.add(i);
+			
 			for ( String token : splitedLine ){
 				
 				if ( token.equals( finisher))
@@ -573,6 +624,8 @@ public class AnalisisSemantico {
 	 */
 	public static boolean isNumeric(String str)
 	{
+		if ( isDouble(str))
+			return true;
 	    for (char c : str.toCharArray())
 	    {
 	        if (!Character.isDigit(c)) return false;
@@ -646,6 +699,20 @@ public class AnalisisSemantico {
 		}
 		System.out.println( usedVariables.size() );
 	} 	
+	
+	/**
+	 * 
+	 * @param str
+	 * @return
+	 */
+    private static boolean isDouble(String str) {
+        try {
+            Double.parseDouble(str);
+            return true;
+        } catch (NumberFormatException e) {
+            return false;
+        }
+    }	
 
 	
 	//Extras!
