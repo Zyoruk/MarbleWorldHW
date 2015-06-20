@@ -2,13 +2,14 @@ package analysis;
 
 import java.io.*;
 import java.util.ArrayList;
+import java.util.Spliterator;
 import java.util.SplittableRandom;
 
 import symbolTable.SymbolTable;
 /**
  * @author Nicolas									Please Note:	
- *                      								1.		Part when brackets or curls are attached to the condition  is not yet supported.
- *                      								2. 	Only checks when curls are part of the conditional declarations. Otherwise doesn't work.		
+ *                      								1.		Brackets must not be attached to the conditional statement, otherwise won't work.
+ *                      								2. 	Only checks when curls are part of the conditional declarations, otherwise won't work.		
  */
 public class AnalisisSemantico {
 	
@@ -17,7 +18,8 @@ public class AnalisisSemantico {
 	private final ArrayList<Boolean> usedVariables; 
 	private final ArrayList<Integer> linesToDelete;
 	private  final int EOF;
-
+	private int lineaAnalisisActual;
+	private int lineaCondicion;
 	
 	/**
 	 * Receives the project symbol Table. Contructor too.
@@ -31,6 +33,8 @@ public class AnalisisSemantico {
 		this.usedVariables = new ArrayList<>();
 		this.linesToDelete = new ArrayList<>();
 		this.EOF = getFileLength();
+		this.lineaAnalisisActual = 0;
+		this.lineaCondicion = 0;
 		fillUsed();
 	}
 	
@@ -167,38 +171,48 @@ public class AnalisisSemantico {
 //  *******************************************************  //	
 	
 	/**
-	 * 
+	 * First part of the condition evaluation part. Calls the ifANDwhileFinder to search into the places where the if and while
+	 * lies.
+	 * @throws IOException  
 	 */
-	private void fileAnalyzer(){
+	private void fileAnalyzer() throws IOException{
 		
-		 
+		ArrayList<String> conditionStream;
+		
+		 while ( lineaAnalisisActual < EOF ){
+			 
+			  conditionStream = ifANDwhileFinder( lineaAnalisisActual );
+			  conditionTester(conditionStream,  lineaCondicion  );
+		 } 
 	}	
 	
 	/**
-	 * 
+	 *  Goes through all the lexical output file looking for if's and while's, in order to send the condition that will be analyzed later. 
 	 * @throws IOException
 	 */
-	private ArrayList<String> ifANDwhileFinder(  int comenzar ) throws IOException{
+	private ArrayList<String> ifANDwhileFinder(  int comenzar ) throws IOException {
 		
 		String line;
 		String[] splitedLine;
 		String finish = "RBRACKET";
 		ArrayList<String> condition = new ArrayList<>();
-		
-		for ( int i =  comenzar;  i < EOF ; i++  ) {
+		int i;
+		for (  i =  comenzar;  i < EOF ; i++  ) {  // i   is a variable that iterates through the file.
 			
 			line = lineReader( i );
 			splitedLine = line.split( " ");
 			
 			if ( splitedLine[ 0 ].equals("IF")  ||  splitedLine[ 0 ].equals("WHILE")   ) {
 				 
-				for ( int j = 1; j < splitedLine.length; j++ ){
+				for ( int j = 1; j < splitedLine.length; j++ ){   // j es una variable que itera a traves de una linea.
  					 
 					if ( splitedLine[ j ].equals(  finish) )
 						break;
 						
 					condition.add(  splitedLine[ j ] );
 				}
+				lineaAnalisisActual = i+1;
+				lineaCondicion = i;  
 				return condition;
 			}
 			boolean whileFound = false;
@@ -213,7 +227,11 @@ public class AnalisisSemantico {
 						whileFound = true;
 				}
 			}
+			if ( whileFound)
+				break;
 		}	
+		lineaCondicion = i;
+		lineaAnalisisActual = i + 1;
 		return condition;
 	}
 	
@@ -225,14 +243,14 @@ public class AnalisisSemantico {
 	 * @param condition
 	 * @throws IOException  
 	 */
-	private void conditionTester (  String[] condition  , int lineOfCode ) throws IOException  {
-		
-		if ( condition[ 0 ].equals("FALSE") ){
+	private void conditionTester (  ArrayList<String> condition  , int lineOfCode ) throws IOException  {
+		 
+		if ( condition.get(0).equals("FALSE") ){
 			
 			alwaysFalse(   lineOfCode );
 			return;
 		}
-		if ( condition[ 0 ].equals("TRUE") ){        // deal with the case when the condition begins with bracket.  
+		if ( condition.get(0).equals("TRUE") ){        // deal with the case when the condition begins with bracket.  
  																		// Not finished yet.		
 			alwaysTrue(lineOfCode );
 			return;
@@ -243,73 +261,73 @@ public class AnalisisSemantico {
 		String currentOp  = "N/A";
 		String relationalOp = "";
 		
-		for ( int i = 1;  i < condition.length ; i++ )  {
+		for ( int i = 1;  i < condition.size() ; i++ )  {
 			
-			if (  ! (condition[ i ].equals( "MORETHAN" )  ||  condition[ i ].equals( "DIFFERENT" )  ||  condition[ i ].equals( "EQUALS" )  ||
-					condition[ i ].equals( "LESSTHAN" )  || condition[ i ].equals( "LESSEQUALS" )  || condition[ i ].equals( "PLUS" )  ||
-					condition[ i ].equals( "MINUS" )  || condition[ i ].equals( "TIMES" )  || condition[ i ].equals( "DIVISION" )  ||
-					isNumeric( condition[ i ] ) || condition[ i ].equals( "MOREEQUAL" )  ||  condition[i].equals("RBRACK")    )  ){
+			if (  ! (condition.get( i ).equals( "MORETHAN" )  ||  condition.get( i ).equals( "DIFFERENT" )  ||  condition.get( i ).equals( "EQUALS" )  ||
+					condition.get( i ).equals( "LESSTHAN" )  || condition.get( i ).equals( "LESSEQUALS" )  || condition.get( i ).equals( "PLUS" )  ||
+					condition.get( i ).equals( "MINUS" )  || condition.get( i ).equals( "TIMES" )  || condition.get( i ).equals( "DIVISION" )  ||
+					isNumeric( condition.get( i ) ) || condition.get( i ).equals( "MOREEQUAL" )  ||  condition.get( i ).equals("RBRACK")    )  ){
 				 
 				return;
 			}
-			if ( condition[ i ].equals( "MORETHAN" )  ){
+			if ( condition.get( i ).equals( "MORETHAN" )  ){
 				
 				switchSide =true;
 				relationalOp = "MORETHAN";
 				currentOp  = "N/A";
 				continue;	
 			}
-			if ( condition[ i ].equals( "DIFFERENT" )  ){
+			if ( condition.get( i ).equals( "DIFFERENT" )  ){
 				
 				switchSide =true;
 				relationalOp = "DIFFERENT";
 				currentOp  = "N/A";
 				continue;	
 			}
-			if ( condition[ i ].equals( "LESSTHAN" )  ){
+			if ( condition.get( i ).equals( "LESSTHAN" )  ){
 				
 				switchSide =true;
 				relationalOp = "LESSTHAN";
 				currentOp  = "N/A";
 				continue;	
 			}			
-			if ( condition[ i ].equals( "EQUALS" )  ){
+			if ( condition.get( i ).equals( "EQUALS" )  ){
 				
 				switchSide =true;
 				relationalOp = "EQUALS";
 				currentOp  = "N/A";
 				continue;	
 			}			
-			if ( condition[ i ].equals( "MOREEQUAL" )  ){
+			if ( condition.get( i ).equals( "MOREEQUAL" )  ){
 				
 				switchSide =true;
 				relationalOp = "MOREEQUAL";
 				currentOp  = "N/A";
 				continue;	
 			}		
-			if ( condition[ i ].equals( "LESSEQUALS" )  ){
+			if ( condition.get( i ).equals( "LESSEQUALS" )  ){
 				
 				switchSide =true;
 				relationalOp = "LESSEQUALS";
 				currentOp  = "N/A";
 				continue;				
 			}
-			if (   condition[ i ].equals( "PLUS" )    ){
+			if (   condition.get( i ).equals( "PLUS" )    ){
 				
 				currentOp = "PLUS";
 				continue;
 			}
-			if (   condition[ i ].equals( "MINUS" )    ){
+			if (   condition.get( i ).equals( "MINUS" )    ){
 				
 				currentOp = "MINUS";
 				continue;
 			}
-			if (   condition[ i ].equals( "DIVISION" )    ){
+			if (   condition.get( i ).equals( "DIVISION" )    ){
 				
 				currentOp = "DIVISION";
 				continue;
 			}
-			if (   condition[ i ].equals( "TIMES" )    ){
+			if (   condition.get( i ).equals( "TIMES" )    ){
 				
 				currentOp = "TIMES";
 				continue;
@@ -318,14 +336,14 @@ public class AnalisisSemantico {
 			
 				if (!switchSide)
 					
-					leftResult += Float.parseFloat( condition [i] );
+					leftResult += Float.parseFloat( condition.get( i ));
 				else
-					rightResult += Float.parseFloat( condition [i] );
+					rightResult += Float.parseFloat( condition.get( i ) );
 				
 			}			
 			else{
 				
-				float numero = Float.parseFloat( condition [i] );
+				float numero = Float.parseFloat( condition.get( i ) );
 				
 				if ( !switchSide ){
 					
@@ -416,15 +434,95 @@ public class AnalisisSemantico {
 				alwaysFalse( lineOfCode);
 		}		
 	}		
-	
+	       																																							//   
 	/**
 	 * 
 	 * @param lineOfCode
+	 * @throws IOException 
 	 */
-	private void alwaysTrue (  int lineOfCode ) {
+	private ArrayList<String> alwaysTrue ( final  int lineOfCode , final boolean ifwhile ) throws IOException {
+ 
+		if ( ! ifwhile )		//If it's a while; nothing to do here.
+			return  null;
 		
+		String finisher = "RCURL";
+		String line = "";
+		String []  splitedLine;
+		ArrayList<String> furtherThen = new ArrayList<>();  //FurtherThen is the variable used to get the code that is always executed 
+		boolean reachedThen = false;									   //the code next to then is always executed till reach the else that is removed.  
 		
+		for ( int i = lineOfCode;  i < EOF ; i++) {
+		
+			line = lineReader(  i  );
+			splitedLine = line.split( " " );
+
+			for ( String token : splitedLine ) {
+				
+				if ( token.equals(  "THEN" ) ) {
+			
+					reachedThen = true;        
+					continue;
+				}
+				if (reachedThen ){
+				
+					if (token.equals(finisher) ){
+				
+						return   furtherThen;
+					}
+					if ( token.equals("LCURL" )){
+					
+						continue;
+					}
+					furtherThen.add( token  );
+				}
+			}
+		}	
+		return furtherThen;
 	}	
+	/**
+	 * @throws IOException 
+	 * 
+	 */
+	private void DeleteTrueStatement ( final int lineOfCode ) throws IOException {
+		
+		String finisher = "RCURL";
+		String line = "";
+		String []  splitedLine;
+		int times = 0;
+		boolean justHappenned = false;
+		
+		for (  int i = lineOfCode;   i<EOF ; i++){
+			
+			line = lineReader(  i  );
+			splitedLine = line.split( " " );			
+			
+			linesToDelete.add( i );	
+			for ( int j = 0;  j < splitedLine.length; j++ ){
+				
+				if ( ! splitedLine[ j ].equals( "ELSE" )  && justHappenned ){
+					
+						linesToDelete.remove( i );
+						return;					
+				}
+
+				if ( splitedLine[ j ].equals( finisher  )  ) {
+					
+					if (  times == 0   ) {
+						
+						times++;	
+						justHappenned = true;
+						continue;
+					}
+					else	
+						return; 
+				}
+				else {
+				
+					justHappenned = false;
+				}
+			}
+		}
+	}
 	
 	/**
 	 *  At least this line has to be deleted, however probably some more lines will be deleted as well.
@@ -444,16 +542,16 @@ public class AnalisisSemantico {
 			line = lineReader( i );
 			splitedLine = line.split( " " );
 			
+			linesToDelete.add(i);
 			for ( String token : splitedLine ){
 				
-				if ( token.equals( finisher)){
+				if ( token.equals( finisher))
 					
-					
-				}
+					return;	
 			}
 		}
 	}
-		
+
 	
 	
 //  *******************************************************  //
