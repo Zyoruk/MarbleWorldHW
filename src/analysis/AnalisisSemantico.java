@@ -2,11 +2,13 @@ package analysis;
 
 import java.io.*;
 import java.util.ArrayList;
+import java.util.SplittableRandom;
 
 import symbolTable.SymbolTable;
 /**
- * @author Nicolas
- *
+ * @author Nicolas									Please Note:	
+ *                      								1.		Part when brackets or curls are attached to the condition  is not yet supported.
+ *                      								2. 	Only checks when curls are part of the conditional declarations. Otherwise doesn't work.		
  */
 public class AnalisisSemantico {
 	
@@ -14,26 +16,38 @@ public class AnalisisSemantico {
 	private String[][] symbolTable;
 	private final ArrayList<Boolean> usedVariables; 
 	private final ArrayList<Integer> linesToDelete;
+	private  final int EOF;
 
 	
-	public AnalisisSemantico (SymbolTable  symbolTable ){
+	/**
+	 * Receives the project symbol Table. Contructor too.
+	 * @param symbolTable
+	 * @throws IOException 
+	 */
+	public AnalisisSemantico (SymbolTable  symbolTable ) throws IOException{
 		
 		this.symbolTable = symbolTable.getSymbolTable();
 		this.listaErrores = new ArrayList<>();         // Checking if it is important.
 		this.usedVariables = new ArrayList<>();
 		this.linesToDelete = new ArrayList<>();
+		this.EOF = getFileLength();
 		fillUsed();
 	}
 	
-	
-	private void fillUsed(){
+	/**
+	 * Must be completely changed.
+	 * @return
+	 */
+	public boolean manager () {
 		
-		for ( int i = 0; i < symbolTable.length ; i++   ) {
-			
-			usedVariables.add( false);
-		}
-		System.out.println( usedVariables.size() );
-	} 
+		boolean multipleDeclaration = multipleDeclarations();
+		
+		return multipleDeclaration;
+	}
+	
+//  *******************************************************  //
+	//        Unused Variables Part           //
+//  *******************************************************  //		
 	
 	/**
 	 *  This method is the first one to analyze if we need to keep some variables. 
@@ -41,8 +55,7 @@ public class AnalisisSemantico {
 	 * @throws IOException
 	 */
 	private void notUsedChecker ( ) throws IOException{
-		
-		int EOF = 0;
+
 		String currentLine;
 		String[] splitedLine;
 		
@@ -78,7 +91,7 @@ public class AnalisisSemantico {
 					  
 					continue;
 			int position;
-			if (  (position = varPos( token ) )  != -1 ){
+			if (  (position = varPosSym( token ) )  != -1 ){
 				
 				usedVariables.set( position, true    );
 			}
@@ -95,23 +108,24 @@ public class AnalisisSemantico {
 		for ( int i = 0; i < usedVariables.size(); i++ ){
 			
 			if ( usedVariables.get(  i  ) == false  ){
-				
-				lineToDelete  (  i ) ;
-			
+																										
+				lineToDelete  (  i ) ;   // i  s a position in the symbol table, so lineToDelete search
+												//  in the code the apparition ( in a declaration) of the said variable.
 			}
 		}
 	}
 	
 	/**
+	 *    --------------Works Only For The Unused Variables Optimization--------------
+	 * 
 	 * This function reads line by line the code to find the pointless declaration of one not used variable.
-	 * @param symbolIndex
-	 * @throws IOException
+	 * @param symbolIndex    
+	 * @throws IOException   
 	 */
 	private void lineToDelete(  int symbolIndex  ) throws IOException{
 		
 		String line;
 		String[] splitedLine;
-		int EOF = 0;
 		String id = symbolTable [ symbolIndex ][ 1 ];
 		for (   int i = 0; i < EOF;  i++ ){
 			
@@ -124,20 +138,18 @@ public class AnalisisSemantico {
 			
 			if (  id.equals(  splitedLine[ 2 ] ) ){
 				
-				linesToDelete.add( i  );
+				linesToDelete.add( i  );    // List of lines to delete, compound by the unused and conditional optimization.
 				return;
 			}		
 		}
 	}
-	
-	
 	
 	/**
 	 * Finds the position of a  variable in the symbol table, and returns.
 	 * @param var
 	 * @return
 	 */ 
-	private int varPos ( String var) {
+	private int varPosSym ( String var) {
 		
 		for  ( int i = 0;  i< symbolTable.length ; i++  ){
 			
@@ -148,49 +160,72 @@ public class AnalisisSemantico {
 		} 
 		return -1;
 	}
-	
-	/**
-	 * Reads one line from the input code from user and returns the whole line. 
-	 *The code is tokenization is provided by the lexical analysis.
-	 * @param numberLine
-	 * @return
-	 * @throws IOException
-	 */
-	private String lineReader(    int numberLine) throws IOException {
-        				
-		// The name of the file to open.
-		String fileName =   "./MarbleWorldHW/output/lexicalAnalisis.txt";
-        // This will reference one line at a time
-        String line = null;
-       
-        // FileReader reads text files in the default encoding.
-        FileReader fileReader =    new FileReader(fileName);
-
-        // Always wrap FileReader in BufferedReader.
-        BufferedReader bufferedReader =  new BufferedReader(fileReader);
-        int i =0;
-        while((line = bufferedReader.readLine()) != null  && i<=numberLine   )    {
-                
-        	if ( i == numberLine ){
-            		
-        		bufferedReader.close();
-        		return line;
-        	}
-        	i++;
-        }    
-        // Always close files.
-        bufferedReader.close();            
-        return null;
-	}
 	  
 	
+//  *******************************************************  //
+	//        Condition Evaluation Part           //
+//  *******************************************************  //	
+	
 	/**
-	 * 	 Deals with an if or while condition, evaluates if the condition is always true or always false. If succeeds  
+	 * 
+	 */
+	private void fileAnalyzer(){
+		
+		 
+	}	
+	
+	/**
+	 * 
+	 * @throws IOException
+	 */
+	private ArrayList<String> ifANDwhileFinder(  int comenzar ) throws IOException{
+		
+		String line;
+		String[] splitedLine;
+		String finish = "RBRACKET";
+		ArrayList<String> condition = new ArrayList<>();
+		
+		for ( int i =  comenzar;  i < EOF ; i++  ) {
+			
+			line = lineReader( i );
+			splitedLine = line.split( " ");
+			
+			if ( splitedLine[ 0 ].equals("IF")  ||  splitedLine[ 0 ].equals("WHILE")   ) {
+				 
+				for ( int j = 1; j < splitedLine.length; j++ ){
+ 					 
+					if ( splitedLine[ j ].equals(  finish) )
+						break;
+						
+					condition.add(  splitedLine[ j ] );
+				}
+				return condition;
+			}
+			boolean whileFound = false;
+			for ( int j = 0; j< splitedLine.length; j++ ) {
+				
+				if ( splitedLine[ j ].equals( "WHILE" )  || whileFound ){
+
+					if  (whileFound)
+						condition.add( splitedLine[ j ]  );
+										
+					else
+						whileFound = true;
+				}
+			}
+		}	
+		return condition;
+	}
+	
+	/**
+	
+ * 	 Deals with an if or while condition, evaluates if the condition is always true or always false. If succeeds  
 	 *	 the function alwaysTrue or alwaysFalse is called.  It's only true if the condition contains the true statement or if it's a 
 	 *	 numerical expression that can be computed. Same logic for the always false condition.
 	 * @param condition
+	 * @throws IOException  
 	 */
-	private void conditionTester (  String[] condition  , int lineOfCode ) {
+	private void conditionTester (  String[] condition  , int lineOfCode ) throws IOException  {
 		
 		if ( condition[ 0 ].equals("FALSE") ){
 			
@@ -204,7 +239,7 @@ public class AnalisisSemantico {
 		}			
 		float leftResult = 0;
 		float rightResult = 0;
-		boolean switchSide= false;
+		boolean switchSide = false;
 		String currentOp  = "N/A";
 		String relationalOp = "";
 		
@@ -382,19 +417,51 @@ public class AnalisisSemantico {
 		}		
 	}		
 	
-	
+	/**
+	 * 
+	 * @param lineOfCode
+	 */
 	private void alwaysTrue (  int lineOfCode ) {
 		
 		
 	}	
-		
-	private void alwaysFalse (  int lineOfCode ) {
-		
-		
-	}	
-		
+	
 	/**
-	 * Checks if a String is an Integer in the underneath.
+	 *  At least this line has to be deleted, however probably some more lines will be deleted as well.
+	 *  To know when to stop the  " } " will indicate us.
+	 * @param lineOfCode
+	 * @throws IOException 
+	 */
+	private void alwaysFalse (  int lineOfCode ) throws IOException {
+		
+	//	linesToDelete.add( lineOfCode );
+		String finisher = "RCURL";
+		String line;
+		String [] splitedLine;
+		
+		for ( int i = lineOfCode ; i < EOF ; i ++   ){
+			
+			line = lineReader( i );
+			splitedLine = line.split( " " );
+			
+			for ( String token : splitedLine ){
+				
+				if ( token.equals( finisher)){
+					
+					
+				}
+			}
+		}
+	}
+		
+	
+	
+//  *******************************************************  //
+	//                   U T I L I T I E S   		//
+//  *******************************************************  //	
+	
+	/**
+	 * Checks if a String is an Number in the underneath.  Hope works for floats too :)
 	 * @param str
 	 * @return
 	 */
@@ -406,7 +473,76 @@ public class AnalisisSemantico {
 	    }
 	    return true;
 	}
+
+	/**
+	 * Reads one line from the input code from user and returns the whole line. 
+	 *The code is tokenization is provided by the lexical analysis.
+	 * @param numberLine
+	 * @return
+	 * @throws IOException
+	 */
+	private static String lineReader(    int numberLine) throws IOException {
+    				
+		// The name of the file to open.
+		String fileName =   "./MarbleWorldHW/output/lexicalAnalisis.txt";
+		// This will reference one line at a time
+		String line = null;
+   
+		// FileReader reads text files in the default encoding.
+		FileReader fileReader =    new FileReader(fileName);
+
+		// Always wrap FileReader in BufferedReader.
+		BufferedReader bufferedReader =  new BufferedReader(fileReader);
+		int i =0;
+		while((line = bufferedReader.readLine()) != null  && i<=numberLine   )    {
+            
+			if ( i == numberLine ){
+        		
+				bufferedReader.close();
+				return line;
+			}
+			i++;
+		}    
+		// Always close files.
+		bufferedReader.close();            
+		return null;
+	}
+
+	/**
+	 * Get the number of lines of the lexical analysis output.
+	 * Length
+	 * @return
+	 * @throws IOException 
+	 */
+	private static int  getFileLength() throws IOException{
+		
+		String fileName =   "./MarbleWorldHW/output/lexicalAnalisis.txt";
+		FileReader fileReader =    new FileReader(fileName);
+		BufferedReader bufferedReader =  new BufferedReader(fileReader);
+		
+		int i =0;
+		while (   bufferedReader.readLine()   != null ){
+			
+			i++;
+		}
+		bufferedReader.close();            		
+		return i;
+	}
+
+	/**
+	 * Fill the usedVariable List with false. This by the way gives the length of the symbol table what is necessary.
+	 */
+	private void fillUsed(){
+		
+		for ( int i = 0; i < symbolTable.length ; i++   ) {
+			
+			usedVariables.add( false);
+		}
+		System.out.println( usedVariables.size() );
+	} 	
+
 	
+	//Extras!
 	/**
 	* Checks if a variable is being declared more than one time, in whose 
 	* case would return an error and continue to the end of the semantic parsing.
@@ -438,5 +574,4 @@ public class AnalisisSemantico {
 		}
 		return errorFound;
 	}		
-	
 }
