@@ -2,9 +2,6 @@ package analysis;
 
 import java.io.*;
 import java.util.ArrayList;
-import java.util.Spliterator;
-import java.util.SplittableRandom;
-
 import symbolTable.SymbolTable;
 /**
  * @author Nicolas									Please Note:	
@@ -39,17 +36,31 @@ public class AnalisisSemantico {
 	}
 	
 	/**
-	 * Must be completely changed.
+	 * For the multiple declaration.
 	 * @return
 	 */
-	public boolean manager () {
-		
+	private boolean manager () {
+	
 		boolean multipleDeclaration = multipleDeclarations();
 		
 		return multipleDeclaration;
 	}
+
+	/**
+	 * Sets up the variable elimination.
+	 * @throws IOException
+	 */
+	private void  unusedVar() throws IOException{
+		
+		notUsedChecker();
+		System.out.println( usedVariables.toString() );
+		variableDeletion();
+		System.out.println( linesToDelete );	
+	}
 	
-	
+	/**
+	 * This method writes to the output file the lines of corresponding code, after deleting the unnecessary lines.
+	 */
 	private void writeOutput() {
 		
 
@@ -92,6 +103,17 @@ public class AnalisisSemantico {
 		
 	}
 	
+	/**
+	 * Only thing you need, set ups everything.
+	 * @throws IOException
+	 */
+	public void semanticAnalysis () throws IOException{
+		
+		manager();
+		unusedVar();
+		fileAnalyzer();
+		writeOutput();
+	}
 	
 //  *******************************************************  //
 	//        Unused Variables Part           //
@@ -148,7 +170,7 @@ public class AnalisisSemantico {
 	
 	/**
 	 *  Finds which declarations of variables have to be removed because they are useless.
-	 *  Uses lineTo Delete to find the specific lines must be deleted.
+	 *  Uses lineTo Delete to find the specific that lines must be deleted.
 	 * @throws IOException 
 	 */
 	private void variableDeletion() throws IOException{
@@ -157,8 +179,7 @@ public class AnalisisSemantico {
 			
 			if ( usedVariables.get(  i  ) == false  ){
 												
-				if (! linesToDelete.contains(i) )
-					linesToDelete.add(i);	
+					lineToDelete( i );	
 				  // i  s a position in the symbol table, so lineToDelete search
 				 //  in the code the apparition ( in a declaration) of the said variable.
 			}
@@ -196,31 +217,14 @@ public class AnalisisSemantico {
 		}
 	}
 	
-	/**
-	 * Finds the position of a  variable in the symbol table, and returns.
-	 * @param var
-	 * @return
-	 */ 
-	private int varPosSym ( String var) {
-		
-		for  ( int i = 0;  i< symbolTable.length ; i++  ){
-			
-			if (   symbolTable[ i ][ 1 ].equals( var  ) ){
-				
-				return i;
-			}
-		} 
-		return -1;
-	}
-	  
+
 	
 //  *******************************************************  //
 	//        Condition Evaluation Part           //
 //  *******************************************************  //	
 	
 	/**
-	 * First part of the condition evaluation part. Calls the ifANDwhileFinder to search into the places where the if and while
-	 * lies.
+	 * First part of the condition evaluation section. Calls the ifANDwhileFinder to search into the places where the if and while are.
 	 * @throws IOException  
 	 */
 	public void fileAnalyzer() throws IOException{
@@ -268,7 +272,7 @@ public class AnalisisSemantico {
 			for ( int j = 0; j< splitedLine.length; j++ ) {
 				
 				if ( splitedLine[ j ].equals( "WHILE" )  || whileFound ){
-
+					System.out.println("Found something");
 					if  (whileFound){
 						
 						if ( brincarseParentesis >1 )
@@ -298,7 +302,10 @@ public class AnalisisSemantico {
 	 * @throws IOException  
 	 */
 	private void conditionTester (  ArrayList<String> condition  , int lineOfCode ) throws IOException  {
-		 
+		
+		if ( condition.size() <1)
+			return;
+		
 		if ( condition.get(0).equals("FALSE") ){
 			
 			alwaysFalse(   lineOfCode );
@@ -496,7 +503,6 @@ public class AnalisisSemantico {
 	 */
 	private ArrayList<String> alwaysTrue ( final  int lineOfCode  ) throws IOException {
  
-		
 		String finisher = "RCURL";
 		String line = "";
 		String []  splitedLine;
@@ -564,6 +570,9 @@ public class AnalisisSemantico {
 				if ( splitedLine[ j ].equals( finisher  )  ) {
 					
 					if (  times == 0   ) {
+						
+						if ( splitedLine.length ==1 )
+							return;
 						
 						times++;	
 						justHappenned = true;
@@ -714,8 +723,30 @@ public class AnalisisSemantico {
         }
     }	
 
+	/**
+	 * Finds the position of a  variable in the symbol table, and returns.
+	 * @param var
+	 * @return
+	 */ 
+	private int varPosSym ( String var) {
+		
+		for  ( int i = 0;  i< symbolTable.length ; i++  ){
+			
+			if (   symbolTable[ i ][ 1 ].equals( var  ) ){
+				
+				return i;
+			}
+		} 
+		return -1;
+	}
+	  
+
 	
-	//Extras!
+//  *******************************************************  //
+	//        Not Requested but added  		//
+//  *******************************************************  //	
+
+
 	/**
 	* Checks if a variable is being declared more than one time, in whose 
 	* case would return an error and continue to the end of the semantic parsing.
