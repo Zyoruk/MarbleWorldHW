@@ -1,17 +1,4 @@
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-<<<<<<< HEAD
-ID _cantidad int0
-=======
->>>>>>> 0fe72854ffa2cc550dad06de242eb936a184d075
 ID _mychar char 0
 ID _mychar2 char 1
 ID _myint int 2
 ID _myfloat float 3
-<<<<<<< HEAD
-=======
->>>>>>> origin/master
-=======
->>>>>>> origin/master
->>>>>>> 0fe72854ffa2cc550dad06de242eb936a184d075
