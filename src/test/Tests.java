@@ -25,16 +25,13 @@ public class Tests {
 			e.printStackTrace();
 		}
 	}
-<<<<<<< HEAD
 	//@Test
-=======
 	@SuppressWarnings("deprecation")
 	@Test
->>>>>>> origin/master
 	public void testCUP() throws Exception{
 		ModuloDeErrores masterErrors =new ModuloDeErrores();
 		parser p = new parser(new AnalizadorLexico(new FileInputStream("./src/analysis/input.txt"), masterErrors),masterErrors);
 		p.parse();
 		masterErrors.buildHTML();
 	}
-
+}
