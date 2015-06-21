@@ -546,6 +546,7 @@ public class AnalizadorLexico implements java_cup.runtime.Scanner {
 		if (!zzEOFDone) {
 			zzEOFDone = true;
 			this.LexicalOutput();
+			this.buildSymbolTable();
 			yyclose();
 		}
 	}
@@ -930,7 +931,6 @@ public class AnalizadorLexico implements java_cup.runtime.Scanner {
 		st.outputTable();
 	}
 	private void lexErrors() throws IOException{
-		System.out.println(errors.toString());
 		this.errorsHandler.lexError(errors.toString());
 		this.buildSymbolTable();
 	}

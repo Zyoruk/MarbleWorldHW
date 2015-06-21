@@ -32,11 +32,11 @@ public final String _MINUS_ = "MINUS";
 public final String _TIMES_ = "TIMES";
 public final String _DIVISION_ = "DIVISION";
 
-public final String _LBRACK_ = "(";
-public final String _RBRACK_ = ")";
+public final String _LBRACK_ = "LBRACK";
+public final String _RBRACK_ = "RBRACK";
 
-public final String _LCURL_ = "{";
-public final String _RCURL_ = "}";
+public final String _LCURL_ = "LCURL";
+public final String _RCURL_ = "RCURL";
 
 public final String _ELSE_ = "ELSE";
 public final String _IF_ = "IF";

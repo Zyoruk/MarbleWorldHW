@@ -1,0 +1,4 @@
+ID _mychar char 0
+ID _mychar2 char 1
+ID _myint int 2
+ID _myfloat float 3
