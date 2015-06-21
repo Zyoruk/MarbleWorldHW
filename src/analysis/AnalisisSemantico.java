@@ -53,9 +53,9 @@ public class AnalisisSemantico {
 	private void  unusedVar() throws IOException{
 		
 		notUsedChecker();
-		System.out.println( usedVariables.toString() );
+//		System.out.println( usedVariables.toString() );
 		variableDeletion();
-		System.out.println( linesToDelete );	
+//		System.out.println( linesToDelete );	
 	}
 	
 	/**
@@ -94,9 +94,9 @@ public class AnalisisSemantico {
             bufferedWriter.close();
         }
         catch(IOException ex) {
-            System.out.println(
-                "Error writing to file '"
-                + fileName + "'");
+//            System.out.println(
+//                "Error writing to file '"
+//                + fileName + "'");
             // Or we could just do this:
             // ex.printStackTrace();
         }
@@ -272,7 +272,7 @@ public class AnalisisSemantico {
 			for ( int j = 0; j< splitedLine.length; j++ ) {
 				
 				if ( splitedLine[ j ].equals( "WHILE" )  || whileFound ){
-					System.out.println("Found something");
+//					System.out.println("Found something");
 					if  (whileFound){
 						
 						if ( brincarseParentesis >1 )
@@ -706,7 +706,7 @@ public class AnalisisSemantico {
 			
 			usedVariables.add( false);
 		}
-		System.out.println( usedVariables.size() );
+//		System.out.println( usedVariables.size() );
 	} 	
 	
 	/**

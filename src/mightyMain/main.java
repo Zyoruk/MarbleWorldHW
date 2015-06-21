@@ -19,7 +19,7 @@ import errorHandler.ModuloDeErrores;
  *
  */
 public class main {
-	int main() throws Exception{
+	public main() throws Exception{
 		setup();
 		ModuloDeErrores masterErrors =new ModuloDeErrores();
 		AnalizadorLexico al = new AnalizadorLexico(new FileInputStream("./src/analysis/input.txt"), masterErrors);
@@ -29,7 +29,6 @@ public class main {
 		AnalisisSemantico as = new AnalisisSemantico(al.getSymbolTable());
 		as.semanticAnalysis();
 		masterErrors.buildHTML();
-		return 0;
 	}
 	private void setup() throws IOException{
 		File f = new File("./output/OutputAnalisisLexico.txt");
