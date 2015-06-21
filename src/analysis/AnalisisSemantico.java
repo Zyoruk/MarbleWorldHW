@@ -227,7 +227,7 @@ public class AnalisisSemantico {
 	 * First part of the condition evaluation section. Calls the ifANDwhileFinder to search into the places where the if and while are.
 	 * @throws IOException  
 	 */
-	public void fileAnalyzer() throws IOException{
+	private void fileAnalyzer() throws IOException{
 		
 		ArrayList<String> conditionStream;
 		

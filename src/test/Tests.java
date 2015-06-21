@@ -9,6 +9,7 @@ import java.io.Reader;
 import org.junit.Test;
 
 import errorHandler.ModuloDeErrores;
+import analysis.AnalisisSemantico;
 import analysis.AnalizadorLexico;
 import analysis.parser;
 
@@ -30,8 +31,11 @@ public class Tests {
 	@Test
 	public void testCUP() throws Exception{
 		ModuloDeErrores masterErrors =new ModuloDeErrores();
-		parser p = new parser(new AnalizadorLexico(new FileInputStream("./src/analysis/input.txt"), masterErrors),masterErrors);
+		AnalizadorLexico al = new AnalizadorLexico(new FileInputStream("./src/analysis/input.txt"), masterErrors);
+		parser p = new parser(al,masterErrors);
 		p.parse();
 		masterErrors.buildHTML();
+		AnalisisSemantico as = new AnalisisSemantico(al.getSymbolTable());
+		as.semanticAnalysis();
 	}
 }

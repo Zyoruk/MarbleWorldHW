@@ -926,12 +926,16 @@ public class AnalizadorLexico implements java_cup.runtime.Scanner {
 		out.write( output.toString() );
 		out.close();
 	}
+	private SymbolTable st;
 	private void buildSymbolTable() throws IOException{
-		SymbolTable st = new SymbolTable(this.lexemes,this.values,this.types,this.lines);
+		st = new SymbolTable(this.lexemes,this.values,this.types,this.lines);
 		st.outputTable();
 	}
 	private void lexErrors() throws IOException{
 		this.errorsHandler.lexError(errors.toString());
 		this.buildSymbolTable();
+	}
+	public SymbolTable getSymbolTable(){
+		return this.st;
 	}
 }
