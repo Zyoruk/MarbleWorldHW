@@ -65,7 +65,7 @@ public class AnalisisSemantico {
 		
 
         // The name of the file to open.
-        String fileName = "./MarbleWorldHW/output/semanticOutputPhase1.txt";
+        String fileName = "./output/semanticOutputPhase1.txt";
 
         try {
             // Assume default encoding.
@@ -652,7 +652,7 @@ public class AnalisisSemantico {
 	private static String lineReader(    int numberLine) throws IOException {
     				
 		// The name of the file to open.
-		String fileName =   "./MarbleWorldHW/output/lexicalAnalisis.txt";
+		String fileName =   "./output/OutputLexicalAnalysis.txt";
 		// This will reference one line at a time
 		String line = null;
    
@@ -684,7 +684,7 @@ public class AnalisisSemantico {
 	 */
 	private static int  getFileLength() throws IOException{
 		
-		String fileName =   "./MarbleWorldHW/output/lexicalAnalisis.txt";
+		String fileName =   "./output/OutputLexicalAnalysis.txt";
 		FileReader fileReader =    new FileReader(fileName);
 		BufferedReader bufferedReader =  new BufferedReader(fileReader);
 		

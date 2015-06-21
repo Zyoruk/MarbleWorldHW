@@ -15,7 +15,7 @@ import analysis.parser;
 
 public class Tests {
 
-	//@Test
+
 	public void test() {
 		try {
 			Reader r = new FileReader("./src/analysis/input.txt");
@@ -26,7 +26,7 @@ public class Tests {
 			e.printStackTrace();
 		}
 	}
-	//@Test
+
 	@SuppressWarnings("deprecation")
 	@Test
 	public void testCUP() throws Exception{
@@ -34,8 +34,8 @@ public class Tests {
 		AnalizadorLexico al = new AnalizadorLexico(new FileInputStream("./src/analysis/input.txt"), masterErrors);
 		parser p = new parser(al,masterErrors);
 		p.parse();
-		masterErrors.buildHTML();
 		AnalisisSemantico as = new AnalisisSemantico(al.getSymbolTable());
 		as.semanticAnalysis();
+		masterErrors.buildHTML();
 	}
 }
