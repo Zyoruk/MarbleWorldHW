@@ -9,10 +9,7 @@ import java.util.ArrayList;
 import mightyMain.main;
 
 import org.junit.Test;
-<<<<<<< HEAD
 
-=======
->>>>>>> origin/master
 import generate.GetInput;
 import errorHandler.ModuloDeErrores;
 import analysis.AnalisisSemantico;
@@ -42,11 +39,9 @@ public class Tests {
 		as.semanticAnalysis();
 		masterErrors.buildHTML();
 	}
-<<<<<<< HEAD
 
-=======
+	
 	@SuppressWarnings("deprecation")
->>>>>>> origin/master
 	@Test
 	public void casoError() throws Exception{
 		ModuloDeErrores masterErrors =new ModuloDeErrores();
@@ -58,7 +53,6 @@ public class Tests {
 		masterErrors.buildHTML();
 	}
 	
-<<<<<<< HEAD
 	@SuppressWarnings("deprecation")
 	@Test
 	public void casoCompSameNums() throws Exception{
@@ -98,7 +92,7 @@ public class Tests {
 		main m = new main("");
 		m.compile();
 	}
-=======
+
 	    @Test
 		public void testGenerate() throws IOException {
 			
@@ -117,5 +111,5 @@ public class Tests {
 //		        	
 //		        }
 		}
->>>>>>> f3660511f29c8640bbe6d643ed41421cb7da48a9
+
 }
