@@ -1,6 +1,6 @@
-import java.util.ArrayList;
+package analysis;
 
-package src.analysis;
+import java.util.ArrayList;
 
 
 /**

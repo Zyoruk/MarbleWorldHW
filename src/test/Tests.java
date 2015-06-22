@@ -8,12 +8,9 @@ import java.util.ArrayList;
 
 import org.junit.Test;
 
-<<<<<<< HEAD
 import generate.GetInput;
-=======
 import errorHandler.ModuloDeErrores;
 import analysis.AnalisisSemantico;
->>>>>>> 9c4b83a7b706567416922ae3c4ea2e0e5158aac1
 import analysis.AnalizadorLexico;
 import analysis.parser;
 
@@ -30,13 +27,8 @@ public class Tests {
 			e.printStackTrace();
 		}
 	}
-<<<<<<< HEAD
-	//@Test
-=======
 
-	@SuppressWarnings("deprecation")
 	@Test
->>>>>>> 9c4b83a7b706567416922ae3c4ea2e0e5158aac1
 	public void testCUP() throws Exception{
 		ModuloDeErrores masterErrors =new ModuloDeErrores();
 		AnalizadorLexico al = new AnalizadorLexico(new FileInputStream("./src/analysis/input.txt"), masterErrors);

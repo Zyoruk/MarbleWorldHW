@@ -1,7 +1,5 @@
 package analysis;
 
-import LinesToWrite;
-
 import java.io.*;
 import java.util.ArrayList;
 
@@ -70,7 +68,7 @@ public class AnalisisSemantico {
 		
 
         // The name of the file to open.
-        String fileName = "./output/semanticOutputPhase1.txt";
+        String fileName = "./output/semanticOutputPhase.txt";
 
         try {
             // Assume default encoding.
@@ -99,8 +97,8 @@ public class AnalisisSemantico {
 							bufferedWriter.newLine();
 						}
       		}
-          		else  
-                		bufferedWriter.newLine();      		
+          	//	else  
+               // 		bufferedWriter.newLine();      		
             	}
             	line = lineReader(  i );
             	bufferedWriter.write(  line);

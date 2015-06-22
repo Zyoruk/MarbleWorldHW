@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="lib" path="/Users/nicolasjimenez/Dropbox/7_Semestre/Lenguajes_Compiladores_e_Interpretes/Compilers/MarbleWorldHW/needeLibs/java-cup-11b-runtime.jar"/>
+	<classpathentry kind="lib" path="/Users/nicolasjimenez/Dropbox/7_Semestre/Lenguajes_Compiladores_e_Interpretes/Compilers/MarbleWorldHW/needeLibs/java-cup-11b.jar"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>
