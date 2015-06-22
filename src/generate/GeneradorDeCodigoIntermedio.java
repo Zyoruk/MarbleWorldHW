@@ -1,10 +1,6 @@
-/**
- * 
- */
 package generate;
 
 import java.util.ArrayList;
-
 /**
  * @author zyoruk
  *
@@ -28,6 +24,7 @@ public class GeneradorDeCodigoIntermedio {
 		variablesType = new ArrayList<String>();
 		variablesData = new ArrayList<ArrayList<String>>();
 		code = lineasCode;
+		generateCode(lineasCode);
 	}
 	private void generateCode(ArrayList<String> lineasCode){
 		while(listIndex < maxIndex){
@@ -39,19 +36,33 @@ public class GeneradorDeCodigoIntermedio {
 	private void analizarLinea(int _index){
 		int condicion = setCase(_index);
         switch (condicion) {
-            case 1: System.out.println("case1");
-                     break;
+            case 1: System.out.println("IF");
+            		caseIf();	
+                    break;
             case 2: System.out.println("case2");
-                     break;
+                    break;
             case 3: caseDeclare();
-            			break;
-            case 4: System.out.println("case4");
+            		System.out.println("Declarando");
+            		break;
+            case 4: System.out.println("Move");
+            		listIndex += 3;
             		break;
             case 5: System.out.println("case5");
              		break;
-            case 6: System.out.println("case6");
+            case 6: System.out.println("While");
+            		//caseWhile();
+            		listIndex += 8;
             		break;
-            default: System.out.println("case0000000");
+            case 7: System.out.println("asignación");
+            		asignVariable(code.get(listIndex),code.get(listIndex+2));
+            		listIndex += 3;
+    				break;
+            case 8: System.out.println("RCURL");
+    				listIndex += 1;
+    				break;
+    				//listIndex +=1;
+            default: System.out.println("SI IDENTIDICAR");
+            		listIndex += 1;
                      break;
         }	
 	}
@@ -78,13 +89,30 @@ public class GeneradorDeCodigoIntermedio {
 	    else if(WORD.equals("WHILE")){
 			Case = 6;
 		}
-		else{
-			//caso para asignaciones
-				Case = 7;
+		else if(WORD.equals("RCURL")){
+				Case = 8;
+		}
+		else if(code.get(_index+1).equals("=")){
+			Case = 7;	
 		}
 		return Case;
     	
     }
+	private void caseWhile(){
+		int temp = listIndex;
+		int alcance = getNextIndex(listIndex);
+		
+		while(seCumple(code.get(listIndex+2),code.get(listIndex+3),code.get(listIndex+4))){
+			listIndex += 8;
+			System.out.println("SE CUMPLE WHILE");
+			while(listIndex < alcance){
+				analizarLinea(listIndex);
+			}
+			listIndex = temp;
+		}
+		listIndex = getNextIndex(temp);
+	}
+
 	
 	private void caseDeclare(){
 		declareVariable(code.get(listIndex+1), code.get(listIndex+2));
@@ -97,16 +125,54 @@ public class GeneradorDeCodigoIntermedio {
 	}
 	private void caseIf(){
 		if(hasCurl(7)){
+			System.out.println("IF long");
 			caseIfLong();
+			
 		}
 		else{
+			System.out.println("IF simple");
 			caseIfSimple();
+
 		}
 	}
 	private void caseIfSimple(){
+		if(seCumple(code.get(listIndex+2),code.get(listIndex+3),code.get(listIndex+4))){
+			System.out.println("se cumplio");
+			listIndex += 7;
+		}
+		else{
+			listIndex += 10;
+		}
+	}
+	private void caseIfLong(){
+		
+		if(seCumple(code.get(listIndex+2),code.get(listIndex+3),code.get(listIndex+4))){
+			listIndex += 8;
+		}
+		else{
+			listIndex = getNextIndex(listIndex);
+		}
 		
 	}
-	private void caseIfLong(){}
+	
+	private int getNextIndex(int _index){
+		int finalIndex = _index+8;
+		while(!code.get(finalIndex).equals("RCURL")){
+			if(code.get(finalIndex).equals("IF")){
+				if(hasCurl(finalIndex)){
+					finalIndex = getNextIndex(finalIndex);
+					continue;
+				}
+				else{
+					finalIndex += 10;
+					continue;
+				}
+			}
+			finalIndex += 1;
+		}
+		finalIndex += 1;
+		return finalIndex;
+	}
 	
 	private boolean hasCurl(int _index){
 		if(code.get(listIndex+_index).equals("LCURL")){
@@ -118,32 +184,32 @@ public class GeneradorDeCodigoIntermedio {
 	}
 	private boolean seCumple(String _operandoA, String _operador, String _operandoB){
 		boolean cumplido = false;
-		if(_operador.equals("==")){
+		if(_operador.equals("EQUALS")){
 			if(getValueOfString(_operandoA) == getValueOfString(_operandoB)){
 				cumplido = true;
 			}
 		}
-		else if(_operador.equals("<=")){
+		else if(_operador.equals("LESSEREQUALS")){
 			if(getValueOfString(_operandoA) <= getValueOfString(_operandoB)){
 				cumplido = true;
 			}
 		}
-		else if(_operador.equals(">=")){
+		else if(_operador.equals("MOREEQUAL")){
 			if(getValueOfString(_operandoA) >= getValueOfString(_operandoB)){
 				cumplido = true;
 			}
 		}
-		else if(_operador.equals("<")){
+		else if(_operador.equals("LESSTHAN")){
 			if(getValueOfString(_operandoA) < getValueOfString(_operandoB)){
 				cumplido = true;
 			}
 		}
-		else if(_operador.equals(">")){
+		else if(_operador.equals("MORETHAN")){
 			if(getValueOfString(_operandoA) > getValueOfString(_operandoB)){
 				cumplido = true;
 			}
 		}
-		else if(_operador.equals("!=")){
+		else if(_operador.equals("DIFFERENT")){
 			if(getValueOfString(_operandoA) != getValueOfString(_operandoB)){
 				cumplido = true;
 			}
@@ -187,6 +253,30 @@ public class GeneradorDeCodigoIntermedio {
 		temp.add(_id);
 		temp.add(_value);
 		variablesData.add(temp);
+		/*if(seRepite(_id)){
+			eraseFirstDeclaration(_id);
+		}*/
+		
+	}
+	
+	private void eraseFirstDeclaration(String _id){
+		for(int i = 0; i < variablesData.size(); i++){
+			if(_id.equals(variablesData.get(i).get(0))){
+				variablesData.remove(i);
+				break;
+			}
+		}
+	}
+	
+	private boolean seRepite(String _id){
+		boolean cond = false;
+		for(int i = 0; i < variablesData.size(); i++){
+			if(_id.equals(variablesData.get(i).get(0))){
+				cond = true;
+				break;
+			}
+		}
+		return cond;
 	}
 	
 
