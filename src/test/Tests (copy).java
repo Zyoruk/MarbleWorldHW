@@ -9,10 +9,7 @@ import java.util.ArrayList;
 import mightyMain.main;
 
 import org.junit.Test;
-<<<<<<< HEAD
 
-=======
->>>>>>> origin/master
 import generate.GetInput;
 import errorHandler.ModuloDeErrores;
 import analysis.AnalisisSemantico;
@@ -42,16 +39,14 @@ public class Tests {
 		as.semanticAnalysis();
 		masterErrors.buildHTML();
 	}
-<<<<<<< HEAD
 
-=======
+	
 	@SuppressWarnings("deprecation")
-<<<<<<< HEAD:src/test/Tests (copy).java
+
 	//@Test
-=======
->>>>>>> origin/master
+
 	@Test
->>>>>>> 6d198c27107bcf47ef684b44e1a9bdbc48c3978b:src/test/Tests.java
+
 	public void casoError() throws Exception{
 		ModuloDeErrores masterErrors =new ModuloDeErrores();
 		AnalizadorLexico al = new AnalizadorLexico(new FileInputStream("./src/analysis/input3.txt"), masterErrors);
@@ -101,8 +96,29 @@ public class Tests {
 		main m = new main("");
 		m.compile();
 	}
+
+	    @Test
+		public void testGenerate() throws IOException {
+			
+		        GetInput cargar = new GetInput("/home/daniel/Documents/TEC2015/lenguajes_compi/compi/codeLines.txt");
+		        ArrayList<String> codeLines = cargar.getCodesLinesFinal();
+//		        int i;
+//		        int j;
+//		        //System.out.print(codeLines.get(3).get(0));
+//		        for(i = 0; i < codeLines.size(); i++){
+//		        	for(j = 0; j < codeLines.get(i).size(); j++){
+//		        		
+//      			        	System.out.print(codeLines.get(i).get(j));
+//      			        	System.out.print(" ");
+//			       }
+//		        	System.out.println("paso");
+//		        	
+//		        }
+		}
+
+
 	//@Test
-	public void testGenerate() throws IOException {
+	public void testGenerate1() throws IOException {
 
 		GetInput cargar = new GetInput("/home/daniel/Documents/TEC2015/lenguajes_compi/compi/codeLines.txt");
 		ArrayList<String> codeLines = cargar.getCodesLinesFinal();
