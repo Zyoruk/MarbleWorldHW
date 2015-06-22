@@ -1,2 +1,0 @@
-DECLARE TYPE _cantidad NEWLINE
-MOVE D1 _cantidad NEWLINE

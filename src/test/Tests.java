@@ -8,27 +8,43 @@ import java.util.ArrayList;
 
 import org.junit.Test;
 
+<<<<<<< HEAD
 import generate.GetInput;
+=======
+import errorHandler.ModuloDeErrores;
+import analysis.AnalisisSemantico;
+>>>>>>> 9c4b83a7b706567416922ae3c4ea2e0e5158aac1
 import analysis.AnalizadorLexico;
 import analysis.parser;
 
 public class Tests {
 
-	//@Test
+
 	public void test() {
 		try {
 			Reader r = new FileReader("./src/analysis/input.txt");
-			new AnalizadorLexico(new BufferedReader(r));
+			ModuloDeErrores masterErrors =new ModuloDeErrores();
+			new AnalizadorLexico(new BufferedReader(r),masterErrors);
 			//			r.close();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
+<<<<<<< HEAD
 	//@Test
+=======
+
+	@SuppressWarnings("deprecation")
+	@Test
+>>>>>>> 9c4b83a7b706567416922ae3c4ea2e0e5158aac1
 	public void testCUP() throws Exception{
-		@SuppressWarnings("deprecation")
-		parser p = new parser(new AnalizadorLexico(new FileInputStream("./src/analysis/input.txt")));
+		ModuloDeErrores masterErrors =new ModuloDeErrores();
+		AnalizadorLexico al = new AnalizadorLexico(new FileInputStream("./src/analysis/input.txt"), masterErrors);
+		parser p = new parser(al,masterErrors);
 		p.parse();
+		AnalisisSemantico as = new AnalisisSemantico(al.getSymbolTable());
+		as.semanticAnalysis();
+		masterErrors.buildHTML();
 	}
 	
 	    @Test
