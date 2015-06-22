@@ -6,6 +6,8 @@ import java.io.IOException;
 import java.io.Reader;
 import java.util.ArrayList;
 
+import mightyMain.main;
+
 import org.junit.Test;
 <<<<<<< HEAD
 
@@ -18,21 +20,9 @@ import analysis.AnalizadorLexico;
 import analysis.parser;
 
 public class Tests {
-
-
-	public void test() {
-		try {
-			Reader r = new FileReader("./src/analysis/input.txt");
-			ModuloDeErrores masterErrors =new ModuloDeErrores();
-			new AnalizadorLexico(new BufferedReader(r),masterErrors);
-			//			r.close();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
-
-	@Test
-	public void testCUP() throws Exception{
+	@SuppressWarnings("deprecation")
+	//@Test
+	public void casoCorrecto() throws Exception{
 		ModuloDeErrores masterErrors =new ModuloDeErrores();
 		AnalizadorLexico al = new AnalizadorLexico(new FileInputStream("./src/analysis/input.txt"), masterErrors);
 		parser p = new parser(al,masterErrors);
@@ -41,7 +31,74 @@ public class Tests {
 		as.semanticAnalysis();
 		masterErrors.buildHTML();
 	}
+	@SuppressWarnings("deprecation")
+	//@Test
+	public void casoConst() throws Exception{
+		ModuloDeErrores masterErrors =new ModuloDeErrores();
+		AnalizadorLexico al = new AnalizadorLexico(new FileInputStream("./src/analysis/input2.txt"), masterErrors);
+		parser p = new parser(al,masterErrors);
+		p.parse();
+		AnalisisSemantico as = new AnalisisSemantico(al.getSymbolTable());
+		as.semanticAnalysis();
+		masterErrors.buildHTML();
+	}
+<<<<<<< HEAD
+
+=======
+	@SuppressWarnings("deprecation")
+>>>>>>> origin/master
+	@Test
+	public void casoError() throws Exception{
+		ModuloDeErrores masterErrors =new ModuloDeErrores();
+		AnalizadorLexico al = new AnalizadorLexico(new FileInputStream("./src/analysis/input3.txt"), masterErrors);
+		parser p = new parser(al,masterErrors);
+		p.parse();
+		AnalisisSemantico as = new AnalisisSemantico(al.getSymbolTable());
+		as.semanticAnalysis();
+		masterErrors.buildHTML();
+	}
 	
+<<<<<<< HEAD
+	@SuppressWarnings("deprecation")
+	@Test
+	public void casoCompSameNums() throws Exception{
+		ModuloDeErrores masterErrors =new ModuloDeErrores();
+		AnalizadorLexico al = new AnalizadorLexico(new FileInputStream("./src/analysis/input4.txt"), masterErrors);
+		parser p = new parser(al,masterErrors);
+		p.parse();
+		AnalisisSemantico as = new AnalisisSemantico(al.getSymbolTable());
+		as.semanticAnalysis();
+		masterErrors.buildHTML();
+	}
+	
+	@SuppressWarnings("deprecation")
+	@Test
+	public void casoCompDiffNums() throws Exception{
+		ModuloDeErrores masterErrors =new ModuloDeErrores();
+		AnalizadorLexico al = new AnalizadorLexico(new FileInputStream("./src/analysis/input5.txt"), masterErrors);
+		parser p = new parser(al,masterErrors);
+		p.parse();
+		AnalisisSemantico as = new AnalisisSemantico(al.getSymbolTable());
+		as.semanticAnalysis();
+		masterErrors.buildHTML();
+	}
+	@SuppressWarnings("deprecation")
+	@Test
+	public void casoTRUE() throws Exception{
+		ModuloDeErrores masterErrors =new ModuloDeErrores();
+		AnalizadorLexico al = new AnalizadorLexico(new FileInputStream("./src/analysis/input6.txt"), masterErrors);
+		parser p = new parser(al,masterErrors);
+		p.parse();
+		AnalisisSemantico as = new AnalisisSemantico(al.getSymbolTable());
+		as.semanticAnalysis();
+		masterErrors.buildHTML();
+	}
+//	@Test
+	public void testMain() throws Exception{
+		main m = new main("");
+		m.compile();
+	}
+=======
 	    @Test
 		public void testGenerate() throws IOException {
 			
@@ -60,4 +117,5 @@ public class Tests {
 //		        	
 //		        }
 		}
+>>>>>>> f3660511f29c8640bbe6d643ed41421cb7da48a9
 }

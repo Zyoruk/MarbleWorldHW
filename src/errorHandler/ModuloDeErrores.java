@@ -69,14 +69,14 @@ public void buildHTML() throws IOException{
 			sb.append("<p>"+this.syntErrors.getElementAt(i)+"</p>");
 		}
 	}
-	sb.append("<h2>Semantic Errors</h2>");
-	if(this.semErrors.length() == 0){
-		sb.append("<p>There are no semantic errors!</p>");
-	}else{
-		for (int i=0; i < this.semErrors.length();i++){
-			sb.append("<p>"+this.semErrors.getElementAt(i)+"</p>");
-		}
-	}
+//	sb.append("<h2>Semantic Errors</h2>");
+//	if(this.semErrors.length() == 0){
+//		sb.append("<p>There are no semantic errors!</p>");
+//	}else{
+//		for (int i=0; i < this.semErrors.length();i++){
+//			sb.append("<p>"+this.semErrors.getElementAt(i)+"</p>");
+//		}
+//	}
 	sb.append("</body></html>");
 	File newTable = new File(K._ERROR_HTML);
 	BufferedWriter out = new BufferedWriter( new FileWriter( newTable ) );
