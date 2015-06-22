@@ -1,1 +1,1 @@
-Error (#28) : Syntax error
+  0==> Missing declare keyword syntax error

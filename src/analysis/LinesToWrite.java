@@ -1,6 +1,6 @@
+package analysis;
 import java.util.ArrayList;
 
-package src.analysis;
 
 
 /**

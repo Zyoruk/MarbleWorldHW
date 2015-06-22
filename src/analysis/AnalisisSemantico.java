@@ -1,7 +1,5 @@
 package analysis;
 
-import LinesToWrite;
-
 import java.io.*;
 import java.util.ArrayList;
 
