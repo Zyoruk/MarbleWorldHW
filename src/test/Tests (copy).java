@@ -39,7 +39,7 @@ public class Tests {
 		masterErrors.buildHTML();
 	}
 	@SuppressWarnings("deprecation")
-	@Test
+	//@Test
 	public void casoError() throws Exception{
 		ModuloDeErrores masterErrors =new ModuloDeErrores();
 		AnalizadorLexico al = new AnalizadorLexico(new FileInputStream("./src/analysis/input3.txt"), masterErrors);
@@ -50,9 +50,8 @@ public class Tests {
 		masterErrors.buildHTML();
 	}
 	
-<<<<<<< HEAD
 	@SuppressWarnings("deprecation")
-	@Test
+	//@Test
 	public void casoCompSameNums() throws Exception{
 		ModuloDeErrores masterErrors =new ModuloDeErrores();
 		AnalizadorLexico al = new AnalizadorLexico(new FileInputStream("./src/analysis/input4.txt"), masterErrors);
@@ -64,7 +63,7 @@ public class Tests {
 	}
 	
 	@SuppressWarnings("deprecation")
-	@Test
+	//@Test
 	public void casoCompDiffNums() throws Exception{
 		ModuloDeErrores masterErrors =new ModuloDeErrores();
 		AnalizadorLexico al = new AnalizadorLexico(new FileInputStream("./src/analysis/input5.txt"), masterErrors);
@@ -85,29 +84,27 @@ public class Tests {
 		as.semanticAnalysis();
 		masterErrors.buildHTML();
 	}
-//	@Test
+//	//Test
 	public void testMain() throws Exception{
 		main m = new main("");
 		m.compile();
 	}
-=======
-	    @Test
-		public void testGenerate() throws IOException {
-			
-		        GetInput cargar = new GetInput("/home/daniel/Documents/TEC2015/lenguajes_compi/compi/codeLines.txt");
-		        ArrayList<String> codeLines = cargar.getCodesLinesFinal();
-//		        int i;
-//		        int j;
-//		        //System.out.print(codeLines.get(3).get(0));
-//		        for(i = 0; i < codeLines.size(); i++){
-//		        	for(j = 0; j < codeLines.get(i).size(); j++){
-//		        		
-//      			        	System.out.print(codeLines.get(i).get(j));
-//      			        	System.out.print(" ");
-//			       }
-//		        	System.out.println("paso");
-//		        	
-//		        }
-		}
->>>>>>> f3660511f29c8640bbe6d643ed41421cb7da48a9
+	//@Test
+	public void testGenerate() throws IOException {
+
+		GetInput cargar = new GetInput("/home/daniel/Documents/TEC2015/lenguajes_compi/compi/codeLines.txt");
+		ArrayList<String> codeLines = cargar.getCodesLinesFinal();
+		//		        int i;
+		//		        int j;
+		//		        //System.out.print(codeLines.get(3).get(0));
+		//		        for(i = 0; i < codeLines.size(); i++){
+		//		        	for(j = 0; j < codeLines.get(i).size(); j++){
+		//		        		
+		//      			        	System.out.print(codeLines.get(i).get(j));
+		//      			        	System.out.print(" ");
+		//			       }
+		//		        	System.out.println("paso");
+		//		        	
+		//		        }
+	}
 }
