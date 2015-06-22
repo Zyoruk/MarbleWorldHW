@@ -1,6 +1,11 @@
+package analysis;
+<<<<<<< HEAD
+
+import java.util.ArrayList;
+=======
 import java.util.ArrayList;
 
-package src.analysis;
+>>>>>>> origin/master
 
 
 /**

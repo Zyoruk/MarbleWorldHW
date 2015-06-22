@@ -1,6 +1,6 @@
-declare constchar _mychar
+declare char _mychar
 declare char _mychar2
 declare int _myint
 declare float _myfloat
-if ( _myint == 0 ) then {move D2 2000
+if ( true ) then { move D2 2000
 }
