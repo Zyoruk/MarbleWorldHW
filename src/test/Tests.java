@@ -7,7 +7,10 @@ import java.io.Reader;
 import java.util.ArrayList;
 
 import org.junit.Test;
+<<<<<<< HEAD
 
+=======
+>>>>>>> origin/master
 import generate.GetInput;
 import errorHandler.ModuloDeErrores;
 import analysis.AnalisisSemantico;
