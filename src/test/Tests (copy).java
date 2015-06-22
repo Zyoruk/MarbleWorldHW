@@ -9,6 +9,10 @@ import java.util.ArrayList;
 import mightyMain.main;
 
 import org.junit.Test;
+<<<<<<< HEAD
+
+=======
+>>>>>>> origin/master
 import generate.GetInput;
 import errorHandler.ModuloDeErrores;
 import analysis.AnalisisSemantico;
@@ -38,8 +42,16 @@ public class Tests {
 		as.semanticAnalysis();
 		masterErrors.buildHTML();
 	}
+<<<<<<< HEAD
+
+=======
 	@SuppressWarnings("deprecation")
+<<<<<<< HEAD:src/test/Tests (copy).java
 	//@Test
+=======
+>>>>>>> origin/master
+	@Test
+>>>>>>> 6d198c27107bcf47ef684b44e1a9bdbc48c3978b:src/test/Tests.java
 	public void casoError() throws Exception{
 		ModuloDeErrores masterErrors =new ModuloDeErrores();
 		AnalizadorLexico al = new AnalizadorLexico(new FileInputStream("./src/analysis/input3.txt"), masterErrors);

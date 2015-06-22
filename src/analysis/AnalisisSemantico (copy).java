@@ -68,7 +68,7 @@ public class AnalisisSemantico {
 		
 
         // The name of the file to open.
-        String fileName = "./output/semanticOutputPhase1.txt";
+        String fileName = "./output/semanticOutputPhase.txt";
 
         try {
             // Assume default encoding.
@@ -97,8 +97,8 @@ public class AnalisisSemantico {
 							bufferedWriter.newLine();
 						}
       		}
-          		else  
-                		bufferedWriter.newLine();      		
+          	//	else  
+               // 		bufferedWriter.newLine();      		
             	}
             	line = lineReader(  i );
             	bufferedWriter.write(  line);
@@ -310,6 +310,7 @@ public class AnalisisSemantico {
 	
 	/**
 	
+	/**
  * 	 Deals with an if or while condition, evaluates if the condition is always true or always false. If succeeds  
 	 *	 the function alwaysTrue or alwaysFalse is called.  It's only true if the condition contains the true statement or if it's a 
 	 *	 numerical expression that can be computed. Same logic for the always false condition.
@@ -317,10 +318,9 @@ public class AnalisisSemantico {
 	 * @throws IOException  
 	 */
 	private void conditionTester (  ArrayList<String> condition  , int lineOfCode ) throws IOException  {
-		
+		 
 		if ( condition.size() <1)
 			return;
-		
 		if ( condition.get(0).equals("FALSE") ){
 			
 			alwaysFalse(   lineOfCode );
@@ -330,7 +330,36 @@ public class AnalisisSemantico {
  																		// Not finished yet.		
 			alwaysTrue(lineOfCode );
 			return;
-		}			
+		}	
+		
+		if ( condition.size() == 2 || condition.size() == 3  ){
+			
+			String element1 = condition.get(0);
+			
+			if ( condition.get(1).equals(  "EQUALS")     ){
+				
+				if ( condition.get(2).equals(element1) ){
+					alwaysTrue(lineOfCode);
+					return;
+				}
+				else{
+					alwaysFalse(lineOfCode);
+					return;
+				}
+			}
+			if ( condition.get(1).equals(  "DIFFERENT")     ){
+				
+				if ( condition.get(2).equals(element1) ){
+					alwaysFalse(lineOfCode);
+					return;
+				}
+				else{
+					alwaysTrue(lineOfCode);
+					return;
+				}
+			}			
+		}
+		
 		float leftResult = 0;
 		float rightResult = 0;
 		boolean switchSide = false;
