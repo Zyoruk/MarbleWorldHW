@@ -441,9 +441,10 @@ public class AnalisisSemantico {
 			
 				if (!switchSide)
 					
-					leftResult += Float.parseFloat( condition.get( i ));
+					leftResult += Integer.parseInt( condition.get( i ));
+
 				else
-					rightResult += Float.parseFloat( condition.get( i ) );
+					rightResult += Integer.parseInt( condition.get( i ) );
 				
 			}			
 			else{
