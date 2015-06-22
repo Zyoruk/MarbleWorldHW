@@ -1,7 +1,10 @@
 package analysis;
 
+import LinesToWrite;
+
 import java.io.*;
 import java.util.ArrayList;
+
 import symbolTable.SymbolTable;
 /**
  * @author Nicolas									Please Note:	
@@ -17,6 +20,7 @@ public class AnalisisSemantico {
 	private  final int EOF;
 	private int lineaAnalisisActual;
 	private int lineaCondicion;
+	private  final ArrayList<LinesToWrite> lineasAnadir;	
 	
 	/**
 	 * Receives the project symbol Table. Contructor too.
@@ -32,6 +36,7 @@ public class AnalisisSemantico {
 		this.EOF = getFileLength();
 		this.lineaAnalisisActual = 0;
 		this.lineaCondicion = 0;
+		this.lineasAnadir = new ArrayList<>();
 		fillUsed();
 	}
 	
@@ -83,7 +88,19 @@ public class AnalisisSemantico {
             	
             	if (   linesToDelete.contains( i ) ){
             		
-            		continue;
+            		LinesToWrite temp;
+            		if (  lineasAnadir.size()   >  i){
+            			
+        				temp  = lineasAnadir.get( i );
+            		     	
+						if ( temp.getCodeLine() == i ){
+            			
+							bufferedWriter.write( temp.getWriteOutput() );
+							bufferedWriter.newLine();
+						}
+      		}
+          		else  
+                		bufferedWriter.newLine();      		
             	}
             	line = lineReader(  i );
             	bufferedWriter.write(  line);
@@ -501,7 +518,7 @@ public class AnalisisSemantico {
 	 * @param lineOfCode
 	 * @throws IOException 
 	 */
-	private ArrayList<String> alwaysTrue ( final  int lineOfCode  ) throws IOException {
+	private void alwaysTrue ( final  int lineOfCode  ) throws IOException {
  
 		String finisher = "RCURL";
 		String line = "";
@@ -526,7 +543,8 @@ public class AnalisisSemantico {
 					if (token.equals(finisher) ){
  				
 						deleteTrueStatement(lineOfCode);
-						return   furtherThen;
+						lineasAnadir.add( new LinesToWrite( furtherThen,  lineOfCode)  );
+						return;
 					}
 					if ( token.equals("LCURL" )){
 					
@@ -536,7 +554,7 @@ public class AnalisisSemantico {
 				}
 			}
 		}	
-		return furtherThen;
+		lineasAnadir.add( new LinesToWrite( furtherThen,  lineOfCode)  );
 	}
 	
 	/**
