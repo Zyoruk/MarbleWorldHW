@@ -1,0 +1,6 @@
+{
+  "name": "Marbleworldhw",
+  "tagline": "",
+  "body": "# MarbleWorldHW\r\n\r\ninterpreter program wrriten in Java.\r\nTakes high level code from HTTP-Server and applies a lexical, syntactical and semantic parse to produce a code to manipulate a Marble Machine controlled by Arduino. \r\n",
+  "note": "Don't delete this file! It's used internally to help with page regeneration."
+}
