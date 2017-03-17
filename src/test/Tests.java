@@ -18,10 +18,10 @@ import analysis.parser;
 
 public class Tests {
 	@SuppressWarnings("deprecation")
-	//@Test
+	@Test
 	public void casoCorrecto() throws Exception{
 		ModuloDeErrores masterErrors =new ModuloDeErrores();
-		AnalizadorLexico al = new AnalizadorLexico(new FileInputStream("./src/analysis/input.txt"), masterErrors);
+		AnalizadorLexico al = new AnalizadorLexico(new FileInputStream("./src/tests/input.txt"), masterErrors);
 		parser p = new parser(al,masterErrors);
 		p.parse();
 		AnalisisSemantico as = new AnalisisSemantico(al.getSymbolTable());
@@ -29,10 +29,10 @@ public class Tests {
 		masterErrors.buildHTML();
 	}
 	@SuppressWarnings("deprecation")
-	//@Test
+	@Test
 	public void casoConst() throws Exception{
 		ModuloDeErrores masterErrors =new ModuloDeErrores();
-		AnalizadorLexico al = new AnalizadorLexico(new FileInputStream("./src/analysis/input2.txt"), masterErrors);
+		AnalizadorLexico al = new AnalizadorLexico(new FileInputStream("./src/tests/input2.txt"), masterErrors);
 		parser p = new parser(al,masterErrors);
 		p.parse();
 		AnalisisSemantico as = new AnalisisSemantico(al.getSymbolTable());
@@ -40,40 +40,38 @@ public class Tests {
 		masterErrors.buildHTML();
 	}
 
-	
-	@SuppressWarnings("deprecation")
 
-	//@Test
+	@SuppressWarnings("deprecation")
 
 	@Test
 
 	public void casoError() throws Exception{
 		ModuloDeErrores masterErrors =new ModuloDeErrores();
-		AnalizadorLexico al = new AnalizadorLexico(new FileInputStream("./src/analysis/input3.txt"), masterErrors);
+		AnalizadorLexico al = new AnalizadorLexico(new FileInputStream("./src/tests/input3.txt"), masterErrors);
 		parser p = new parser(al,masterErrors);
 		p.parse();
 		AnalisisSemantico as = new AnalisisSemantico(al.getSymbolTable());
 		as.semanticAnalysis();
 		masterErrors.buildHTML();
 	}
-	
+
 	@SuppressWarnings("deprecation")
-	//@Test
+	@Test
 	public void casoCompSameNums() throws Exception{
 		ModuloDeErrores masterErrors =new ModuloDeErrores();
-		AnalizadorLexico al = new AnalizadorLexico(new FileInputStream("./src/analysis/input4.txt"), masterErrors);
+		AnalizadorLexico al = new AnalizadorLexico(new FileInputStream("./src/tests/input4.txt"), masterErrors);
 		parser p = new parser(al,masterErrors);
 		p.parse();
 		AnalisisSemantico as = new AnalisisSemantico(al.getSymbolTable());
 		as.semanticAnalysis();
 		masterErrors.buildHTML();
 	}
-	
+
 	@SuppressWarnings("deprecation")
-	//@Test
+	@Test
 	public void casoCompDiffNums() throws Exception{
 		ModuloDeErrores masterErrors =new ModuloDeErrores();
-		AnalizadorLexico al = new AnalizadorLexico(new FileInputStream("./src/analysis/input5.txt"), masterErrors);
+		AnalizadorLexico al = new AnalizadorLexico(new FileInputStream("./src/tests/input5.txt"), masterErrors);
 		parser p = new parser(al,masterErrors);
 		p.parse();
 		AnalisisSemantico as = new AnalisisSemantico(al.getSymbolTable());
@@ -84,55 +82,11 @@ public class Tests {
 	@Test
 	public void casoTRUE() throws Exception{
 		ModuloDeErrores masterErrors =new ModuloDeErrores();
-		AnalizadorLexico al = new AnalizadorLexico(new FileInputStream("./src/analysis/input6.txt"), masterErrors);
+		AnalizadorLexico al = new AnalizadorLexico(new FileInputStream("./src/tests/input6.txt"), masterErrors);
 		parser p = new parser(al,masterErrors);
 		p.parse();
 		AnalisisSemantico as = new AnalisisSemantico(al.getSymbolTable());
 		as.semanticAnalysis();
 		masterErrors.buildHTML();
-	}
-//	//Test
-	public void testMain() throws Exception{
-		main m = new main("");
-		m.compile();
-	}
-
-	    @Test
-		public void testGenerate() throws IOException {
-			
-		        GetInput cargar = new GetInput("/home/daniel/Documents/TEC2015/lenguajes_compi/compi/codeLines.txt");
-		        ArrayList<String> codeLines = cargar.getCodesLinesFinal();
-//		        int i;
-//		        int j;
-//		        //System.out.print(codeLines.get(3).get(0));
-//		        for(i = 0; i < codeLines.size(); i++){
-//		        	for(j = 0; j < codeLines.get(i).size(); j++){
-//		        		
-//      			        	System.out.print(codeLines.get(i).get(j));
-//      			        	System.out.print(" ");
-//			       }
-//		        	System.out.println("paso");
-//		        	
-//		        }
-		}
-
-
-	//@Test
-	public void testGenerate1() throws IOException {
-
-		GetInput cargar = new GetInput("/home/daniel/Documents/TEC2015/lenguajes_compi/compi/codeLines.txt");
-		ArrayList<String> codeLines = cargar.getCodesLinesFinal();
-		//		        int i;
-		//		        int j;
-		//		        //System.out.print(codeLines.get(3).get(0));
-		//		        for(i = 0; i < codeLines.size(); i++){
-		//		        	for(j = 0; j < codeLines.get(i).size(); j++){
-		//		        		
-		//      			        	System.out.print(codeLines.get(i).get(j));
-		//      			        	System.out.print(" ");
-		//			       }
-		//		        	System.out.println("paso");
-		//		        	
-		//		        }
 	}
 }

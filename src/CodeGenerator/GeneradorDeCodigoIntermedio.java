@@ -4,6 +4,7 @@
 package CodeGenerator;
 
 import java.util.ArrayList;
+import constants.Constants;
 
 /**
  * @author zyoruk
@@ -150,20 +151,20 @@ public class GeneradorDeCodigoIntermedio {
 		}
 		return isTrue;
 	}
-	private int getValueOfString(String _input){
-		if(isVariable(_input)){
-			return getVariable(_input);
+	private int getValueOfString(String pInput){
+		if(isVariable(pInput)){
+			return getVariable(pInput);
 		}
 		else{
-			int val =  Integer.parseInt(_input);
+			int val =  Integer.parseInt(pInput);
 			return val;
 		}
 	}
 
-	private boolean isVariable(String _val){
+	private boolean isVariable(String pVal){
 		boolean isVar = false;
 		for(int i = 0; i < variablesData.size(); i++){
-			if(_val.equals(variablesData.get(i).get(0))){
+			if(pVal.equals(variablesData.get(i).get(0))){
 				isVar = true;
 				break;
 			}
@@ -171,10 +172,10 @@ public class GeneradorDeCodigoIntermedio {
 		return isVar;
 	}
 
-	private int getVariable(String _val){
+	private int getVariable(String pVal){
 		int val = 0;
 		for(int i = 0; i < variablesData.size(); i++){
-			if(_val.equals(variablesData.get(i).get(0))){
+			if(pVal.equals(variablesData.get(i).get(0))){
 				val = Integer.parseInt(variablesData.get(i).get(1));
 				break;
 			}
@@ -182,10 +183,10 @@ public class GeneradorDeCodigoIntermedio {
 		return val;
 	}
 
-	private void asignVariable(String pId, String _value){
+	private void assignVariable(String pId, String pValue){
 		ArrayList<String> temp = new ArrayList<String>();
 		temp.add(pId);
-		temp.add(_value);
+		temp.add(pValue);
 		variablesData.add(temp);
 	}
 
