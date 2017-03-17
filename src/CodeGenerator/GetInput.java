@@ -7,40 +7,40 @@ import java.util.ArrayList;
 import java.util.StringTokenizer;
 
 public class GetInput {
-    
+
     private ArrayList<String> codeLines;
     private ArrayList<String> codeLinesFinal;
-    
-    public GetInput(String _archivo) throws IOException {
+
+    public GetInput(String pFile) throws IOException {
         codeLines = new ArrayList();
         codeLinesFinal = new ArrayList();
-        muestraContenido(_archivo);
+        showContent(pFile);
         prepareData();
-        
+
     }
-    
-    private void muestraContenido(String archivo) throws FileNotFoundException, IOException {
-        String cadena;
-        FileReader f = new FileReader(archivo);
+
+    private void showContent(String pFile) throws FileNotFoundException, IOException {
+        String _string;
+        FileReader f = new FileReader(pFile);
         BufferedReader b = new BufferedReader(f);
-        while((cadena = b.readLine())!=null) {
-            this.codeLines.add(cadena);
-     
+        while((_string = b.readLine())!=null) {
+            this.codeLines.add(_string);
+
         }
         b.close();
     }
 
     private void prepareData(){
         StringTokenizer tokens;
-        
+
         for(int i = 0;i<codeLines.size();i++){
-            tokens = new StringTokenizer(codeLines.get(i), " ");
-            while(tokens.hasMoreTokens()){
-            String str = tokens.nextToken();
-            codeLinesFinal.add(str);      
+            _tokens = new StringTokenizer(codeLines.get(i), " ");
+            while(_tokens.hasMoreTokens()){
+            String _str = _tokens.nextToken();
+            codeLinesFinal.add(_str);
             }
         }
-    
+
     }
     public ArrayList<String> getCodesLinesFinal() {
         return codeLinesFinal;
