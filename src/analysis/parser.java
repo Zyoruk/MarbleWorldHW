@@ -14,7 +14,7 @@ import java_cup.runtime.XMLElement;
 /** CUP v0.11b 20150326 (SVN rev 63) generated parser.
   */
 @SuppressWarnings({"rawtypes"})
-public class parser extends java_cup.runtime.lr_parser {
+public class Parser extends java_cup.runtime.lr_parser {
 
  public final Class getSymbolContainer() {
     return sym.class;
@@ -32,7 +32,7 @@ public class parser extends java_cup.runtime.lr_parser {
   public parser(java_cup.runtime.Scanner s, java_cup.runtime.SymbolFactory sf) {super(s,sf);}
 
   /** Production table. */
-  protected static final short _production_table[][] = 
+  protected static final short _production_table[][] =
     unpackFromStrings(new String[] {
     "\000\102\000\002\002\004\000\002\002\004\000\002\002" +
     "\003\000\002\003\004\000\002\003\003\000\002\004\006" +
@@ -60,7 +60,7 @@ public class parser extends java_cup.runtime.lr_parser {
   public short[][] production_table() {return _production_table;}
 
   /** Parse-action table. */
-  protected static final short[][] _action_table = 
+  protected static final short[][] _action_table =
     unpackFromStrings(new String[] {
     "\000\201\000\006\003\007\023\005\001\002\000\020\003" +
     "\042\023\005\024\034\025\036\030\031\031\044\035\041" +
@@ -232,7 +232,7 @@ public class parser extends java_cup.runtime.lr_parser {
   public short[][] action_table() {return _action_table;}
 
   /** <code>reduce_goto</code> table. */
-  protected static final short[][] _reduce_table = 
+  protected static final short[][] _reduce_table =
     unpackFromStrings(new String[] {
     "\000\201\000\010\002\005\003\003\004\007\001\001\000" +
     "\020\004\037\005\031\006\036\007\032\010\042\017\034" +
@@ -352,9 +352,9 @@ public class parser extends java_cup.runtime.lr_parser {
 				}
 				else {
 					StringBuffer m = new StringBuffer("Error ");
-					if (info instanceof java_cup.runtime.Symbol) 
-						m.append( "("+info.toString()+")" );     
-					m.append(" : "+message+"\n");   
+					if (info instanceof java_cup.runtime.Symbol)
+						m.append( "("+info.toString()+")" );
+					m.append(" : "+message+"\n");
 					errorsStr.append(m);
 					try {
 						errorHandler.syntError(errorsStr.toString());
@@ -362,19 +362,19 @@ public class parser extends java_cup.runtime.lr_parser {
 						e.printStackTrace();
 					}
 				}
-			}  
+			}
 		}
 	}
 
     public void report_fatal_error(String message, Object info) {
   	if(this.cur_token.value != null){
-  		report_error(message, info);	
+  		report_error(message, info);
   	}
     }
 	private void syntOutput(){
 		//    	Constants K = new Constants();
 		try {
-			DataOutputStream os = new DataOutputStream(new 
+			DataOutputStream os = new DataOutputStream(new
 					FileOutputStream("./output/syntAnalisis.txt"));
 			os.writeBytes(this.str.toString());
 			os.close();
@@ -382,7 +382,7 @@ public class parser extends java_cup.runtime.lr_parser {
 			e.printStackTrace();
 		}
 	}
-     
+
 
 
 /** Cup generated class to encapsulate user supplied action code.*/
@@ -410,7 +410,7 @@ class CUP$parser$actions {
       switch (CUP$parser$act_num)
         {
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 0: // $START ::= programa EOF 
+          case 0: // $START ::= programa EOF
             {
               Object RESULT =null;
 		int start_valleft = ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-1)).left;
@@ -424,7 +424,7 @@ class CUP$parser$actions {
           return CUP$parser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 1: // programa ::= listavariables listadeclaraciones 
+          case 1: // programa ::= listavariables listadeclaraciones
             {
               Object RESULT =null;
 
@@ -433,7 +433,7 @@ class CUP$parser$actions {
           return CUP$parser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 2: // programa ::= error 
+          case 2: // programa ::= error
             {
               Object RESULT =null;
 		report_error("syntax error","Missing declare keyword");
@@ -442,7 +442,7 @@ class CUP$parser$actions {
           return CUP$parser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 3: // listavariables ::= listavariables declaracionvariable 
+          case 3: // listavariables ::= listavariables declaracionvariable
             {
               Object RESULT =null;
 
@@ -451,7 +451,7 @@ class CUP$parser$actions {
           return CUP$parser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 4: // listavariables ::= declaracionvariable 
+          case 4: // listavariables ::= declaracionvariable
             {
               Object RESULT =null;
 
@@ -460,7 +460,7 @@ class CUP$parser$actions {
           return CUP$parser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 5: // declaracionvariable ::= DECLARE TYPE ID NEWLINE 
+          case 5: // declaracionvariable ::= DECLARE TYPE ID NEWLINE
             {
               Object RESULT =null;
 		parser.str.append("OK\n");
@@ -469,7 +469,7 @@ class CUP$parser$actions {
           return CUP$parser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 6: // NT$0 ::= 
+          case 6: // NT$0 ::=
             {
               Object RESULT =null;
 report_error("syntax error","Missing declare keyword");
@@ -478,7 +478,7 @@ report_error("syntax error","Missing declare keyword");
           return CUP$parser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 7: // declaracionvariable ::= error NT$0 TYPE ID NEWLINE 
+          case 7: // declaracionvariable ::= error NT$0 TYPE ID NEWLINE
             {
               Object RESULT =null;
               // propagate RESULT from NT$0
@@ -489,7 +489,7 @@ report_error("syntax error","Missing declare keyword");
           return CUP$parser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 8: // NT$1 ::= 
+          case 8: // NT$1 ::=
             {
               Object RESULT =null;
 report_error("syntax error","Missing type");
@@ -498,7 +498,7 @@ report_error("syntax error","Missing type");
           return CUP$parser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 9: // declaracionvariable ::= DECLARE error NT$1 ID NEWLINE 
+          case 9: // declaracionvariable ::= DECLARE error NT$1 ID NEWLINE
             {
               Object RESULT =null;
               // propagate RESULT from NT$1
@@ -509,7 +509,7 @@ report_error("syntax error","Missing type");
           return CUP$parser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 10: // NT$2 ::= 
+          case 10: // NT$2 ::=
             {
               Object RESULT =null;
 report_error("syntax error","Invalid ID");
@@ -518,7 +518,7 @@ report_error("syntax error","Invalid ID");
           return CUP$parser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 11: // declaracionvariable ::= DECLARE TYPE error NT$2 NEWLINE 
+          case 11: // declaracionvariable ::= DECLARE TYPE error NT$2 NEWLINE
             {
               Object RESULT =null;
               // propagate RESULT from NT$2
@@ -529,7 +529,7 @@ report_error("syntax error","Invalid ID");
           return CUP$parser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 12: // declaracionvariable ::= DECLARE TYPE ID error 
+          case 12: // declaracionvariable ::= DECLARE TYPE ID error
             {
               Object RESULT =null;
 		report_error("syntax error","A newline is expected");parser.str.append("NOT OK\n");
@@ -538,7 +538,7 @@ report_error("syntax error","Invalid ID");
           return CUP$parser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 13: // listadeclaraciones ::= listadeclaraciones declaracion 
+          case 13: // listadeclaraciones ::= listadeclaraciones declaracion
             {
               Object RESULT =null;
 
@@ -547,7 +547,7 @@ report_error("syntax error","Invalid ID");
           return CUP$parser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 14: // listadeclaraciones ::= declaracion 
+          case 14: // listadeclaraciones ::= declaracion
             {
               Object RESULT =null;
 
@@ -556,7 +556,7 @@ report_error("syntax error","Invalid ID");
           return CUP$parser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 15: // declaracion ::= mover 
+          case 15: // declaracion ::= mover
             {
               Object RESULT =null;
 
@@ -565,7 +565,7 @@ report_error("syntax error","Invalid ID");
           return CUP$parser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 16: // declaracion ::= declaracionSeleccion 
+          case 16: // declaracion ::= declaracionSeleccion
             {
               Object RESULT =null;
 
@@ -574,7 +574,7 @@ report_error("syntax error","Invalid ID");
           return CUP$parser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 17: // declaracion ::= declaracionIteracion 
+          case 17: // declaracion ::= declaracionIteracion
             {
               Object RESULT =null;
 
@@ -583,7 +583,7 @@ report_error("syntax error","Invalid ID");
           return CUP$parser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 18: // declaracion ::= expresionAsignacion 
+          case 18: // declaracion ::= expresionAsignacion
             {
               Object RESULT =null;
 
@@ -592,7 +592,7 @@ report_error("syntax error","Invalid ID");
           return CUP$parser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 19: // mover ::= MOVE DOOR expresionSuma NEWLINE 
+          case 19: // mover ::= MOVE DOOR expresionSuma NEWLINE
             {
               Object RESULT =null;
 		parser.str.append("OK\n");
@@ -601,7 +601,7 @@ report_error("syntax error","Invalid ID");
           return CUP$parser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 20: // NT$3 ::= 
+          case 20: // NT$3 ::=
             {
               Object RESULT =null;
 report_error("syntax error","Missing move keyword");
@@ -610,7 +610,7 @@ report_error("syntax error","Missing move keyword");
           return CUP$parser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 21: // mover ::= error NT$3 DOOR expresionSuma NEWLINE 
+          case 21: // mover ::= error NT$3 DOOR expresionSuma NEWLINE
             {
               Object RESULT =null;
               // propagate RESULT from NT$3
@@ -621,7 +621,7 @@ report_error("syntax error","Missing move keyword");
           return CUP$parser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 22: // NT$4 ::= 
+          case 22: // NT$4 ::=
             {
               Object RESULT =null;
 report_error("syntax error","Invalid door");
@@ -630,7 +630,7 @@ report_error("syntax error","Invalid door");
           return CUP$parser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 23: // mover ::= MOVE error NT$4 expresionSuma NEWLINE 
+          case 23: // mover ::= MOVE error NT$4 expresionSuma NEWLINE
             {
               Object RESULT =null;
               // propagate RESULT from NT$4
@@ -641,7 +641,7 @@ report_error("syntax error","Invalid door");
           return CUP$parser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 24: // mover ::= MOVE DOOR expresionSuma error 
+          case 24: // mover ::= MOVE DOOR expresionSuma error
             {
               Object RESULT =null;
 		report_error("syntax error","A newline is expected");parser.str.append("NOT OK\n");
@@ -650,7 +650,7 @@ report_error("syntax error","Invalid door");
           return CUP$parser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 25: // expresionAsignacion ::= ID ASSIGN expresionSuma 
+          case 25: // expresionAsignacion ::= ID ASSIGN expresionSuma
             {
               Object RESULT =null;
 
@@ -659,7 +659,7 @@ report_error("syntax error","Invalid door");
           return CUP$parser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 26: // NT$5 ::= 
+          case 26: // NT$5 ::=
             {
               Object RESULT =null;
 report_error("syntax error","Invalid ID");
@@ -668,7 +668,7 @@ report_error("syntax error","Invalid ID");
           return CUP$parser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 27: // expresionAsignacion ::= error NT$5 ASSIGN expresionSuma 
+          case 27: // expresionAsignacion ::= error NT$5 ASSIGN expresionSuma
             {
               Object RESULT =null;
               // propagate RESULT from NT$5
@@ -679,7 +679,7 @@ report_error("syntax error","Invalid ID");
           return CUP$parser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 28: // NT$6 ::= 
+          case 28: // NT$6 ::=
             {
               Object RESULT =null;
 report_error("syntax error","Missing assignment operator");
@@ -688,7 +688,7 @@ report_error("syntax error","Missing assignment operator");
           return CUP$parser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 29: // expresionAsignacion ::= ID error NT$6 expresionSuma 
+          case 29: // expresionAsignacion ::= ID error NT$6 expresionSuma
             {
               Object RESULT =null;
               // propagate RESULT from NT$6
@@ -699,7 +699,7 @@ report_error("syntax error","Missing assignment operator");
           return CUP$parser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 30: // condicion ::= expresionSuma operadorRelacional expresionSuma 
+          case 30: // condicion ::= expresionSuma operadorRelacional expresionSuma
             {
               Object RESULT =null;
 
@@ -708,7 +708,7 @@ report_error("syntax error","Missing assignment operator");
           return CUP$parser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 31: // operadorRelacional ::= MORETHAN 
+          case 31: // operadorRelacional ::= MORETHAN
             {
               Object RESULT =null;
 
@@ -717,7 +717,7 @@ report_error("syntax error","Missing assignment operator");
           return CUP$parser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 32: // operadorRelacional ::= LESSTHAN 
+          case 32: // operadorRelacional ::= LESSTHAN
             {
               Object RESULT =null;
 
@@ -726,7 +726,7 @@ report_error("syntax error","Missing assignment operator");
           return CUP$parser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 33: // operadorRelacional ::= LESSEQUALS 
+          case 33: // operadorRelacional ::= LESSEQUALS
             {
               Object RESULT =null;
 
@@ -735,7 +735,7 @@ report_error("syntax error","Missing assignment operator");
           return CUP$parser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 34: // operadorRelacional ::= MOREEQUAL 
+          case 34: // operadorRelacional ::= MOREEQUAL
             {
               Object RESULT =null;
 
@@ -744,7 +744,7 @@ report_error("syntax error","Missing assignment operator");
           return CUP$parser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 35: // operadorRelacional ::= EQUALS 
+          case 35: // operadorRelacional ::= EQUALS
             {
               Object RESULT =null;
 
@@ -753,7 +753,7 @@ report_error("syntax error","Missing assignment operator");
           return CUP$parser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 36: // operadorRelacional ::= DIFFERENT 
+          case 36: // operadorRelacional ::= DIFFERENT
             {
               Object RESULT =null;
 
@@ -762,7 +762,7 @@ report_error("syntax error","Missing assignment operator");
           return CUP$parser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 37: // operadorRelacional ::= error 
+          case 37: // operadorRelacional ::= error
             {
               Object RESULT =null;
 		report_error("syntax error","Missing binary operator");
@@ -771,7 +771,7 @@ report_error("syntax error","Missing assignment operator");
           return CUP$parser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 38: // expresionSuma ::= expresionSuma PLUS termino 
+          case 38: // expresionSuma ::= expresionSuma PLUS termino
             {
               Object RESULT =null;
 
@@ -780,7 +780,7 @@ report_error("syntax error","Missing assignment operator");
           return CUP$parser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 39: // expresionSuma ::= expresionSuma MINUS termino 
+          case 39: // expresionSuma ::= expresionSuma MINUS termino
             {
               Object RESULT =null;
 
@@ -789,7 +789,7 @@ report_error("syntax error","Missing assignment operator");
           return CUP$parser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 40: // expresionSuma ::= expresionMult 
+          case 40: // expresionSuma ::= expresionMult
             {
               Object RESULT =null;
 
@@ -798,7 +798,7 @@ report_error("syntax error","Missing assignment operator");
           return CUP$parser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 41: // expresionMult ::= expresionMult TIMES expresionSuma 
+          case 41: // expresionMult ::= expresionMult TIMES expresionSuma
             {
               Object RESULT =null;
 
@@ -807,7 +807,7 @@ report_error("syntax error","Missing assignment operator");
           return CUP$parser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 42: // expresionMult ::= expresionMult DIVISION expresionSuma 
+          case 42: // expresionMult ::= expresionMult DIVISION expresionSuma
             {
               Object RESULT =null;
 
@@ -816,7 +816,7 @@ report_error("syntax error","Missing assignment operator");
           return CUP$parser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 43: // expresionMult ::= termino 
+          case 43: // expresionMult ::= termino
             {
               Object RESULT =null;
 
@@ -825,7 +825,7 @@ report_error("syntax error","Missing assignment operator");
           return CUP$parser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 44: // termino ::= LBRACK expresionAsignacion RBRACK 
+          case 44: // termino ::= LBRACK expresionAsignacion RBRACK
             {
               Object RESULT =null;
 
@@ -834,7 +834,7 @@ report_error("syntax error","Missing assignment operator");
           return CUP$parser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 45: // termino ::= NUM 
+          case 45: // termino ::= NUM
             {
               Object RESULT =null;
 
@@ -843,7 +843,7 @@ report_error("syntax error","Missing assignment operator");
           return CUP$parser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 46: // termino ::= ID 
+          case 46: // termino ::= ID
             {
               Object RESULT =null;
 
@@ -852,7 +852,7 @@ report_error("syntax error","Missing assignment operator");
           return CUP$parser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 47: // termino ::= error 
+          case 47: // termino ::= error
             {
               Object RESULT =null;
 		report_error("syntax error","Invalid ID or NUM");
@@ -861,7 +861,7 @@ report_error("syntax error","Missing assignment operator");
           return CUP$parser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 48: // expresionCondicion ::= condicion 
+          case 48: // expresionCondicion ::= condicion
             {
               Object RESULT =null;
 
@@ -870,7 +870,7 @@ report_error("syntax error","Missing assignment operator");
           return CUP$parser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 49: // expresionCondicion ::= TRUE 
+          case 49: // expresionCondicion ::= TRUE
             {
               Object RESULT =null;
 
@@ -879,7 +879,7 @@ report_error("syntax error","Missing assignment operator");
           return CUP$parser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 50: // expresionCondicion ::= FALSE 
+          case 50: // expresionCondicion ::= FALSE
             {
               Object RESULT =null;
 
@@ -888,7 +888,7 @@ report_error("syntax error","Missing assignment operator");
           return CUP$parser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 51: // expresionCondicion ::= error 
+          case 51: // expresionCondicion ::= error
             {
               Object RESULT =null;
 		report_error("syntax error","Invalid condition");
@@ -897,7 +897,7 @@ report_error("syntax error","Missing assignment operator");
           return CUP$parser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 52: // listaCondiciones ::= declaracion 
+          case 52: // listaCondiciones ::= declaracion
             {
               Object RESULT =null;
 
@@ -906,7 +906,7 @@ report_error("syntax error","Missing assignment operator");
           return CUP$parser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 53: // listaCondiciones ::= LCURL listadeclaraciones RCURL 
+          case 53: // listaCondiciones ::= LCURL listadeclaraciones RCURL
             {
               Object RESULT =null;
 
@@ -915,7 +915,7 @@ report_error("syntax error","Missing assignment operator");
           return CUP$parser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 54: // declaracionSeleccion ::= IF LBRACK expresionCondicion RBRACK THEN listaCondiciones declaracionElse 
+          case 54: // declaracionSeleccion ::= IF LBRACK expresionCondicion RBRACK THEN listaCondiciones declaracionElse
             {
               Object RESULT =null;
 
@@ -924,7 +924,7 @@ report_error("syntax error","Missing assignment operator");
           return CUP$parser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 55: // NT$7 ::= 
+          case 55: // NT$7 ::=
             {
               Object RESULT =null;
 report_error("syntax error","( expected");
@@ -933,7 +933,7 @@ report_error("syntax error","( expected");
           return CUP$parser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 56: // declaracionSeleccion ::= IF error NT$7 expresionCondicion RBRACK THEN listaCondiciones declaracionElse 
+          case 56: // declaracionSeleccion ::= IF error NT$7 expresionCondicion RBRACK THEN listaCondiciones declaracionElse
             {
               Object RESULT =null;
               // propagate RESULT from NT$7
@@ -944,7 +944,7 @@ report_error("syntax error","( expected");
           return CUP$parser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 57: // NT$8 ::= 
+          case 57: // NT$8 ::=
             {
               Object RESULT =null;
 report_error("syntax error",null);
@@ -953,7 +953,7 @@ report_error("syntax error",null);
           return CUP$parser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 58: // declaracionSeleccion ::= IF LBRACK expresionCondicion RBRACK error NT$8 listaCondiciones declaracionElse 
+          case 58: // declaracionSeleccion ::= IF LBRACK expresionCondicion RBRACK error NT$8 listaCondiciones declaracionElse
             {
               Object RESULT =null;
               // propagate RESULT from NT$8
@@ -964,7 +964,7 @@ report_error("syntax error",null);
           return CUP$parser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 59: // NT$9 ::= 
+          case 59: // NT$9 ::=
             {
               Object RESULT =null;
 report_error("syntax error","If expected");
@@ -973,7 +973,7 @@ report_error("syntax error","If expected");
           return CUP$parser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 60: // declaracionSeleccion ::= error NT$9 LBRACK expresionCondicion RBRACK THEN listaCondiciones declaracionElse 
+          case 60: // declaracionSeleccion ::= error NT$9 LBRACK expresionCondicion RBRACK THEN listaCondiciones declaracionElse
             {
               Object RESULT =null;
               // propagate RESULT from NT$9
@@ -984,7 +984,7 @@ report_error("syntax error","If expected");
           return CUP$parser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 61: // declaracionElse ::= ELSE listaCondiciones 
+          case 61: // declaracionElse ::= ELSE listaCondiciones
             {
               Object RESULT =null;
 
@@ -993,7 +993,7 @@ report_error("syntax error","If expected");
           return CUP$parser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 62: // declaracionElse ::= NEWLINE 
+          case 62: // declaracionElse ::= NEWLINE
             {
               Object RESULT =null;
 		parser.str.append("OK\n");
@@ -1002,7 +1002,7 @@ report_error("syntax error","If expected");
           return CUP$parser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 63: // declaracionIteracion ::= WHILE LBRACK expresionCondicion RBRACK DO listaCondiciones 
+          case 63: // declaracionIteracion ::= WHILE LBRACK expresionCondicion RBRACK DO listaCondiciones
             {
               Object RESULT =null;
 
@@ -1011,7 +1011,7 @@ report_error("syntax error","If expected");
           return CUP$parser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 64: // declaracionIteracion ::= DO listaCondiciones WHILE LBRACK expresionCondicion RBRACK 
+          case 64: // declaracionIteracion ::= DO listaCondiciones WHILE LBRACK expresionCondicion RBRACK
             {
               Object RESULT =null;
 
@@ -1020,7 +1020,7 @@ report_error("syntax error","If expected");
           return CUP$parser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 65: // declaracionIteracion ::= error 
+          case 65: // declaracionIteracion ::= error
             {
               Object RESULT =null;
 		report_error("syntax error","while | do expected");

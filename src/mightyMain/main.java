@@ -11,39 +11,36 @@ import analysis.AnalizadorLexico;
 import analysis.parser;
 import errorHandler.ModuloDeErrores;
 
-/**
- * 
- */
-
+import constants.Constants;
 /**
  * @author zyoruk
  *
  */
 public class main {
 	private ModuloDeErrores masterErrors;
-	Reader r;
+	Reader reader;
 	AnalizadorLexico al;
 	AnalisisSemantico as;
-	parser p;
+	Parser p;
 	String toCompile;
-	public main(String ptoCompile) throws Exception{
+	public main(String pToCompile) throws Exception{
 		setup();
-		toCompile = ptoCompile;
+		this.toCompile = pToCompile;
 	}
 	@SuppressWarnings("deprecation")
 	public void compile() throws Exception{
-		r = new StringReader(toCompile);
-		al = new AnalizadorLexico(r, masterErrors);
-		p = new parser(al,masterErrors);
-		p.parse();
-		as = new AnalisisSemantico(al.getSymbolTable());
-		as.semanticAnalysis();
-		masterErrors.buildHTML();
+		this.reader = new StringReader(toCompile);
+		this.al = new AnalizadorLexico(reader, masterErrors);
+		this.p = new parser(this.al,this.masterErrors);
+		this.p.parse();
+		this.as = new AnalisisSemantico(al.getSymbolTable());
+		this.as.semanticAnalysis();
+		this.masterErrors.buildHTML();
 	}
 	private void setup() throws IOException{
-		File f = new File("./output/OutputAnalisisLexico.txt");
-		OutputStream fo = new FileOutputStream(f);
+		File file = new File(_LEX_OUTPUT);
+		OutputStream fo = new FileOutputStream(file);
 		fo.close();
-		masterErrors =new ModuloDeErrores();
+		this.masterErrors = new ModuloDeErrores();
 	}
 }
